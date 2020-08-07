@@ -1,0 +1,278 @@
+<!-- begin breadcrumb -->
+<ol class="breadcrumb pull-right">
+  <li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
+  <li class="breadcrumb-item">Schedule Status</li>
+  <li class="breadcrumb-item active">Daily Schedules</li>
+</ol>
+<!-- end breadcrumb -->
+<!-- begin page-header -->
+<h1 class="page-header">Daily Schedules</h1>
+<!-- end page-header -->
+
+<hr class="bg-grey-lighter" />
+
+<div class="row">
+
+  <div class="col-lg-12">
+    <!-- begin panel -->
+    <div class="panel panel-inverse">
+
+      <!-- begin panel-heading -->
+      <div class="panel-heading">
+        <div class="panel-heading-btn">
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+        </div>
+        <h4 class="panel-title height-20">Filter</h4>
+      </div>
+      <!-- end panel-heading -->
+
+      <div class="alert alert-success fade show">
+        <span class="close" data-dismiss="alert">×</span>
+        <i class="fa fa-check fa-2x pull-left m-r-10"></i>
+        <p class="m-b-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ac posuere lacus, quis suscipit sem. Nulla sagittis aliquam erat non convallis.</p>
+      </div>
+
+      <!-- begin panel-body -->
+      <div class="panel-body">
+        <div class="row row-space-10">
+          <div class="col-md-1">
+            <div class="form-group m-b-10">
+              <select class="form-control form-control-sm" ng-model="vm.itemsPerPage" ng-options="itemsPerPage for itemsPerPage in vm.itemsPerPageNumbers" ng-change="vm.changeItemsPerPage(vm.itemsPerPage)"></select>
+            </div>
+          </div>
+          <div class="col-md-1 m-t-5">
+            <div class="form-group">
+              Total <span class="text-danger">{{vm.schedules.length}}</span>
+            </div>
+          </div>
+
+          <div class="col-md-1 offset-md-4">
+            <div class="form-group">
+              <div class="input-group input-group-sm date" name="searchDay" datetimepicker ng-model="vm.searchDay" options="vm.datetimePickerOptions">
+                <input type="text" class="form-control form-control-sm" required />
+                <div class="input-group-addon">
+                  <i class="fa fa-calendar"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-1">
+
+            <div class="form-group">
+              <select class="form-control form-control-sm" chosen ng-model="vm.search.scheduleType" ng-change="vm.figureOut()">
+                <option value="">Schedule...</option>
+                <option value="lesson">Lesson</option>
+                <option value="leveltest">Leveltest</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-md-1">
+
+            <div class="form-group">
+              <select class="form-control form-control-sm" chosen ng-model="vm.search.productType" ng-change="vm.figureOut()">
+                <option value="">Product...</option>
+                <option value="telephone">Telephone</option>
+                <option value="skype">Skype</option>
+                <option value="screenBoard">Screen Board</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-md-1">
+            <div class="form-group">
+              <select class="form-control form-control-sm" chosen ng-model="vm.search.state" ng-change="vm.figureOut()">
+                <option value="">State...</option>
+                <option value="onStandby">On Standby</option>
+                <option value="attendance">Attendance</option>
+                <option value="absence">Absence</option>
+                <option value="canceled">Canceled</option>
+                <option value="tutorCanceled">Tutor Canceled</option>
+                <option value="technicalProblem">Technical Problem</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-md-2">
+            <div class="form-group m-b-10">
+              <input class="form-control form-control-sm" type="text" placeholder="Search..." ng-model="vm.search.$" ng-change="vm.figureOut()" />
+            </div>
+          </div>
+
+          <!-- <div class="col-md-1">
+            <div class="form-group">
+              <button ng-click="vm.filterTodayLessons()" class="btn btn-primary btn-block btn-sm"><i class="fas fa-filter"></i> Today</button>
+            </div>
+          </div> -->
+        </div>
+      </div>
+      <!-- end panel-body -->
+    </div>
+    <!-- end panel -->
+  </div>
+
+  <div class="col-lg-12">
+    <!-- begin panel -->
+    <div class="panel panel-inverse">
+
+      <!-- begin panel-heading -->
+      <div class="panel-heading">
+        <div class="panel-heading-btn">
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+        </div>
+        <h4 class="panel-title height-20">List</h4>
+      </div>
+      <!-- end panel-heading -->
+
+      <!-- begin panel-body -->
+      <div class="panel-body">
+        <!-- begin table-responsive -->
+        <div class="table-responsive">
+          <table class="table table-hover table-striped">
+            <thead>
+              <tr>
+                <th class="with-checkbox" width="1%">
+                  <div class="checkbox checkbox-css">
+                    <input type="checkbox" value="" id="table_checkbox_1" />
+                    <label for="table_checkbox_1">&nbsp;</label>
+                  </div>
+                </th>
+                <th class="text-center" width="1%">#</th>
+                <th>Provider</th>
+                <th>Schedule</th>
+                <th>Product</th>
+                <th>Local</th>
+                <th>Korea</th>
+                <th>Minutes</th>
+                <th>Username</th>
+                <th>Korean Name</th>
+                <th>English Name</th>
+                <th>Mobile</th>
+                <!-- <th class="text-center" width="1%" ng-if="vm.auth.user.roles[0] !== 'tutor'">#</th> -->
+                <th ng-if="vm.auth.user.roles[0] !== 'tutor'">Tutor</th>
+                <!-- <th class="text-right">Created</th> -->
+                <th class="text-right">State</th>
+                <th class="text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="schedule in vm.pagedItems">
+
+                <td class="with-checkbox">
+                  <div class="checkbox checkbox-css">
+                    <input type="checkbox" value="" id="table_checkbox_1" />
+                    <label for="table_checkbox_1">&nbsp;</label>
+                  </div>
+                </td>
+
+                <td>
+                  {{$index + 1}}
+                </td>
+
+                <td>
+                  <span provider>{{schedule.providers[0]}}</span>
+                </td>
+
+                <td>
+                  <span ng-class="{
+                  'lesson': 'label label-primary',
+                  'leveltest': 'label label-success',
+                  'monthly': 'label label-warning'
+                }[schedule.scheduleType]">{{schedule.scheduleType | capitalize}}</span>
+                </td>
+
+                <td>
+                  <span product-type>{{schedule.productType}}</span>
+                </td>
+
+                <td>
+                  {{schedule.started | timezone: schedule.tutor.timezone: 'YYYY/MM/DD HH:mm'}}
+                </td>
+
+                <td>
+                  <span today>{{schedule.started | date: 'yyyy/MM/dd HH:mm'}}</span>
+                </td>
+
+
+
+                <td ng-switch="schedule.scheduleType">
+                  <span ng-switch-when="lesson">{{schedule.course.payment.paymentedProduct.minutes}} Min</span>
+                  <span ng-switch-when="leveltest">{{schedule.application.minutes}} Min</span>
+                </td>
+
+                <td class="with-img">
+                  <img ng-src="{{schedule.user.profileImage}}" class="img-rounded height-30" />
+                  <a ui-sref="{{schedule.user.roles[0]}}.view.modify({
+                    {{schedule.user.roles[0]}}Id: schedule.user._id
+                  })">{{schedule.user.username}}</a>
+                </td>
+
+                <td>
+                  {{schedule.user.koreanName}}
+                </td>
+
+                <td>
+                  {{schedule.user.englishName}}
+                </td>
+
+                <td>
+                  {{schedule.user.mobile | mobile}}
+                </td>
+
+                <!-- <td class="with-img" ng-if="vm.auth.user.roles[0] !== 'tutor'">
+                  <img ng-src="{{schedule.tutor.profileImage}}" class="img-rounded height-30" />
+                </td> -->
+
+                <td class="with-img" ng-if="vm.auth.user.roles[0] !== 'tutor'">
+                  <img ng-src="{{schedule.tutor.profileImage}}" class="img-rounded height-30" />
+                  <a href="javascript:;" theme-open="schedule.tutor">{{schedule.tutor.nickName}}</a>
+                </td>
+
+                <td class="text-right">
+                  <span state>{{schedule.state}}</span>
+                </td>
+
+                <td class="text-right with-btn" ng-switch="schedule.scheduleType">
+                  <button ng-switch-when="lesson" ui-sref="member.view.lesson.detail({
+                    lessonId: schedule._id,
+                    memberId: schedule.user._id
+                  })" class="btn btn-xs btn-primary">
+                  <i class="fa fa-flag"></i> Feedback
+                  </button>
+
+                  <button ng-switch-when="leveltest" ui-sref="{{schedule.user.roles[0]}}.view.leveltest.list.detail({
+                      {{schedule.user.roles[0]}}Id: schedule.user._id,
+                      leveltestId: schedule._id})" class="btn btn-xs btn-primary">
+                    <i ng-class="{
+                      'fas fa-plus': schedule.state === 'applied',
+                      'fas fa-flag': schedule.state !== 'applied'
+                    }"></i>
+                    {{(schedule.state === 'applied') ? 'Register' : 'Assessment'}}
+                  </button>
+
+                </td>
+
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="pull-right">
+            <ul uib-pagination class="pagination-sm" boundary-links="true" max-size="5" items-per-page="vm.itemsPerPage" total-items="vm.filterLength" ng-model="vm.currentPage" ng-change="vm.pageChanged()" previous-text="&lsaquo;" next-text="&rsaquo;"
+              first-text="&laquo;" last-text="&raquo;">
+            </ul>
+          </div>
+        </div>
+        <!-- end table-responsive -->
+      </div>
+      <!-- end panel-body -->
+    </div>
+    <!-- end panel -->
+  </div>
+</div>

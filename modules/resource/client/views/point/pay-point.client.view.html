@@ -1,0 +1,137 @@
+<!-- begin breadcrumb -->
+<ol class="breadcrumb pull-right">
+  <li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
+  <li class="breadcrumb-item">Resource Management</li>
+  <li class="breadcrumb-item" ui-sref="resource.point.list">Point Management</li>
+  <li class="breadcrumb-item active">Pay Point</li>
+</ol>
+<!-- end breadcrumb -->
+
+<!-- begin page-header -->
+<h1 class="page-header">Pay Point</h1>
+<!-- end page-header -->
+
+<hr class="bg-grey-lighter" />
+
+<div class="row">
+  <!-- begin col-12 -->
+  <div class="col-lg-12">
+    <!-- begin panel -->
+    <div class="panel panel-inverse">
+
+      <!-- begin panel-heading -->
+      <div class="panel-heading">
+        <div class="panel-heading-btn">
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+        </div>
+        <h4 class="panel-title height-20">Form</h4>
+      </div>
+      <!-- end panel-heading -->
+
+      <!-- begin panel-body -->
+      <div class="panel-body">
+
+        <form class="form-horizontal form-bordered" name="vm.form.pointForm" novalidate autocomplete="off">
+
+          <div class="alert alert-secondary fade show">
+            <span class="text-danger f-s-15">*</span> Member information
+          </div>
+
+          <div class="form-group row" show-errors>
+            <label class="col-form-label col-lg-2 bg-silver-lighter"><span class="text-danger">*</span>Providers</label>
+            <div class="col-lg-4">
+              <select class="form-control form-control-sm" chosen name="provider" ng-model="vm.point.providers" ng-options="provider for provider in vm.auth.user.providers" ng-change="vm.figureOutMember()" required>
+                <option disabled value="">Provider...</option>
+              </select>
+              <div ng-messages="vm.form.pointForm.provider.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Providers is required.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row" show-errors>
+            <label class="col-form-label col-lg-2 bg-silver-lighter"><span class="text-danger">*</span>Member Username</label>
+            <div class="col-lg-4">
+              <select class="form-control form-control-sm" chosen name="member" ng-model="vm.member" ng-options="member.username for member in vm.members" required>
+                <option disabled value="">Member...</option>
+              </select>
+              <div ng-messages="vm.form.pointForm.member.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Member is required.</p>
+              </div>
+            </div>
+          </div>
+
+          <div ng-if="vm.member">
+            <div class="form-group row">
+              <label class="col-form-label col-lg-2 bg-silver-lighter">Korean Name</label>
+              <div class="col-lg-4">
+                {{vm.member.koreanName}}
+              </div>
+
+              <label class="col-form-label col-lg-2 bg-silver-lighter">English Name</label>
+              <div class="col-lg-4">
+                {{vm.member.englishName}}
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-form-label col-lg-2 bg-silver-lighter">Mobile</label>
+              <div class="col-lg-4">
+                {{vm.member.mobile | mobile}}
+              </div>
+
+              <label class="col-form-label col-lg-2 bg-silver-lighter">E-mail</label>
+              <div class="col-lg-4">
+                {{vm.member.email}}
+              </div>
+            </div>
+          </div>
+
+          <div class="alert alert-secondary fade show m-t-20">
+            <span class="text-danger f-s-15">*</span> Point information
+          </div>
+
+          <div class="form-group row" ng-if="vm.member">
+            <label class="col-form-label col-lg-2 bg-silver-lighter">Current Points</label>
+            <div class="col-lg-4">
+              {{vm.member.point | currency : '' : 0}}
+            </div>
+          </div>
+
+          <div class="form-group row" show-errors>
+            <label class="col-form-label col-lg-2 bg-silver-lighter" for="title"><span class="text-danger">*</span>Point Name</label>
+            <div class="col-lg-4">
+              <input type="text" class="form-control form-control-sm" ng-model="vm.point.title" name="title" placeholder="Point Name..." required />
+              <div ng-messages="vm.form.pointForm.title.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Point Name is required.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row" show-errors>
+            <label class="col-form-label col-lg-2 bg-silver-lighter" for="amount"><span class="text-danger">*</span>Amount</label>
+            <div class="col-lg-4">
+              <input type="number" class="form-control form-control-sm" ng-model="vm.point.amount" name="amount" placeholder="Amount..." required />
+              <div ng-messages="vm.form.pointForm.amount.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Amount is required.</p>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- end panel-body -->
+      <!-- begin panel-footer -->
+      <div class="panel-footer text-right">
+        <button ui-sref="resource.point.list" class="btn btn-white btn-sm">Cancel</button>
+        <button ng-click="vm.payPoint(vm.form.pointForm.$valid)" class="btn btn-primary btn-sm"><i class="fas fa-check"></i> Submit</button>
+      </div>
+      <!-- end panel-footer -->
+    </div>
+    <!-- end panel -->
+  </div>
+  <!-- end col-12 -->
+
+</div>

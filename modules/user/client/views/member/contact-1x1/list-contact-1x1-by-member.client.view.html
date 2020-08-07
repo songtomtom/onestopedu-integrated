@@ -1,0 +1,121 @@
+
+<!-- begin panel -->
+<div class="panel panel-inverse">
+
+  <!-- begin panel-heading -->
+  <div class="panel-heading">
+    <div class="panel-heading-btn">
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+    </div>
+    <h4 class="panel-title height-20">Filter</h4>
+  </div>
+  <!-- end panel-heading -->
+
+  <!-- begin panel-body -->
+  <div class="panel-body">
+
+    <div class="row row-space-10">
+      <div class="col-md-1">
+        <div class="form-group">
+          <select class="form-control form-control-sm" chosen ng-model="vm.itemsPerPage" ng-options="itemsPerPage for itemsPerPage in vm.itemsPerPageNumbers" ng-change="vm.changeItemsPerPage(vm.itemsPerPage)"></select>
+        </div>
+      </div>
+      <div class="col-md-1 m-t-5">
+        <div class="form-group">
+          Total <span class="text-danger">{{vm.contact1x1s.length}}</span>
+        </div>
+      </div>
+
+      <div class="col-md-2 offset-md-8">
+        <div class="form-group">
+          <input class="form-control form-control-sm" type="text" placeholder="Search..." ng-model="vm.search.$" ng-change="vm.figureOut()" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end panel-body -->
+</div>
+<!-- end panel -->
+
+<!-- begin panel -->
+<div class="panel panel-inverse" ng-if="vm.contact1x1s.length > 0">
+
+  <!-- begin panel-heading -->
+  <div class="panel-heading">
+    <div class="panel-heading-btn">
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+    </div>
+    <h4 class="panel-title height-20">List</h4>
+  </div>
+  <!-- end panel-heading -->
+
+  <!-- begin panel-body -->
+  <div class="panel-body">
+    <!-- begin table-responsive -->
+    <div class="table-responsive">
+      <table class="table table-hover table-striped">
+        <thead>
+          <tr>
+            <th class="with-checkbox" width="1%">
+              <div class="checkbox checkbox-css">
+                <input type="checkbox" value="" id="table_checkbox_1" />
+                <label for="table_checkbox_1">&nbsp;</label>
+              </div>
+            </th>
+            <th class="text-center" width="1%">#</th>
+            <th>Contents</th>
+            <th class="text-right">Answered</th>
+            <th class="text-right">Created</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="contact1x1 in vm.pagedItems">
+
+            <td class="with-checkbox">
+              <div class="checkbox checkbox-css">
+                <input type="checkbox" value="" id="table_checkbox_1" />
+                <label for="table_checkbox_1">&nbsp;</label>
+              </div>
+            </td>
+
+            <td>
+              {{contact1x1.counters}}
+            </td>
+
+            <td>
+              <a class="text-black" ui-sref="member.view.contact-1x1.read({contact1x1Id:contact1x1._id})">
+                {{contact1x1.contents | cutContents: 150}}
+              </a>
+            </td>
+
+            <td class="text-right">
+              <span ng-class="{
+                'label label-success' : contact1x1.comments.length > 0,
+                'label label-default' : contact1x1.comments.length < 1
+              }"> {{(contact1x1.comments.length > 0) ? 'Answered' : 'NotYet'}}
+              </span>
+            </td>
+            <td class="text-right">
+              {{contact1x1.created | date: 'yyyy/MM/dd HH:mm'}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="pull-right">
+        <ul uib-pagination class="pagination-sm" boundary-links="true" max-size="5" items-per-page="vm.itemsPerPage" total-items="vm.filterLength" ng-model="vm.currentPage" ng-change="vm.pageChanged()" previous-text="&lsaquo;" next-text="&rsaquo;"
+          first-text="&laquo;" last-text="&raquo;">
+        </ul>
+      </div>
+    </div>
+    <!-- end table-responsive -->
+  </div>
+  <!-- end panel-body -->
+</div>
+<!-- end panel -->

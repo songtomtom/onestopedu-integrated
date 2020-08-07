@@ -1,0 +1,179 @@
+<!-- begin breadcrumb -->
+<ol class="breadcrumb pull-right">
+  <li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
+  <li class="breadcrumb-item">Resource Management</li>
+  <li class="breadcrumb-item"><a ui-sref="resource.product.list">Product List</a></li>
+  <li class="breadcrumb-item active">Modify Product</li>
+</ol>
+<!-- end breadcrumb -->
+
+<!-- begin page-header -->
+<h1 class="page-header">Modify Product</h1>
+<!-- end page-header -->
+
+<hr class="bg-grey-lighter" />
+
+<div class="row">
+
+  <!-- begin col-12 -->
+  <div class="col-lg-12">
+    <!-- begin panel -->
+    <div class="panel panel-inverse">
+
+      <!-- begin panel-heading -->
+      <div class="panel-heading">
+        <div class="panel-heading-btn">
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+        </div>
+        <h4 class="panel-title height-20">Form</h4>
+      </div>
+      <!-- end panel-heading -->
+
+      <!-- begin panel-body -->
+      <div class="panel-body">
+
+        <form class="form-horizontal form-bordered" name="vm.form.productForm" novalidate autocomplete="off">
+
+          <div class="alert alert-secondary fade show">
+            Product information.
+          </div>
+
+          <div class="form-group row">
+            <label class="col-form-label col-lg-2 bg-silver-lighter">Providers</label>
+            <div class="col-lg-4">
+              <span provider>{{vm.product.providers[0]}}</span>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-form-label col-lg-2 bg-silver-lighter">Product Title</label>
+            <div class="col-lg-4">
+              {{vm.product.title}}
+            </div>
+          </div>
+
+          <div class="form-group row">
+
+            <label class="col-form-label col-lg-2 bg-silver-lighter">Curriculum</label>
+            <div class="col-lg-4">
+              <span class="label label-default">{{vm.product.curriculum | capitalize}}</span>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-form-label col-lg-2 bg-silver-lighter">Tutor Nation</label>
+            <div class="col-lg-4">
+              <span class="label label-default">
+
+                <h6 class="flag-icon flag-icon-{{vm.product.nationCode | lowercase}}"></h6>
+                {{vm.product.nation | capitalize}}
+              </span>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-form-label col-lg-2 bg-silver-lighter">Month</label>
+            <div class="col-lg-4">
+              {{vm.product.month}} Month
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-form-label col-lg-2 bg-silver-lighter">Times</label>
+            <div class="col-lg-4">
+              {{vm.product.times}} Times
+            </div>
+
+            <label class="col-form-label col-lg-2 bg-silver-lighter">Minutes</label>
+            <div class="col-lg-4">
+              {{vm.product.minutes}} Min
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-form-label col-lg-2 bg-silver-lighter">Lessons</label>
+            <div class="col-lg-4">
+              {{vm.product.lessonCount}}
+            </div>
+
+            <label class="col-form-label col-lg-2 bg-silver-lighter">Postpone</label>
+            <div class="col-lg-4">
+              {{vm.product.postponeCount}}
+            </div>
+          </div>
+
+          <div class="alert alert-secondary fade show m-t-20">
+            Price information. <strong>Original price</strong> are unique values. You cannot change it. Adjust the <strong>Sub-price</strong> to determine the price of this product.
+          </div>
+
+
+          <div class="form-group row" show-errors>
+            <label class="col-form-label col-lg-2 bg-silver-lighter">Original Price</label>
+            <div class="col-lg-4">
+              {{vm.product.price | currency : "₩ " : 0}}
+            </div>
+
+            <label class="col-form-label col-lg-2 bg-silver-lighter" for="currentPrice"><span class="text-danger">*</span>Sub Price
+              <span ng-class="{
+                'text-success': vm.product.subPrice > vm.product.price,
+                'text-danger': vm.product.subPrice < vm.product.price
+              }">{{vm.product.subPrice - vm.product.price | currency : '₩' : 0}}</span>
+            </label>
+            <div class="col-lg-4">
+              <input type="number" class="form-control form-control-sm" ng-model="vm.product.subPrice" name="currentPrice" placeholder="Sub Price..." min="0" required />
+              <div ng-messages="vm.form.productForm.currentPrice.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Sub Price is Required.</p>
+                <p class="help-block error-text" ng-message="min">Sub Price is lesser minimum value(0).</p>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="form-group row" show-errors>
+
+            <label class="col-form-label col-lg-2 bg-silver-lighter" for="discountPriceRate"><span class="text-danger">*</span>Discount Price Rate(%)</label>
+            <div class="col-lg-4">
+              <input type="number" class="form-control form-control-sm" ng-model="vm.product.discountPriceRate" name="currentPrice" placeholder="Discount Rate..." min="0" required />
+              <div ng-messages="vm.form.productForm.discountPriceRate.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Discount Rate is Required.</p>
+                <p class="help-block error-text" ng-message="min">Discount Rate is lesser minimum value(0).</p>
+              </div>
+            </div>
+
+            <label class="col-form-label col-lg-2 bg-silver-lighter">Discount Price</label>
+            <div class="col-lg-4">
+              {{vm.product.subPrice | currency : '₩ ' : 0}}
+            </div>
+          </div>
+
+          <div class="form-group row" show-errors>
+            <label class="col-form-label col-lg-2 bg-silver-lighter" for="earningPointRate"><span class="text-danger">*</span>Earning Point Rate(%)</label>
+            <div class="col-lg-4">
+              <input type="number" class="form-control form-control-sm" ng-model="vm.product.earningPointRate" name="earningPointRate" placeholder="Earning Rate..." required />
+              <div ng-messages="vm.form.productForm.earningPointRate.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Earning Rate is Required.</p>
+              </div>
+            </div>
+            <label class="col-form-label col-lg-2 bg-silver-lighter">Earning Point</label>
+            <div class="col-lg-4">
+              {{vm.product.earnPoint | currency : '' : 0}}
+            </div>
+          </div>
+        </form>
+
+      </div>
+      <!-- end panel-body -->
+      <!-- begin panel-footer -->
+      <div class="panel-footer text-right">
+        <button ui-sref="resource.product.list" class="btn btn-white btn-sm">Cancel</button>
+        <button ng-click="vm.modify(vm.form.productForm.$valid)" class="btn btn-primary btn-sm"><i class="fas fa-check"></i> Submit</button>
+      </div>
+      <!-- end panel-footer -->
+    </div>
+    <!-- end panel -->
+  </div>
+  <!-- end col-12 -->
+</div>

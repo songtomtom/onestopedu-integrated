@@ -1,0 +1,154 @@
+<!-- begin breadcrumb -->
+<ol class="breadcrumb pull-right">
+  <li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
+  <li class="breadcrumb-item">CS Center</li>
+  <li class="breadcrumb-item"><a ui-sref="cs-center.contact-us.list">Contact Us Board</a></li>
+  <li class="breadcrumb-item"><a ui-sref="cs-center.contact-us.read({contactUsId: vm.contactUs._id})">Contact Us Contents</a></li>
+  <li class="breadcrumb-item active">Edit Contact Us</li>
+</ol>
+<!-- end breadcrumb -->
+<!-- begin page-header -->
+<h1 class="page-header">Edit Contact Us</h1>
+<!-- end page-header -->
+
+<hr class="bg-grey-lighter" />
+
+<div class="row">
+  <!-- begin col-12 -->
+  <div class="col-lg-12">
+    <!-- begin panel -->
+    <div class="panel panel-inverse">
+
+      <!-- begin panel-heading -->
+      <div class="panel-heading">
+        <div class="panel-heading-btn">
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+        </div>
+        <h4 class="panel-title height-20">Form</h4>
+      </div>
+      <!-- end panel-heading -->
+      <form class="form-horizontal form-bordered" name="vm.form.contactUsForm" novalidate autocomplete="off">
+        <!-- begin panel-body -->
+        <div class="panel-body">
+
+          <div class="alert alert-secondary fade show">
+            Member infomation.
+          </div>
+
+          <div class="form-group row">
+            <label class="col-form-label col-lg-2 bg-silver-lighter">Providers</label>
+            <div class="col-lg-4">
+              <span provider>{{vm.contactUs.user.providers[0]}}</span>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-form-label col-lg-2 bg-silver-lighter">Username</label>
+            <div class="col-lg-4">
+              {{vm.contactUs.user.username}}
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-form-label col-lg-2 bg-silver-lighter">Korean Name</label>
+            <div class="col-lg-4">
+              {{vm.contactUs.user.koreanName}}
+            </div>
+
+            <label class="col-form-label col-lg-2 bg-silver-lighter">English Name</label>
+            <div class="col-lg-4">
+              {{vm.contactUs.user.englishName}}
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-form-label col-lg-2 bg-silver-lighter">Mobile</label>
+            <div class="col-lg-4">
+              {{vm.contactUs.user.mobile | mobile}}
+            </div>
+
+            <label class="col-form-label col-lg-2 bg-silver-lighter">E-mail</label>
+            <div class="col-lg-4">
+              {{vm.contactUs.user.email}}
+            </div>
+          </div>
+
+          <div class="alert fade show m-t-20" ng-class="{
+            'public': 'alert-secondary',
+            'private': 'alert-danger'
+          }[vm.contactUs.contactUsType]">
+            <span class="text-danger f-s-15">*</span> Basic information for <strong ng-if="vm.contactUs.contactUsType === 'top'">Top</strong> contactUs.
+          </div>
+
+
+          <div class="form-group row">
+            <label class="col-form-label col-lg-2 bg-silver-lighter" for="providers"><span class="text-danger">*</span>Providers</label>
+            <div class="col-lg-4">
+              <span provider>{{vm.contactUs.providers[0]}}</span>
+            </div>
+          </div>
+
+          <div class="form-group row" show-errors>
+            <label class="col-form-label col-lg-2 bg-silver-lighter"><span class="text-danger">*</span>Contact Us Type</label>
+            <div class="col-lg-4">
+              <div class="radio radio-css radio-inline">
+                <input type="radio" name="contactUsType" id="private" value="private" ng-model="vm.contactUs.contactUsType" required />
+                <label for="private">Private</label>
+              </div>
+
+              <div class="radio radio-css radio-inline">
+                <input type="radio" name="contactUsType" id="public" value="public" ng-model="vm.contactUs.contactUsType" required />
+                <label for="public">Public</label>
+              </div>
+
+              <div ng-messages="vm.form.contactUsForm.type.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Type is required.</p>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="alert alert-secondary fade show m-t-20">
+            <span class="text-danger f-s-15">*</span> Contact us title and contents.
+          </div>
+
+
+
+          <div class="form-group row" show-errors>
+            <label class="col-form-label col-lg-2 bg-silver-lighter" for="title"><span class="text-danger">*</span>Title</label>
+            <div class="col-lg-10">
+              <input type="text" class="form-control form-control-sm" ng-model="vm.contactUs.title" name="title" placeholder="Title..." required />
+              <div ng-messages="vm.form.contactUsForm.title.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Title is required.</p>
+              </div>
+            </div>
+
+          </div>
+          <div class="form-group row" show-errors>
+            <label class="col-form-label col-lg-2 bg-silver-lighter" for="contents"><span class="text-danger">*</span>Contents</label>
+            <div class="col-lg-10">
+              <summernote class="summernote" config="vm.summernoteOptions" name="contents" ng-model="vm.contactUs.contents" required></summernote>
+              <div ng-messages="vm.form.contactUsForm.contents.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Contents is required.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </form>
+      <!-- end panel-body -->
+      <!-- begin panel-footer -->
+      <div class="panel-footer text-right">
+        <button ui-sref="cs-center.contact-us.read({contactUsId: vm.contactUs._id})" class="btn btn-white btn-sm">Cancel</button>
+        <button ng-click="vm.edit(vm.form.contactUsForm.$valid)" class="btn btn-primary btn-sm"><i class="fas fa-check"></i> Submit</button>
+      </div>
+      <!-- end panel-footer -->
+    </div>
+    <!-- end panel -->
+  </div>
+  <!-- end col-12 -->
+
+</div>

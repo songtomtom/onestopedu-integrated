@@ -1,0 +1,205 @@
+<!-- begin breadcrumb -->
+<ol class="breadcrumb pull-right">
+  <li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
+  <li class="breadcrumb-item">Resource Management</li>
+  <li class="breadcrumb-item active">SMS(Talk Dream) Log</li>
+</ol>
+<!-- end breadcrumb -->
+<!-- begin page-header -->
+<h1 class="page-header">SMS(Talk Dream) Log</h1>
+<!-- end page-header -->
+
+<hr class="bg-grey-lighter" />
+
+<!-- begin row -->
+<div class="row">
+  <!-- begin col-12 -->
+  <div class="col-lg-12">
+    <!-- begin panel -->
+    <div class="panel panel-inverse">
+
+      <!-- begin panel-heading -->
+      <div class="panel-heading">
+        <div class="panel-heading-btn">
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+        </div>
+        <h4 class="panel-title height-20">Filter</h4>
+      </div>
+      <!-- end panel-heading -->
+
+      <!-- begin panel-body -->
+      <div class="panel-body">
+
+        <div class="row row-space-10">
+          <div class="col-md-1">
+            <div class="form-group">
+              <select class="form-control form-control-sm" chosen ng-model="vm.itemsPerPage" ng-options="itemsPerPage for itemsPerPage in vm.itemsPerPageNumbers" ng-change="vm.changeItemsPerPage(vm.itemsPerPage)"></select>
+            </div>
+          </div>
+          <div class="col-md-1 m-t-5">
+            <div class="form-group">
+              Total <span class="text-danger">{{vm.talkDreams.length}}</span>
+            </div>
+          </div>
+
+          <div class="col-md-2 offset-md-8">
+            <div class="form-group">
+              <input class="form-control form-control-sm" type="text" placeholder="Search..." ng-model="vm.search.$" ng-change="vm.figureOut()" />
+            </div>
+          </div>
+
+        </div>
+
+
+      </div>
+      <!-- end panel-body -->
+    </div>
+    <!-- end panel -->
+  </div>
+  <!-- end col-12 -->
+
+
+  <!-- begin col-12 -->
+  <div class="col-lg-12">
+    <!-- begin panel -->
+    <div class="panel panel-inverse">
+
+      <!-- begin panel-heading -->
+      <div class="panel-heading">
+        <div class="panel-heading-btn">
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+        </div>
+        <h4 class="panel-title height-20">List</h4>
+      </div>
+      <!-- end panel-heading -->
+
+
+      <div class="alert alert-success fade show">
+        <span class="close" data-dismiss="alert">×</span>
+        <i class="fa fa-check fa-2x pull-left m-r-10"></i>
+        <p class="m-b-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ac posuere lacus, quis suscipit sem. Nulla sagittis aliquam erat non convallis.</p>
+      </div>
+
+      <!-- begin panel-body -->
+      <div class="panel-body">
+
+        <!-- begin table-responsive -->
+        <div class="table-responsive">
+          <table class="table table-hover table-striped">
+            <thead>
+              <tr>
+                <th class="with-checkbox" width="1%">
+                  <div class="checkbox checkbox-css">
+                    <input type="checkbox" value="" id="table_checkbox_1" />
+                    <label for="table_checkbox_1">&nbsp;</label>
+                  </div>
+                </th>
+                <th class="text-center" width="1%">#</th>
+                <th>Provider</th>
+                <th>Username</th>
+                <th>Korean Name</th>
+                <th>Mobile</th>
+                <th>Template</th>
+                <th>Message</th>
+                <th ng-if="vm.auth.user.roles[0] === 'creator'">State Message</th>
+                <th class="text-right">State</th>
+                <th class="text-right">Created</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="talkDream in vm.pagedItems">
+
+                <td class="with-checkbox">
+                  <div class="checkbox checkbox-css">
+                    <input type="checkbox" value="" id="table_checkbox_1" />
+                    <label for="table_checkbox_1">&nbsp;</label>
+                  </div>
+                </td>
+
+                <td>
+                  {{talkDream.counters}}
+                </td>
+
+                <td>
+                  <span provider>{{talkDream.providers[0]}}</span>
+                </td>
+
+                <td class="with-img">
+                  <img ng-src="{{talkDream.user.profileImage}}" class="img-rounded height-30" />
+                  <a ui-sref="{{talkDream.user.roles[0]}}.view.modify({
+                    {{talkDream.user.roles[0]}}Id: talkDream.user._id
+                  })">{{talkDream.user.username}}</a>
+                </td>
+
+                <td>
+                  {{talkDream.user.koreanName}}
+                </td>
+
+                <td>
+                  <span menual-mobile="talkDream.user._id">{{talkDream.mobile | mobile}}</span>
+                </td>
+
+                <td>
+                  <span class="label label-default">{{talkDream.templateId}}</span>
+                </td>
+
+                <td>
+                  <a href="javascript:;" data-target="#modal-without-animation" class="text-dark" data-toggle="modal" ng-click="vm.currentMessage = talkDream.message">{{talkDream.message | cutContents:40}}</a>
+                </td>
+
+                <td ng-if="vm.auth.user.roles[0] === 'creator'">
+                  {{(talkDream.statusErrMessage || talkDream.statusKakaoMessage || talkDream.statusSMSMessage) | cutContents: 40}}
+                </td>
+
+
+                <td class="text-right">
+                  <span ng-class="{
+                    'error': 'label label-danger',
+                    'kakao': 'label label-yellow',
+                    'sms': 'label label-success'
+                  }[talkDream.state]">{{talkDream.state | capitalize}}</span>
+                </td>
+
+                <td class="text-right">
+                  {{talkDream.created | date: 'yyyy/MM/dd HH:mm'}}
+                </td>
+
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="pull-right">
+            <ul uib-pagination class="pagination-sm" boundary-links="true"  max-size="5" items-per-page="vm.itemsPerPage" total-items="vm.filterLength" ng-model="vm.currentPage" ng-change="vm.pageChanged()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;"
+              last-text="&raquo;">
+            </ul>
+          </div>
+        </div>
+        <!-- end table-responsive -->
+      </div>
+      <!-- end panel-body -->
+    </div>
+    <!-- end panel -->
+  </div>
+  <!-- end col-12 -->
+</div>
+<!-- end row -->
+
+<div class="modal" id="modal-without-animation">
+  <div class="modal-dialog talk-dream">
+    <div class="modal-content">
+      <div class="talk-dream-header">
+        <i class="far fa-envelope-open"></i> 알림톡 도착
+      </div>
+      <div class="modal-body">
+        <div ng-bind-html="vm.currentMessage | toBr">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

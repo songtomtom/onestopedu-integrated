@@ -1,0 +1,14 @@
+{
+  "name": "integrated",
+  "short_name": "integrated",
+  "start_url": ".",
+  "display": "browser",
+  "background_color": "#fff",
+  "theme_color": "#000",
+  "description": "Education integrated administrator application",
+  "icons": [{
+    "src": "/modules/core/client/img/brand/logo.png",
+    "sizes": "305x48",
+    "type": "image/png"
+  }]
+}

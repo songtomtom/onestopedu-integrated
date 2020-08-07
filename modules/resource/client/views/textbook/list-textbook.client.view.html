@@ -1,0 +1,168 @@
+<!-- begin breadcrumb -->
+<ol class="breadcrumb pull-right">
+  <li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
+  <li class="breadcrumb-item">Resource Management</li>
+  <li class="breadcrumb-item active">Textbook List</li>
+</ol>
+<!-- end breadcrumb -->
+<!-- begin page-header -->
+<h1 class="page-header">Textbook List</h1>
+<!-- end page-header -->
+
+<hr class="bg-grey-lighter" />
+
+<div class="row">
+  <div class="col-lg-12">
+    <!-- begin panel -->
+    <div class="panel panel-inverse">
+
+      <!-- begin panel-heading -->
+      <div class="panel-heading">
+        <div class="panel-heading-btn">
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+        </div>
+        <h4 class="panel-title height-20">Filter</h4>
+      </div>
+      <!-- end panel-heading -->
+
+      <!-- begin panel-body -->
+      <div class="panel-body">
+
+        <div class="row row-space-10">
+
+          <div class="col-md-1">
+            <div class="form-group m-b-10">
+              <select class="form-control form-control-sm" chosen ng-model="vm.itemsPerPage" ng-options="itemsPerPage for itemsPerPage in vm.itemsPerPageNumbers" ng-change="vm.changeItemsPerPage(vm.itemsPerPage)"></select>
+            </div>
+          </div>
+          <div class="col-md-1 m-t-5">
+            <div class="form-group">
+              Total <span class="text-danger">{{vm.textbooks.length}}</span>
+            </div>
+          </div>
+
+          <div class="col-md-2 offset-md-7">
+            <div class="form-group m-b-10">
+              <input class="form-control form-control-sm" type="text" placeholder="Search..." ng-model="vm.search.$" ng-change="vm.figureOut()" />
+            </div>
+          </div>
+
+          <div class="col-md-1">
+            <div class="form-group">
+              <a ui-sref="resource.textbook.add" class="btn btn-primary btn-block btn-sm"><i class="fas fa-plus"></i> Add</a>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+      <!-- end panel-body -->
+    </div>
+    <!-- end panel -->
+
+
+  </div>
+
+  <div class="col-lg-12">
+    <!-- begin panel -->
+    <div class="panel panel-inverse">
+
+      <!-- begin panel-heading -->
+      <div class="panel-heading">
+        <div class="panel-heading-btn">
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+        </div>
+        <h4 class="panel-title height-20">List</h4>
+      </div>
+      <!-- end panel-heading -->
+
+      <!-- begin panel-body -->
+      <div class="panel-body">
+
+        <!-- begin table-responsive -->
+        <div class="table-responsive">
+          <table class="table table-hover table-striped">
+            <thead>
+              <tr>
+                <th class="with-checkbox" width="1%">
+                  <div class="checkbox checkbox-css">
+                    <input type="checkbox" value="" id="table_checkbox_1" />
+                    <label for="table_checkbox_1">&nbsp;</label>
+                  </div>
+                </th>
+                <th class="text-center" width="1%">#</th>
+                <th>Provider</th>
+                <th>Title</th>
+                <th>File Name</th>
+                <th>File Size</th>
+                <th>Uploader</th>
+                <!-- <th>Earner</th> -->
+                <th class="text-right">Created</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="textbook in vm.pagedItems">
+
+                <td class="with-checkbox">
+                  <div class="checkbox checkbox-css">
+                    <input type="checkbox" value="" id="table_checkbox_1" />
+                    <label for="table_checkbox_1">&nbsp;</label>
+                  </div>
+                </td>
+
+                <td>
+                  {{textbook.counters}}
+                </td>
+
+                <td>
+                  <span provider>{{textbook.providers[0]}}</span>
+                </td>
+
+                <td>
+                  <a class="text-black" ui-sref="resource.textbook.modify({textbookId: textbook._id})">{{textbook.title}}</a>
+                </td>
+
+                <td>
+                  <a href="{{textbook.textbookFile.path}}" download="{{textbook.textbookFile.originalname}}" target="_self">
+                    <i class="fas fa-file f-s-14 m-r-3 m-r-xs-0 t-plus-1"></i> {{textbook.textbookFile.originalname}}
+                  </a>
+                </td>
+
+                <td>
+                  {{textbook.textbookFile.size | filesize}}
+                </td>
+
+                <td class="with-img">
+                  <img ng-src="{{textbook.user.profileImage}}" class="img-rounded height-30" />
+                  {{textbook.user.nickName}}
+                </td>
+
+                <td class="text-right">
+                  {{textbook.created | date: 'yyyy/MM/dd HH:mm'}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="pull-right">
+            <ul uib-pagination class="pagination-sm" boundary-links="true" max-size="5" items-per-page="vm.itemsPerPage" total-items="vm.filterLength" ng-model="vm.currentPage" ng-change="vm.pageChanged()" previous-text="&lsaquo;" next-text="&rsaquo;"
+              first-text="&laquo;" last-text="&raquo;">
+            </ul>
+          </div>
+        </div>
+        <!-- end table-responsive -->
+      </div>
+      <!-- end panel-body -->
+    </div>
+    <!-- end panel -->
+
+
+  </div>
+
+</div>

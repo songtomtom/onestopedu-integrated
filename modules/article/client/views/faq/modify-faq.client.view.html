@@ -1,0 +1,88 @@
+<!-- begin breadcrumb -->
+<ol class="breadcrumb pull-right">
+  <li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
+  <li class="breadcrumb-item">CS Center</li>
+  <li class="breadcrumb-item"><a ui-sref="cs-center.faq.list">FAQ List</a></li>
+  <li class="breadcrumb-item active">Modify FAQ</li>
+</ol>
+<!-- end breadcrumb -->
+<!-- begin page-header -->
+<h1 class="page-header">Modify FAQ</h1>
+<!-- end page-header -->
+
+<hr class="bg-grey-lighter" />
+
+<div class="row">
+
+  <!-- begin col-12 -->
+  <div class="col-lg-12">
+    <!-- begin panel -->
+    <div class="panel panel-inverse">
+
+      <!-- begin panel-heading -->
+      <div class="panel-heading">
+        <div class="panel-heading-btn">
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+        </div>
+        <h4 class="panel-title height-20">Form</h4>
+      </div>
+      <!-- end panel-heading -->
+
+      <!-- begin panel-body -->
+      <div class="panel-body">
+
+        <form class="form-horizontal form-bordered" name="vm.form.faqForm" novalidate autocomplete="off">
+
+          <div class="alert alert-secondary fade show">
+            <span class="text-danger f-s-15">*</span> Basic information for FAQ
+          </div>
+
+          <div class="form-group row">
+            <label class="col-form-label col-lg-2 bg-silver-lighter" for="providers"><span class="text-danger">*</span>Providers</label>
+            <div class="col-lg-10">
+              <span provider>{{vm.faq.providers[0]}}</span>
+            </div>
+          </div>
+
+          <div class="alert alert-secondary fade show m-t-20">
+            <span class="text-danger f-s-15">*</span> Question & Answer
+          </div>
+
+          <div class="form-group row" show-errors>
+            <label class="col-form-label col-lg-2 bg-silver-lighter" for="question"><span class="text-danger">*</span>Question</label>
+            <div class="col-lg-10">
+              <input type="text" class="form-control form-control-sm" ng-model="vm.faq.question" name="question" placeholder="Question..." required />
+              <div ng-messages="vm.form.faqForm.question.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Question is required.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row" show-errors>
+            <label class="col-form-label col-lg-2 bg-silver-lighter" for="answer"><span class="text-danger">*</span>Answer</label>
+            <div class="col-lg-10">
+              <summernote class="summernote" config="vm.summernoteOptions" name="answer" ng-model="vm.faq.answer" required></summernote>
+              <div ng-messages="vm.form.faqForm.answer.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Answer is required.</p>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </div>
+      <!-- end panel-body -->
+      <!-- begin panel-footer -->
+      <div class="panel-footer text-right">
+        <button ng-click="vm.remove()" class="btn btn-danger btn-sm pull-left"><i class="fas fa-trash"></i> Remove</button>
+        <button ui-sref="cs-center.faq.list" class="btn btn-white btn-sm">Cancel</button>
+        <button ng-click="vm.modify(vm.form.faqForm.$valid)" class="btn btn-primary btn-sm"><i class="fas fa-check"></i> Submit</button>
+      </div>
+    </div>
+    <!-- end panel-footer -->
+    <!-- end panel -->
+  </div>
+  <!-- end col-12 -->
+</div>

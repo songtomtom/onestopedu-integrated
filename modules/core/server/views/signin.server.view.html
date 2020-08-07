@@ -1,0 +1,70 @@
+{% extends 'layout.server.view.html' %}
+<!-- Page wraper -->
+
+{% block content %}
+<!-- begin login -->
+<div class="login login-with-news-feed" ng-controller="SigninController as vm">
+  <!-- begin login -->
+  <div class="login login-with-news-feed">
+    <!-- begin news-feed -->
+    <div class="news-feed">
+      <div class="news-image" ng-style="{'background-image':'url(' + vm.backgroundImageName + ')'}"></div>
+      <div class="news-caption">
+        <h4 class="caption-title"><b>1-STOPEDU</b> ADMIN PAGE</h4>
+        <p>
+          Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer and scrambled it to make a type specimen book.
+        </p>
+      </div>
+    </div>
+    <!-- end news-feed -->
+    <!-- begin right-content -->
+    <div class="right-content">
+      <!-- begin login-header -->
+      <div class="login-header">
+        <div class="brand text-center">
+
+          <img src="/modules/core/client/img/brand/logo.png">
+          <!-- <span class="logo"></span> <b>Color</b> Admin -->
+          <!-- <small class="m-t-10">Let's experience new Integrated Admin Page</small> -->
+        </div>
+        <div class="icon">
+          <i class="fa fa-sign-in"></i>
+        </div>
+      </div>
+      <!-- end login-header -->
+      <!-- begin login-content -->
+      <div class="login-content m-t-10">
+        <form name="vm.form.userForm" class="margin-bottom-0" ng-submit="vm.signin(vm.form.userForm.$valid)" novalidate autocomplete="off">
+          <div class="form-group m-b-15">
+            <input type="text" class="form-control form-control-lg" placeholder="Username" ng-model="vm.credentials.username" required />
+          </div>
+          <div class="form-group m-b-40">
+            <input type="password" class="form-control form-control-lg" placeholder="Password" ng-model="vm.credentials.password" required />
+          </div>
+          <!-- <div class="checkbox checkbox-css m-b-30">
+            <input type="checkbox" id="remember_me_checkbox" value="" />
+            <label for="remember_me_checkbox">
+              Remember Me
+            </label>
+          </div> -->
+          <div class="login-buttons">
+            <button type="submit" class="btn btn-primary btn-block btn-lg">Sign in</button>
+          </div>
+          <!-- <div class="m-t-20 m-b-40 p-b-40 text-inverse">
+            Not a member yet? Click <a ui-sref="member.register" class="text-success">here</a> to register.
+          </div> -->
+          <hr />
+          <p class="text-center text-grey-darker">
+            Create by Web Team
+          </p>
+        </form>
+      </div>
+      <!-- end login-content -->
+    </div>
+    <!-- end right-container -->
+  </div>
+  <!-- end login -->
+</div>
+<!-- end login -->
+<!-- End page wrapper-->
+{% endblock %}

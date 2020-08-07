@@ -1,0 +1,224 @@
+<!-- begin panel -->
+<div class="panel panel-inverse">
+
+  <!-- begin panel-heading -->
+  <div class="panel-heading">
+    <div class="panel-heading-btn">
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+    </div>
+    <h4 class="panel-title height-20">Form</h4>
+  </div>
+  <!-- end panel-heading -->
+
+  <!-- begin panel-body -->
+  <div class="panel-body">
+
+    <form class="form-horizontal form-bordered" name="vm.form.lessonForm" novalidate autocomplete="off">
+
+      <div class="alert alert-secondary fade show">
+        Select a provider and then select a <strong>member</strong>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Providers</label>
+        <div class="col-lg-4">
+          <span provider>{{vm.course.user.providers[0]}}</span>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Username</label>
+        <div class="col-lg-4">
+          {{vm.course.user.username}}
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Korean Name</label>
+        <div class="col-lg-4">
+          {{vm.course.user.koreanName}}
+        </div>
+
+        <label class="col-form-label col-lg-2 bg-silver-lighter">English Name</label>
+        <div class="col-lg-4">
+          {{vm.course.user.englishName}}
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Mobile</label>
+        <div class="col-lg-4">
+          {{vm.course.user.mobile | mobile}}
+        </div>
+
+        <label class="col-form-label col-lg-2 bg-silver-lighter">E-mail</label>
+        <div class="col-lg-4">
+          {{vm.course.user.email}}
+        </div>
+      </div>
+
+      <div class="alert alert-secondary fade show m-t-20">
+        Course detail information.
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Product Title</label>
+        <div class="col-lg-4">
+          {{vm.course.payment.paymentedProduct.title}}
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Complete Status</label>
+        <div class="col-lg-4">
+          {{vm.course.currentCounting.lesson.completed}} / <strong>{{vm.course.currentCounting.lesson.total}}</strong>
+        </div>
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Completed Progress</label>
+        <div class="col-sm-4 form-progress">
+          <div class="progress">
+            <span class="progress-text">{{vm.course.currentCounting.lesson.completed}} / {{vm.course.currentCounting.lesson.total}} <strong> ({{vm.course.rating.lesson.completed}}%)</strong></span>
+            <div class="progress-bar" style="width: {{vm.course.rating.lesson.completed}}%"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Attendance Status</label>
+        <div class="col-lg-4">
+          {{vm.course.currentCounting.lesson.success}} / <strong>{{vm.course.currentCounting.lesson.total}}</strong> (Attendance: {{vm.course.currentCounting.lesson.success}})
+        </div>
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Attendance Progress</label>
+        <div class="col-sm-4 form-progress">
+          <div class="progress">
+            <span class="progress-text">{{vm.course.currentCounting.lesson.success}} / {{vm.course.currentCounting.lesson.total}} <strong>({{vm.course.rating.lesson.success}}%)</strong></span>
+            <div class="progress-bar bg-secondary" style="width: {{vm.course.rating.lesson.success}}%"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Absence Status</label>
+        <div class="col-lg-4">
+          {{vm.course.currentCounting.lesson.fail}} / <strong>{{vm.course.currentCounting.lesson.total}}</strong>
+          (Absence: {{vm.course.currentCounting.lesson.absence}}, Canceled: {{vm.course.currentCounting.lesson.canceled}}, TC: {{vm.course.currentCounting.lesson.tutorCanceled}}, TP: {{vm.course.currentCounting.lesson.technicalProblem}})
+        </div>
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Absence Progress</label>
+        <div class="col-sm-4 form-progress">
+          <div class="progress">
+            <span class="progress-text">{{vm.course.currentCounting.lesson.fail}} / {{vm.course.currentCounting.lesson.total}} <strong>({{vm.course.rating.lesson.fail}}%)</strong></span>
+            <div class="progress-bar bg-danger" style="width: {{vm.course.rating.lesson.fail}}%"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Postpone Status</label>
+        <div class="col-lg-4">
+          {{vm.course.useCounting.postpone}} / <strong>{{vm.course.maxCounting.postpone}}</strong>
+        </div>
+
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Hold Status</label>
+        <div class="col-lg-4">
+          {{vm.course.useCounting.hold}} / <strong>{{vm.course.maxCounting.hold}}</strong>
+        </div>
+      </div>
+
+      <div class="alert alert-secondary fade show m-t-20">
+        <span class="text-danger f-s-15">*</span>Schedule information
+      </div>
+
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter"><span class="text-danger">*</span>Lesson Type</label>
+        <div class="col-lg-4">
+          <div class="radio radio-css radio-inline">
+            <input type="radio" name="productType" id="telephone" value="telephone" ng-model="vm.lesson.productType" />
+            <label for="telephone">Telephone</label>
+          </div>
+          <div class="radio radio-css radio-inline">
+            <input type="radio" name="productType" id="skype" value="skype" ng-model="vm.lesson.productType" />
+            <label for="skype">Skype</label>
+          </div>
+          <div class="radio radio-css radio-inline">
+            <input type="radio" name="productType" id="screenBoard" value="screenBoard" ng-model="vm.lesson.productType" />
+            <label for="screenBoard">Screen Board</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row" show-errors>
+        <label class="col-form-label col-lg-2 bg-silver-lighter"><span class="text-danger">*</span>Start Date ({{vm.started.toDate() | date: 'EEEE'}})</label>
+        <div class="col-lg-4">
+          <div class="input-group input-group-sm date" name="started" datetimepicker ng-model="vm.started" options="vm.datetimePickerOptions">
+            <!-- <div class="input-group input-group-sm date" name="started" datetimepicker ng-model="vm.started" options="vm.datetimePickerOptions"> -->
+            <input type="text" class="form-control form-control-sm" required />
+            <div class="input-group-addon">
+              <i class="fa fa-calendar"></i>
+            </div>
+          </div>
+          <div ng-messages="vm.form.lessonForm.started.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Start Date is required.</p>
+            <p class="help-block error-text" ng-message="includes">The checked start date and day do not match.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row" show-errors>
+        <label class="col-form-label col-lg-2 bg-silver-lighter"><span class="text-danger">*</span>Lesson Minutes</label>
+        <div class="col-lg-4">
+          <select class="form-control form-control-sm" chosen name="minutes" ng-model="vm.lesson.minutes" convert-to-number>
+            <option disabled value="">Minutes...</option>
+            <option value="10" selected>10 Minutes</option>
+            <option value="20">20 Minutes</option>
+            <option value="30">30 Minutes</option>
+          </select>
+          <div ng-messages="vm.form.lessonForm.minutes.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Lesson minutes is required.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row" show-errors>
+        <label class="col-form-label col-lg-2 bg-silver-lighter" for="tutor"><span class="text-danger">*</span>Tutor</label>
+        <div class="col-lg-4 form-chosen-up">
+          <select class="form-control form-control-sm" chosen name="tutor" ng-model="vm.lesson.tutor" ng-options="tutor._id as tutor.nickName for tutor in vm.tutors" required>
+            <option value="">Tutors...</option>
+          </select>
+          <div ng-messages="vm.form.lessonForm.tutor.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Tutor is required.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter"><span class="text-danger">*</span>Text Book</label>
+        <div class="col-lg-4 form-chosen-up">
+          <select class="form-control form-control-sm" chosen name="textbook">
+            <option disabled value="">Textbook...</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter"><span class="text-danger">*</span>Level</label>
+        <div class="col-lg-4 form-chosen-up">
+          <select class="form-control form-control-sm" chosen name="level">
+            <option disabled value="">Level...</option>
+          </select>
+        </div>
+      </div>
+
+    </form>
+  </div>
+  <!-- end panel-body -->
+
+  <!-- begin panel-footer -->
+  <div class="panel-footer text-right">
+    <button ui-sref="member.view.course.list.detail({courseId: vm.course._id})" class="btn btn-white btn-sm"><i class="fas fa-long-arrow-alt-left"></i> Back</button>
+    <button ng-click="vm.add(vm.form.lessonForm.$valid)" class="btn btn-primary btn-sm"><i class="fas fa-check"></i> Submit</button>
+  </div>
+</div>
+<!-- end panel-footer -->

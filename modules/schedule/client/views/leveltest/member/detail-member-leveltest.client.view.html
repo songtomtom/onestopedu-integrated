@@ -1,0 +1,591 @@
+<div class="panel panel-inverse">
+
+  <!-- begin panel-heading -->
+  <div class="panel-heading">
+    <div class="panel-heading-btn">
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+    </div>
+    <h4 class="panel-title height-20">Form</h4>
+  </div>
+  <!-- end panel-heading -->
+
+  <div class="panel-body">
+
+    <form class="form-horizontal form-bordered" name="vm.form.leveltestForm" novalidate autocomplete="off">
+
+      <div class="alert alert-secondary fade show">
+        Member infomation.
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Providers</label>
+        <div class="col-lg-4">
+          <span provider>{{vm.leveltest.user.providers[0]}}</span>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Username</label>
+        <div class="col-lg-4">
+          {{vm.leveltest.user.username}}
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Korean Name</label>
+        <div class="col-lg-4">
+          {{vm.leveltest.user.koreanName}}
+        </div>
+
+        <label class="col-form-label col-lg-2 bg-silver-lighter">English Name</label>
+        <div class="col-lg-4">
+          {{vm.leveltest.user.englishName}}
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Mobile</label>
+        <div class="col-lg-4">
+          {{vm.leveltest.user.mobile | mobile}}
+        </div>
+
+        <label class="col-form-label col-lg-2 bg-silver-lighter">E-mail</label>
+        <div class="col-lg-4">
+          {{vm.leveltest.user.email}}
+        </div>
+      </div>
+
+      <div class="form-group row" ng-if="vm.leveltest.user.roles[0] === 'member'">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Skype</label>
+        <div class="col-lg-4">
+          {{vm.leveltest.user.skype}}
+        </div>
+
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Age</label>
+        <div class="col-lg-4">
+          <span class="label label-default">{{vm.leveltest.user.age | capitalize}}</span>
+        </div>
+      </div>
+
+      <div class="alert alert-secondary fade show m-t-20">
+        Leveltest application infomation.
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Leveltest Hope Type</label>
+        <div class="col-lg-4">
+          <span product-type>{{vm.leveltest.application.productType}}</span>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Conversation Skill</label>
+        <div class="col-lg-4">
+          {{vm.leveltest.displaySkill}}
+        </div>
+      </div>
+
+      <div class="form-group row" ng-if="vm.leveltest.application.memo">
+        <label class="col-form-label col-lg-2 bg-silver-lighter" for="memo">Memo</label>
+        <div class="col-lg-4">
+          <div ng-bind-html="vm.leveltest.application.memo"></div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Desire Date</label>
+        <div class="col-lg-4">
+          {{vm.leveltest.application.desired | date: 'yyyy/MM/dd HH:mm'}}
+        </div>
+      </div>
+
+
+      <div class="alert alert-secondary fade show m-t-20">
+        <span class="text-danger f-s-15">*</span> Leveltest schedule infomation.
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter"><span class="text-danger">*</span>Leveltest Type</label>
+        <div class="col-lg-4">
+          <div class="radio radio-css radio-inline">
+            <input type="radio" name="productType" id="telephone" value="telephone" ng-model="vm.leveltest.productType" />
+            <label for="telephone">Telephone</label>
+          </div>
+          <div class="radio radio-css radio-inline">
+            <input type="radio" name="productType" id="skype" value="skype" ng-model="vm.leveltest.productType" />
+            <label for="skype">Skype</label>
+          </div>
+          <div class="radio radio-css radio-inline">
+            <input type="radio" name="productType" id="screenBoard" value="screenBoard" ng-model="vm.leveltest.productType" />
+            <label for="screenBoard">Screen Board</label>
+          </div>
+        </div>
+
+        <label ng-if="vm.leveltest.productType === 'screenBoard'" class="col-form-label col-lg-2 bg-silver-lighter">Video Classroom</label>
+        <div ng-if="vm.leveltest.productType === 'screenBoard'" class="col-lg-4">
+          <a href="javascript:;" class="btn btn-white btn-sm"><i class="fa fa-desktop"></i> Enter</a>
+        </div>
+      </div>
+
+      <div class="form-group row" show-errors>
+        <label class="col-form-label col-lg-2 bg-silver-lighter"><span class="text-danger">*</span>Start Date</label>
+        <div class="col-lg-4">
+          <div class="input-group input-group-sm date" name="started" datetimepicker ng-model="vm.leveltest.started" options="vm.datetimePickerOptions">
+            <input type="text" class="form-control form-control-sm" required />
+            <div class="input-group-addon">
+              <i class="fa fa-calendar"></i>
+            </div>
+          </div>
+
+          <div ng-messages="vm.form.leveltestForm.started.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Start date is required.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="form-group row" show-errors>
+        <label class="col-form-label col-lg-2 bg-silver-lighter"><span class="text-danger">*</span>Leveltest Minutes</label>
+        <div class="col-lg-4">
+          <select class="form-control form-control-sm" chosen name="minutes" ng-model="vm.leveltest.application.minutes" convert-to-number>
+            <option disabled value="">Minutes...</option>
+            <option value="10">10 Minutes</option>
+            <option value="20">20 Minutes</option>
+            <option value="30">30 Minutes</option>
+          </select>
+          <div ng-messages="vm.form.leveltestForm.minutes.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Leveltest Minutes is required.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row" show-errors>
+        <label class="col-form-label col-lg-2 bg-silver-lighter"><span class="text-danger">*</span>Tutor</label>
+        <div class="col-lg-4">
+          <select class="form-control form-control-sm" chosen name="tutor" ng-model="vm.tutor" ng-options="tutor._id as tutor.nickName for tutor in vm.tutors" required>
+            <option disabled value="">Tutor...</option>
+          </select>
+          <div ng-messages="vm.form.leveltestForm.tutor.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Tutor is required.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert fade show m-t-20" ng-class="{
+        'onStandby': 'alert-success',
+        'attendance': 'alert-secondary',
+        'absence': 'alert-danger',
+        'canceled': 'alert-danger',
+        'tutorCanceled': 'alert-danger',
+        'technicalProblem': 'alert-danger'
+      }[vm.leveltest.state]">
+        Current levetest attendance state
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Attendance State</label>
+        <div class="col-lg-4">
+          <select class="form-control form-control-sm" chosen name="state" ng-model="vm.leveltest.state">
+            <option disabled value="">State...</option>
+            <option value="onStandby">On Standby</option>
+            <option value="attendance">Attendance</option>
+            <option value="absence">Absence</option>
+            <option value="canceled">Canceled</option>
+            <option value="tutorCanceled">TC(Tutor Canceled)</option>
+            <option value="technicalProblem">TP(Technical Problem)</option>
+          </select>
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+  <!-- begin panel-footer -->
+  <div class="panel-footer text-right">
+    <!-- <button ui-sref="schedule.leveltest.list" class="btn btn-white btn-sm">Cancel</button> -->
+    <button ng-click="vm.modify(vm.form.leveltestForm.$valid)" class="btn btn-primary btn-sm"><i class="fas fa-check"></i> Submit</button>
+  </div>
+  <!-- end panel-footer -->
+</div>
+
+<div class="panel panel-inverse" ng-if="vm.leveltest.state !== 'applied'">
+
+  <!-- begin panel-heading -->
+  <div class="panel-heading">
+    <div class="panel-heading-btn">
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+    </div>
+    <h4 class="panel-title height-20">Form</h4>
+  </div>
+  <!-- end panel-heading -->
+
+  <div class="panel-body">
+
+    <form class="form-horizontal form-bordered" name="vm.form.assessmentForm" novalidate autocomplete="off">
+
+      <div class="alert alert-secondary fade show">
+        Basic assessment information
+      </div>
+
+      <div class="form-group row" ng-if="vm.leveltest.state === 'attendance'">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Results Notification(Kakao Talk)</label>
+        <div class="col-lg-4">
+          <button ng-click="vm.sendSMS(vm.leveltest)" class="btn btn-yellow btn-sm m-r-5"><i class="fa fa-comment-dots"></i> Send</button>
+        </div>
+
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Results Notification(E-Mail)</label>
+        <div class="col-lg-4">
+          <button ng-click="vm.sendMail(vm.assessment)" class="btn btn-white btn-sm m-r-5" style="border-color:#cc4946"><i class="fa fa-envelope"></i> Send</button>
+          <span ng-if="vm.assessment.mailed">Send complated at {{vm.assessment.mailed | date: 'yyyy/MM/dd HH:mm'}}</span>
+        </div>
+      </div>
+
+
+      <div class="form-group row">
+
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Recommended Book</label>
+        <div class="col-lg-4">
+          <select class="form-control form-control-sm" chosen name="state" ng-model="vm.assessment.recommendedBook">
+            <option disabled value="">Book...</option>
+          </select>
+        </div>
+
+        <!-- <label class="col-form-label col-lg-2 bg-silver-lighter">Level</label>
+        <div class="col-lg-4">
+          <select class="form-control form-control-sm" chosen name="state" ng-model="vm.assessment.leveltestLevel" convert-to-number>
+            <option disabled value="">Level...</option>
+            <option value="1">Level 1 (Basic)</option>
+            <option value="2">Level 2 (Basic)</option>
+            <option value="3">Level 3 (Basic)</option>
+            <option value="4">Level 4 (Refresher)</option>
+            <option value="5">Level 5 (Refresher)</option>
+            <option value="6">Level 6 (Refresher)</option>
+            <option value="7">Level 7 (Bridging)</option>
+            <option value="8">Level 8 (Bridging)</option>
+            <option value="9">Level 9 (Bridging)</option>
+            <option value="10">Level 10 (Expanding)</option>
+          </select>
+        </div> -->
+      </div>
+
+      <div class="form-group row" ng-if="vm.assessment.recordFile">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Current Record File</label>
+        <div class="col-lg-10">
+          <!-- begin table -->
+          <table class="table table-striped table-condensed m-b-0">
+            <tbody class="files ">
+
+              <tr class="template-upload fade show in current">
+                <td class="p-l-5">
+                  <!-- <a href="{{'public/' + vm.assessment.recordFile.path}}" download="{{vm.assessment.recordFile.originalname}}" target="_self"> -->
+                  <a href="javascript:;" ng-click="vm.downloadFile()">
+                    {{vm.assessment.recordFile.originalname}}
+                  </a>
+                </td>
+                <td>
+                  {{vm.assessment.recordFile.size | filesize}}
+                </td>
+                <td width="30%">
+                  <div class="row form-range">
+                    <input class="form-control form-control-sm" type="range" min="0" max="1" step="0.001" ng-model="vm.audio.progress">
+                  </div>
+                </td>
+                <td>
+                  <strong class="text-primary">{{vm.audio.currentTime | number : 1}}</strong>/{{vm.audio.duration | number : 1}} sec
+                </td>
+                <td nowrap="" width="1%">
+                  <button type="button" class="btn btn-white btn-xs" ng-click="vm.playAudio()">
+                    <i ng-class="{
+                      'fa fa-pause': !vm.audio.paused,
+                      'fa fa-play': vm.audio.paused
+                    }"></i>
+                    {{(vm.audio.paused) ? 'Play' : 'Pause'}}
+                  </button>
+                  <button type="button" class="btn btn-white btn-xs" ng-click="vm.stopAudio()">
+                    <i class="fa fa-stop"></i>
+                    Stop
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">New Upload Record File</label>
+        <div class="col-lg-10">
+          <span class="btn btn-primary btn-sm btn-file m-r-5">
+            <i class="fa fa-plus"></i>
+            <span>Add File</span>
+            <input type="file" ngf-select ng-model="vm.recordfile" ngf-pattern=".mp3,.wmv" accept=".mp3,.wmv">
+          </span>
+
+          <!-- begin table -->
+          <table class="table table-striped table-condensed m-t-10">
+            <tbody class="files">
+              <tr ng-if="!vm.recordfile">
+                <td colspan="5" class="text-center text-muted p-t-30 p-b-30">
+                  <i class="fa fa-file fa-3x"></i>
+                  <div>No file selected</div>
+                </td>
+              </tr>
+              <tr class="template-upload fade show in" ng-if="vm.recordfile">
+                <td>
+                  {{vm.recordfile.name}}
+                </td>
+                <td>
+                  {{vm.recordfile.size | filesize}}
+                </td>
+                <td nowrap="" width="1%">
+                  <button type="button" class="btn btn-primary btn-xs" ng-click="vm.uploadFile()">
+                    <i class="fa fa-upload"></i>
+                    Upload
+                  </button>
+                  <button type="button" class="btn btn-default btn-xs cancel" ng-click="vm.cancelFile()">
+                    <i class="fa fa-times"></i>
+                    Cancel
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- end table -->
+        </div>
+      </div>
+
+      <div class="alert alert-secondary show m-t-20">
+        Leveltest assessment. Latest modification date is <strong>{{vm.assessment.updated | date: 'yyyy/MM/dd HH:mm'}}</strong>
+      </div>
+
+      <div class="form-group row" show-errors>
+        <label class="col-form-label col-lg-2 bg-silver-lighter" for="listeningLevel">Level</label>
+        <div class="col-lg-4">
+          <select class="form-control form-control-sm" name="listeningLevel" chosen ng-model="vm.assessment.listeningLevel" convert-to-number required>
+            <option disabled value="">Listening...</option>
+            <option value="1">Level 1</option>
+            <option value="2">Level 2</option>
+            <option value="3">Level 3</option>
+            <option value="4">Level 4</option>
+            <option value="5">Level 5</option>
+            <option value="6">Level 6</option>
+            <option value="7">Level 7</option>
+            <option value="8">Level 8</option>
+            <option value="9">Level 9</option>
+            <option value="10">Level 10</option>
+          </select>
+          <div ng-messages="vm.form.assessmentForm.listeningLevel.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Listening level is required.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row" show-errors>
+        <label class="col-form-label col-lg-2 bg-silver-lighter" for="listeningContents">Listening</label>
+        <div class="col-lg-10">
+          <textarea class="form-control no-rounded-corner" name="listeningContents" rows="5" placeholder="Please, write contents here!" ng-model="vm.assessment.listeningContents" required></textarea>
+          <div ng-messages="vm.form.assessmentForm.listeningContents.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Listening contents is required.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row" show-errors>
+        <label class="col-form-label col-lg-2 bg-silver-lighter" for="speakingLevel">Level</label>
+        <div class="col-lg-4">
+          <select class="form-control form-control-sm" name="speakingLevel" chosen ng-model="vm.assessment.speakingLevel" convert-to-number required>
+            <option disabled value="">Speaking...</option>
+            <option value="1">Level 1</option>
+            <option value="2">Level 2</option>
+            <option value="3">Level 3</option>
+            <option value="4">Level 4</option>
+            <option value="5">Level 5</option>
+            <option value="6">Level 6</option>
+            <option value="7">Level 7</option>
+            <option value="8">Level 8</option>
+            <option value="9">Level 9</option>
+            <option value="10">Level 10</option>
+          </select>
+          <div ng-messages="vm.form.assessmentForm.speakingLevel.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Speaking level is required.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row" show-errors>
+        <label class="col-form-label col-lg-2 bg-silver-lighter" for="speakingContents">Speaking</label>
+        <div class="col-lg-10">
+          <textarea class="form-control no-rounded-corner" name="speakingContents" rows="5" placeholder="Please, write contents here!" ng-model="vm.assessment.speakingContents" required></textarea>
+          <div ng-messages="vm.form.assessmentForm.speakingContents.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Speaking contents is required.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row" show-errors>
+        <label class="col-form-label col-lg-2 bg-silver-lighter" for="pronunciationLevel">Level</label>
+        <div class="col-lg-4">
+          <select class="form-control form-control-sm" chosen name="pronunciationLevel" ng-model="vm.assessment.pronunciationLevel" convert-to-number required>
+            <option disabled value="">Pronunciation...</option>
+            <option value="1">Level 1</option>
+            <option value="2">Level 2</option>
+            <option value="3">Level 3</option>
+            <option value="4">Level 4</option>
+            <option value="5">Level 5</option>
+            <option value="6">Level 6</option>
+            <option value="7">Level 7</option>
+            <option value="8">Level 8</option>
+            <option value="9">Level 9</option>
+            <option value="10">Level 10</option>
+          </select>
+          <div ng-messages="vm.form.assessmentForm.pronunciationLevel.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Pronunciation level is required.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row" show-errors>
+        <label class="col-form-label col-lg-2 bg-silver-lighter" for="pronunciationContents">Pronunciation</label>
+        <div class="col-lg-10">
+          <textarea class="form-control no-rounded-corner" name="pronunciationContents" rows="5" placeholder="Please, write contents here!" ng-model="vm.assessment.pronunciationContents" required></textarea>
+          <div ng-messages="vm.form.assessmentForm.pronunciationContents.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Pronunciation contents is required.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row" show-errors>
+        <label class="col-form-label col-lg-2 bg-silver-lighter" for="vocabularyLevel">Level</label>
+        <div class="col-lg-4">
+          <select class="form-control form-control-sm" name="vocabularyLevel" chosen ng-model="vm.assessment.vocabularyLevel" convert-to-number required>
+            <option disabled value="">Vocabulary...</option>
+            <option value="1">Level 1</option>
+            <option value="2">Level 2</option>
+            <option value="3">Level 3</option>
+            <option value="4">Level 4</option>
+            <option value="5">Level 5</option>
+            <option value="6">Level 6</option>
+            <option value="7">Level 7</option>
+            <option value="8">Level 8</option>
+            <option value="9">Level 9</option>
+            <option value="10">Level 10</option>
+          </select>
+          <div ng-messages="vm.form.assessmentForm.vocabularyLevel.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Vocabulary level is required.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row" show-errors>
+        <label class="col-form-label col-lg-2 bg-silver-lighter" for="vocabularyContents">Vocabulary</label>
+        <div class="col-lg-10">
+          <textarea class="form-control no-rounded-corner" name="vocabularyContents" rows="5" placeholder="Please, write contents here!" ng-model="vm.assessment.vocabularyContents" required></textarea>
+          <div ng-messages="vm.form.assessmentForm.vocabularyContents.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Vocabulary contents is required.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row" show-errors>
+        <label class="col-form-label col-lg-2 bg-silver-lighter" for="grammarLevel">Level</label>
+        <div class="col-lg-4">
+          <select class="form-control form-control-sm" name="grammarLevel" chosen ng-model="vm.assessment.grammarLevel" convert-to-number required>
+            <option disabled value="">Grammar...</option>
+            <option value="1">Level 1</option>
+            <option value="2">Level 2</option>
+            <option value="3">Level 3</option>
+            <option value="4">Level 4</option>
+            <option value="5">Level 5</option>
+            <option value="6">Level 6</option>
+            <option value="7">Level 7</option>
+            <option value="8">Level 8</option>
+            <option value="9">Level 9</option>
+            <option value="10">Level 10</option>
+          </select>
+          <div ng-messages="vm.form.assessmentForm.grammarLevel.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Grammar level is required.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row" show-errors>
+        <label class="col-form-label col-lg-2 bg-silver-lighter" for="grammarContents">Grammar</label>
+        <div class="col-lg-10">
+          <textarea class="form-control no-rounded-corner" name="grammarContents" rows="5" placeholder="Please, write contents here!" ng-model="vm.assessment.grammarContents" required></textarea>
+          <div ng-messages="vm.form.assessmentForm.grammarContents.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Grammar contents is required.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert alert-secondary show m-t-20">
+        Tutor's Comments
+      </div>
+
+      <div class="form-group row" show-errors>
+        <label class="col-form-label col-lg-2 bg-silver-lighter" for="tutorComment">Tutor Comments</label>
+        <div class="col-lg-10">
+          <textarea class="form-control no-rounded-corner" name="tutorComment" rows="15" placeholder="Please, write contents here!" ng-model="vm.assessment.tutorComment" required></textarea>
+          <div ng-messages="vm.form.assessmentForm.tutorComment.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Tutor comments is required.</p>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- begin panel-footer -->
+  <div class="panel-footer text-right">
+    <!-- <button ui-sref="schedule.leveltest.list" class="btn btn-white btn-sm">Cancel</button> -->
+    <button ng-click="vm.evaluate(vm.form.assessmentForm.$valid)" class="btn btn-primary btn-sm"><i class="fas fa-check"></i> Submit</button>
+  </div>
+  <!-- end panel-footer -->
+</div>
+
+
+<div class="panel panel-inverse">
+  <div class="panel-heading">
+    <div class="panel-heading-btn">
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+    </div>
+    <h4 class="panel-title height-20">Comment</h4>
+  </div>
+  <div class="panel-body">
+    <div slim-scroll box-height="200">
+      <ul class="media-list media-list-with-divider media-messaging">
+        <li class="media media-xs" ng-repeat="comment in vm.leveltest.comments">
+          <a href="javascript:;" class="pull-left">
+            <img ng-src="{{comment.user.profileImage}}" alt="" class="media-object" />
+          </a>
+          <div class="media-body">
+            <h5 class="media-heading">{{comment.user.nickName}} <small><i class="fa fa-clock fa-fw"></i> {{comment.created | date: 'yyyy-MM-dd HH:mm'}}</small></h5>
+            <p ng-bind-html="comment.contents"></p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="panel-footer">
+    <form name="vm.form.commentForm" novalidate autocomplete="off">
+      <div class="input-group" show-errors>
+        <input type="text" class="form-control bg-silver" name="commentContents" placeholder="Enter message" ng-model="vm.comment.contents" required />
+        <div ng-messages="vm.form.commentForm.commentContents.$error" role="alert">
+          <p class="help-block error-text" ng-message="required">Start time is required.</p>
+        </div>
+        <span class="input-group-append">
+          <button class="btn btn-primary" type="button" ng-click="vm.replyComment(vm.form.commentForm.$valid)"><i class="fa fa-pencil-alt"></i></button>
+        </span>
+      </div>
+    </form>
+  </div>
+</div>

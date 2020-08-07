@@ -1,0 +1,82 @@
+(function() {
+
+  /**
+   * Module Configuration
+   */
+  angular
+    .module('user')
+    .directive('passwordValidator', passwordValidator);
+
+  /**
+   * Dependency Injection
+   */
+  passwordValidator.$inject = ['PasswordValidator'];
+
+  /**
+   * Configuring password vaildate directive
+   */
+  function passwordValidator(PasswordValidator) {
+
+    const directive = {
+      require: 'ngModel',
+      link
+    };
+
+    return directive;
+
+    function link(scope, element, attrs, ngModel) {
+      ngModel.$validators.requirements = requirements;
+
+      function requirements(password) {
+        let status = true;
+        if (password) {
+          const result = PasswordValidator.getResult(password);
+          let requirementsIdx = 0;
+
+          /**
+           * Requirements Meter - visual indicator for users
+           */
+          const requirementsMeter = [{
+              color: 'danger',
+              progress: '20'
+            },
+            {
+              color: 'warning',
+              progress: '40'
+            },
+            {
+              color: 'info',
+              progress: '60'
+            },
+            {
+              color: 'primary',
+              progress: '80'
+            },
+            {
+              color: 'success',
+              progress: '100'
+            }
+          ];
+
+          if (result.errors.length < requirementsMeter.length) {
+            requirementsIdx = requirementsMeter.length - result.errors.length - 1;
+          }
+
+          scope.requirementsColor = requirementsMeter[requirementsIdx].color;
+          scope.requirementsProgress = requirementsMeter[requirementsIdx].progress;
+
+          if (result.errors.length) {
+            scope.popoverMsg = PasswordValidator.getPopoverMsg();
+            scope.passwordErrors = result.errors;
+            status = false;
+          } else {
+            scope.popoverMsg = '';
+            scope.passwordErrors = [];
+            status = true;
+          }
+        }
+        return status;
+      }
+    }
+  }
+}());

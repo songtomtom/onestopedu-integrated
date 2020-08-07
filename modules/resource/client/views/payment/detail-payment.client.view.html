@@ -1,0 +1,334 @@
+<div class="panel panel-inverse">
+
+  <!-- begin panel-heading -->
+  <div class="panel-heading">
+    <div class="panel-heading-btn">
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+    </div>
+    <h4 class="panel-title height-20">Form</h4>
+  </div>
+  <!-- end panel-heading -->
+
+  <div class="panel-body">
+
+    <form class="form-horizontal form-bordered" name="vm.form.paymentForm" novalidate autocomplete="off">
+
+      <div class="alert alert-secondary fade show">
+        Product Information.
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Providers</label>
+        <div class="col-lg-4">
+          <span provider>{{vm.payment.providers[0]}}</span>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Product Information</label>
+        <div class="col-lg-4">
+          {{vm.payment.paymentedProduct.title}}
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Lesson
+          <span ng-class="{
+            'text-success': vm.payment.subLessonCount > vm.payment.paymentedProduct.lessonCount,
+            'text-danger': vm.payment.subLessonCount < vm.payment.paymentedProduct.lessonCount
+          }">({{vm.payment.subLessonCount - vm.payment.paymentedProduct.lessonCount}})
+          </span>
+        </label>
+        <div class="col-lg-4">
+          <input type="number" class="form-control form-control-sm" ng-model="vm.payment.subLessonCount" ng-disabled="vm.refund._id" />
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Postpone
+          <span ng-class="{
+            'text-success': vm.payment.subPostponeCount > vm.payment.paymentedProduct.postponeCount,
+            'text-danger': vm.payment.subPostponeCount < vm.payment.paymentedProduct.postponeCount
+          }">({{vm.payment.subPostponeCount - vm.payment.paymentedProduct.postponeCount}})
+          </span>
+        </label>
+        <div class="col-lg-4">
+          <input type="number" class="form-control form-control-sm" ng-model="vm.payment.subPostponeCount" ng-disabled="vm.refund._id" />
+        </div>
+      </div>
+
+      <div class="form-group row" show-errors>
+        <label class="col-form-label col-lg-2 bg-silver-lighter"><span class="text-danger">*</span>Desired Start Datetime of Lesson</label>
+        <div class="col-lg-4">
+
+          <div class="input-group input-group-sm date" name="desired" datetimepicker ng-model="vm.payment.desired" options="vm.desiredDatetimePickerOptions" ng-disabled="vm.refund._id" required>
+            <input type="text" class="form-control form-control-sm" required />
+            <div class="input-group-addon">
+              <i class="fa fa-calendar"></i>
+            </div>
+          </div>
+          <div ng-messages="vm.form.paymentForm.desired.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">desired start date of lesson is required.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Payment Date</label>
+        <div class="col-lg-4">
+
+          <div class="input-group input-group-sm date" name="paymented" datetimepicker ng-model="vm.payment.paymented" options="vm.paymentedDatetimePickerOptions" ng-disabled="vm.refund._id">
+            <input type="text" class="form-control form-control-sm" />
+            <div class="input-group-addon">
+              <i class="fa fa-calendar"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="alert fade show m-t-20" ng-class="{
+        'unPaid': 'alert-warning',
+        'pending': 'alert-yellow',
+        'canceled': 'alert-danger',
+        'completed': 'alert-secondary',
+        'refunded': 'alert-danger'
+      }[vm.payment.state]">
+        Payment information. You can change <strong>points</strong> and <strong>coupons</strong> set by member.
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Order No</label>
+        <div class="col-lg-4">
+          {{vm.payment.order}}
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Payment State</label>
+        <div class="col-lg-4">
+          <select class="form-control form-control-sm" chosen name="state" ng-model="vm.payment.state" ng-disabled="vm.refund._id">
+            <option disabled value="">State...</option>
+            <option value="pending">Pending</option>
+            <option value="unPaid">Un Paid</option>
+            <option value="canceled">Canceled</option>
+            <option value="completed">Completed</option>
+            <option value="refunded">Refunded</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group row" show-errors>
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Payment Method</label>
+        <div class="col-sm-10">
+
+          <div class="radio radio-css radio-inline" ng-disabled="vm.refund._id">
+            <input type="radio" name="method" id="DWB" value="DWB" ng-model="vm.payment.method" ng-disabled="vm.refund._id" required />
+            <label for="DWB">DWB</label>
+          </div>
+          <div class="radio radio-css radio-inline" ng-disabled="vm.refund._id">
+            <input type="radio" name="method" id="CC" value="CC" ng-model="vm.payment.method" ng-disabled="vm.refund._id" required />
+            <label for="CC">CC</label>
+          </div>
+          <div class="radio radio-css radio-inline" ng-disabled="vm.refund._id">
+            <input type="radio" name="method" id="AT" value="AT" ng-model="vm.payment.method" ng-disabled="vm.refund._id" required />
+            <label for="AT">AT</label>
+          </div>
+          <div class="radio radio-css radio-inline" ng-disabled="vm.refund._id">
+            <input type="radio" name="method" id="ARS" value="ARS" ng-model="vm.payment.method" ng-disabled="vm.refund._id" required />
+            <label for="ARS">ARS</label>
+          </div>
+          <div class="radio radio-css radio-inline" ng-disabled="vm.refund._id">
+            <input type="radio" name="method" id="PAYUP" value="PAYUP" ng-model="vm.payment.method" ng-disabled="vm.refund._id" required />
+            <label for="PAYUP">PAYUP</label>
+          </div>
+
+          <div ng-messages="vm.form.paymentForm.method.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Payment method is required.</p>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">DWB <small>(Deposit Without Bankbook)</small> Price</label>
+        <div class="col-lg-4">
+          <input type="number" class="form-control form-control-sm" ng-model="vm.payment.dwbPrice" ng-change="vm.changePaymentSubPrice()" ng-disabled="vm.refund._id" />
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">CC <small>(Credit Card)</small> Price</label>
+        <div class="col-lg-4">
+          <input type="number" class="form-control form-control-sm" ng-model="vm.payment.ccPrice" ng-change="vm.changePaymentSubPrice()" ng-disabled="vm.refund._id" />
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">AT <small>(Account Transfer)</small> Price</label>
+        <div class="col-lg-4">
+          <input type="number" class="form-control form-control-sm" ng-model="vm.payment.atPrice" ng-change="vm.changePaymentSubPrice()" ng-disabled="vm.refund._id" />
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">ARS Price</label>
+        <div class="col-lg-4">
+          <input type="number" class="form-control form-control-sm" ng-model="vm.payment.arsPrice" ng-change="vm.changePaymentSubPrice()" ng-disabled="vm.refund._id" />
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">PAYUP <small>(Pay-Up)</small> Price</label>
+        <div class="col-lg-4">
+          <input type="number" class="form-control form-control-sm" ng-model="vm.payment.payupPrice" ng-change="vm.changePaymentSubPrice()" ng-disabled="vm.refund._id" />
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">
+          Point
+        </label>
+        <div class="col-lg-4">
+          {{0 - vm.payment.usePoint.amount | currency : '' : 0}}
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">
+          Coupon
+        </label>
+        <div class="col-lg-4 form-chosen-up">
+          {{vm.payment.useCoupon.displayAmount}}
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Total Price
+          <span ng-class="{
+              'text-primary': vm.payment.totalPrice > vm.payment.paymentedProduct.subPrice,
+              'text-danger': vm.payment.totalPrice < vm.payment.paymentedProduct.subPrice
+            }">{{vm.payment.totalPrice - vm.payment.paymentedProduct.subPrice | currency : '₩' : 0}}</span>
+        </label>
+        <div class="col-lg-4">
+          <input type="number" class="form-control form-control-sm" ng-model="vm.payment.totalPrice" disabled />
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+  <!-- begin panel-footer -->
+  <div class="panel-footer text-right" ng-if="vm.payment.state !== 'refunded'">
+    <!-- <button ui-sref="schedule.payment.list" class="btn btn-white btn-sm">Cancel</button> -->
+    <button ng-click="vm.modifyPayment(vm.form.paymentForm.$valid)" class="btn btn-primary btn-sm"><i class="fas fa-check"></i> Submit</button>
+  </div>
+  <!-- end panel-footer -->
+</div>
+
+<div class="panel panel-inverse" ng-if="vm.payment.state === 'refunded'">
+
+  <!-- begin panel-heading -->
+  <div class="panel-heading">
+    <div class="panel-heading-btn">
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+    </div>
+    <h4 class="panel-title height-20">Form</h4>
+  </div>
+  <!-- end panel-heading -->
+
+  <div class="panel-body">
+
+    <form class="form-horizontal form-bordered" name="vm.form.refundForm" novalidate autocomplete="off">
+
+      <div class="alert alert-danger fade show">
+        Refund Information.
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">DWB <small>(Deposit Without Bankbook)</small> Price</label>
+        <div class="col-lg-4">
+          <input type="number" class="form-control form-control-sm" ng-model="vm.refund.dwbPrice" ng-change="vm.changeRefundSubPrice()" />
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">CC <small>(Credit Card)</small> Price</label>
+        <div class="col-lg-4">
+          <input type="number" class="form-control form-control-sm" ng-model="vm.refund.ccPrice" ng-change="vm.changeRefundSubPrice()" />
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">AT <small>(Account Transfer)</small> Price</label>
+        <div class="col-lg-4">
+          <input type="number" class="form-control form-control-sm" ng-model="vm.refund.atPrice" ng-change="vm.changeRefundSubPrice()" />
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">ARS Price</label>
+        <div class="col-lg-4">
+          <input type="number" class="form-control form-control-sm" ng-model="vm.refund.arsPrice" ng-change="vm.changeRefundSubPrice()" />
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">PAYUP <small>(Pay-Up)</small> Price</label>
+        <div class="col-lg-4">
+          <input type="number" class="form-control form-control-sm" ng-model="vm.refund.payupPrice" ng-change="vm.changeRefundSubPrice()" />
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Point</label>
+        <div class="col-lg-4">
+          <input type="number" class="form-control form-control-sm" name="point" value="0" />
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Coupon</label>
+        <div class="col-lg-4">
+          <select class="form-control form-control-sm" chosen>
+            <option disabled value="">Coupon...</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Total Refund Price
+          <span ng-class="{
+              'text-danger': vm.refund.totalPrice > vm.payment.totalPrice,
+              'text-primary': vm.refund.totalPrice < vm.payment.totalPrice
+            }">{{vm.refund.totalPrice - vm.payment.totalPrice | currency : '₩' : 0}}</span>
+        </label>
+        <div class="col-lg-4">
+          <input type="number" class="form-control form-control-sm" ng-model="vm.refund.totalPrice" disabled />
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter" for="refundReason">Refund Reason</label>
+        <div class="col-sm-10">
+          <textarea class="form-control no-rounded-corner" rows="10" placeholder="Please, write reason here!" ng-model="vm.refund.refundReason"></textarea>
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+  <!-- begin panel-footer -->
+  <div class="panel-footer text-right">
+    <!-- <button ui-sref="schedule.refund.list" class="btn btn-white btn-sm">Cancel</button> -->
+    <button ng-click="vm.cancelRefund()" ng-if="vm.refund._id" class="btn btn-danger btn-sm"><i class="fas fa-times"></i> Cancel</button>
+    <button ng-click="vm.submitRefund(vm.form.refundForm.$valid)" class="btn btn-primary btn-sm"><i class="fas fa-check"></i> Submit</button>
+  </div>
+  <!-- end panel-footer -->
+</div>

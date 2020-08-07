@@ -1,0 +1,443 @@
+<!-- begin panel -->
+<div class="panel panel-inverse">
+
+  <!-- begin panel-heading -->
+  <div class="panel-heading">
+    <div class="panel-heading-btn">
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+    </div>
+    <h4 class="panel-title height-20">Form</h4>
+  </div>
+  <!-- end panel-heading -->
+
+  <!-- begin panel-body -->
+  <div class="panel-body">
+
+    <form class="form-horizontal form-bordered" name="vm.form.lessonForm" novalidate autocomplete="off">
+
+      <div class="alert alert-secondary fade show">
+        Course detail information.
+      </div>
+
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Providers</label>
+        <div class="col-lg-4">
+          <span provider>{{vm.lesson.providers[0]}}</span>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Course State</label>
+        <div class="col-lg-4">
+          <span state>{{vm.lesson.course.state}}</span>
+        </div>
+      </div>
+
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Course information</label>
+        <div class="col-lg-4">
+          <a ui-sref="member.view.course.list.detail({courseId: vm.lesson.course._id})">{{vm.lesson.course.payment.paymentedProduct.title}}</a>
+        </div>
+      </div>
+
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Course Period</label>
+        <div class="col-lg-4">
+          {{vm.lesson.course.startLesson.started | date: 'yyyy/MM/dd'}} ~ {{vm.lesson.course.endLesson.started | date: 'yyyy/MM/dd'}}
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Main Tutor</label>
+        <div class="col-lg-4">
+          {{vm.lesson.course.mainTutor.nickName}}
+        </div>
+      </div>
+
+      <div class="alert alert-secondary fade show m-t-20">
+        Current lesson detail infomation.
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter"><span class="text-danger">*</span>Lesson Type</label>
+        <div class="col-lg-4">
+          <div class="radio radio-css radio-inline">
+            <input type="radio" name="productType" id="telephone" value="telephone" ng-model="vm.lesson.productType" ng-disabled="vm.lesson.state === 'postpone' || vm.lesson.state === 'hold'" />
+            <label for="telephone">Telephone</label>
+          </div>
+          <div class="radio radio-css radio-inline">
+            <input type="radio" name="productType" id="skype" value="skype" ng-model="vm.lesson.productType" ng-disabled="vm.lesson.state === 'postpone' || vm.lesson.state === 'hold'" />
+            <label for="skype">Skype</label>
+          </div>
+          <div class="radio radio-css radio-inline">
+            <input type="radio" name="productType" id="screenBoard" value="screenBoard" ng-model="vm.lesson.productType" ng-disabled="vm.lesson.state === 'postpone' || vm.lesson.state === 'hold'" />
+            <label for="screenBoard">Screen Board</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row" show-errors>
+        <label class="col-form-label col-lg-2 bg-silver-lighter"><span class="text-danger">*</span>Lesson Date</label>
+        <div class="col-lg-4">
+          <button ng-click="vm.previousLesson()" class="btn btn-white btn-xs width-50"><i class="fas fa-arrow-left"></i></button>
+          <button ng-click="vm.nextLesson()" class="btn btn-white btn-xs width-50" ><i class="fas fa-arrow-right"></i></button>
+
+          <div class="input-group input-group-sm date" name="started" datetimepicker ng-model="vm.lesson.started" options="vm.datetimePickerOptions" style="float:right; width:77%;">
+            <input type="text" class="form-control form-control-sm" ng-disabled="vm.lesson.state === 'postpone' || vm.lesson.state === 'hold'" required />
+            <div class="input-group-addon">
+              <i class="fa fa-calendar"></i>
+            </div>
+          </div>
+
+          <div ng-messages="vm.form.lessonForm.started.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Start date is required.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row" show-errors>
+        <label class="col-form-label col-lg-2 bg-silver-lighter"><span class="text-danger">*</span>Tutor</label>
+        <div class="col-lg-4">
+          <select class="form-control form-control-sm" chosen name="tutor" ng-model="vm.tutor" ng-options="tutor._id as tutor.nickName for tutor in vm.tutors" ng-disabled="vm.lesson.state === 'postpone' || vm.lesson.state === 'hold'" required>
+            <option disabled value="">Tutors...</option>
+          </select>
+          <div ng-messages="vm.form.lessonForm.tutor.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Tutor is required.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter"><span class="text-danger">*</span>Text Book</label>
+        <div class="col-lg-4 form-chosen-up">
+          <select class="form-control form-control-sm" chosen name="textbook" ng-disabled="vm.lesson.state === 'postpone' || vm.lesson.state === 'hold'">
+            <option disabled value="">Textbook...</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter"><span class="text-danger">*</span>Preview</label>
+        <div class="col-lg-4 form-chosen-up">
+          <select class="form-control form-control-sm" chosen name="preview" ng-disabled="vm.lesson.state === 'postpone' || vm.lesson.state === 'hold'">
+            <option disabled value="">Preview...</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="alert fade show m-t-20" ng-class="{
+        'onStandby': 'alert-success',
+        'attendance': 'alert-secondary',
+        'absence': 'alert-danger',
+        'canceled': 'alert-danger',
+        'tutorCanceled': 'alert-danger',
+        'technicalProblem': 'alert-danger',
+        'postpone': 'alert-indigo',
+        'hold': 'alert-warning'
+      }[vm.lesson.state]">
+        Schedule State
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Attendance State</label>
+        <div class="col-lg-4">
+          <select class="form-control form-control-sm" chosen name="state" ng-model="vm.lesson.state" ng-disabled="vm.lesson.state === 'postpone' || vm.lesson.state === 'hold'">
+            <option disabled value="">State...</option>
+            <option value="onStandby">On Standby</option>
+            <option value="attendance">Attendance</option>
+            <option value="absence">Absence</option>
+            <option value="canceled">Canceled</option>
+            <option value="tutorCanceled">TC (Tutor Canceled)</option>
+            <option value="technicalProblem">TP (Technical Problem)</option>
+            <option ng-if="vm.lesson.state === 'postpone'" value="postpone">Postpone</option>
+            <option ng-if="vm.lesson.state === 'hold'" value="hold">Hold</option>
+          </select>
+        </div>
+      </div>
+    </form>
+  </div>
+  <!-- end panel-body -->
+
+  <!-- begin panel-footer -->
+  <div class="panel-footer text-right">
+    <button ng-click="vm.removeLesson(vm.lesson)" class="btn btn-danger btn-sm pull-left" ng-if="vm.lesson.state === 'onStandby' && vm.lesson.course.currentCounting.lesson.total > vm.lesson.course.maxCounting.lesson"><i class="fas fa-trash"></i>
+      Remove</button>
+    <button ng-if="vm.lesson.state !== 'postpone' && vm.lesson.state !== 'hold'" ui-sref="member.view.lesson.postpone({lessonId: vm.lesson._id})" class="btn btn-indigo btn-sm"><i class="fas fa-long-arrow-alt-right"></i> Postpone</button>
+    <button ng-if="vm.lesson.state === 'postpone' && vm.lesson.course.endLesson.state === 'onStandby'" ng-click="vm.revertPostpone(vm.lesson)" class="btn btn-white btn-sm"><i class="fas fa-undo"></i> Revert</button>
+    <button ng-disabled="vm.lesson.state === 'postpone' || vm.lesson.state === 'hold'" ng-click="vm.modifyLesson(vm.form.lessonForm.$valid)" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i> Modify</button>
+  </div>
+</div>
+<!-- end panel-footer -->
+
+<!-- begin panel -->
+<div class="panel panel-inverse">
+
+  <!-- begin panel-heading -->
+  <div class="panel-heading">
+    <div class="panel-heading-btn">
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+    </div>
+    <h4 class="panel-title height-20">Lesson List</h4>
+  </div>
+  <!-- end panel-heading -->
+
+  <!-- begin panel-body -->
+  <div class="panel-body">
+    <!-- begin table-responsive -->
+    <div class="table-responsive" slim-scroll box-height="400">
+      <table class="table table-hover table-striped">
+        <thead>
+          <tr>
+            <th class="text-center" width="1%">#</th>
+            <th>Lesson type</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Days</th>
+            <th>Minutes</th>
+            <th>Tutor</th>
+            <th class="text-right">State</th>
+            <th class="text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr ng-repeat="lesson in vm.lessons" ng-class="{'table-success': vm.$state.params.lessonId === lesson._id}">
+            <td>
+              {{$index + 1}}
+            </td>
+
+            <td>
+              <span product-type>{{lesson.productType}}</span>
+            </td>
+
+            <td>
+              {{lesson.started | date: 'yyyy/MM/dd'}}
+            </td>
+
+            <td>
+              {{lesson.started | date: 'HH:mm'}}
+            </td>
+
+            <td>
+              <span class="label label-default">{{lesson.started | date: 'EEEE'}}</span>
+            </td>
+
+            <td>
+              {{lesson.minutes}} Min
+            </td>
+
+            <td class="with-img">
+              <img ng-src="{{lesson.tutor.profileImage}}" class="img-rounded height-30" />
+              {{lesson.tutor.username}}
+            </td>
+
+            <td class="text-right">
+              <span state>{{lesson.state}}</span>
+            </td>
+
+            <td class="text-right">
+              <div class="btn-group">
+                <button ui-sref="member.view.lesson.detail({lessonId: lesson._id})" class="btn btn-xs btn-primary"><i class="fa fa-flag"></i>
+                  Feedback
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- end table-responsive -->
+  </div>
+  <!-- end panel-body -->
+</div>
+<!-- end panel -->
+
+
+<div class="panel panel-inverse" ng-if="vm.lesson.state !== 'postpone' && vm.lesson.state !== 'hold'">
+
+  <!-- begin panel-heading -->
+  <div class="panel-heading">
+    <div class="panel-heading-btn">
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+    </div>
+    <h4 class="panel-title height-20">Form</h4>
+  </div>
+  <!-- end panel-heading -->
+
+  <div class="panel-body">
+
+    <form class="form-horizontal form-bordered" name="vm.form.feedbackForm" novalidate autocomplete="off">
+
+      <div class="alert alert-secondary fade show">
+        Basic feedback information.
+      </div>
+
+      <div class="form-group row" ng-if="vm.lesson.state === 'attendance'">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Results Notification(Kakao Talk)</label>
+        <div class="col-lg-4">
+          <button ng-click="vm.sendSMS(vm.lesson)" class="btn btn-yellow btn-sm m-r-5"><i class="fa fa-comment-dots"></i> Send</button>
+        </div>
+      </div>
+
+      <div class="form-group row" ng-if="vm.feedback.recordFile">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Current Record File</label>
+        <div class="col-lg-10">
+          <!-- begin table -->
+          <table class="table table-striped table-condensed m-b-0">
+            <tbody class="files ">
+
+              <tr class="template-upload fade show in current">
+                <td class="p-l-5">
+                  <a href="{{vm.feedback.recordFile.path}}" download="{{vm.feedback.recordFile.originalname}}" target="_self">
+                    {{vm.feedback.recordFile.originalname}}
+                  </a>
+                </td>
+                <td>
+                  {{vm.feedback.recordFile.size | filesize}}
+                </td>
+                <td width="30%">
+                  <div class="row form-range">
+                    <input class="form-control form-control-sm" type="range" min="0" max="1" step="0.001" ng-model="vm.audio.progress">
+                  </div>
+                </td>
+                <td>
+                  <strong class="text-primary">{{vm.audio.currentTime | number : 1}}</strong>/{{vm.audio.duration | number : 1}} sec
+                </td>
+                <td nowrap="" width="1%">
+                  <button type="button" class="btn btn-white btn-xs" ng-click="vm.playAudio()">
+                    <i ng-class="{
+                      'fa fa-pause': !vm.audio.paused,
+                      'fa fa-play': vm.audio.paused
+                    }"></i>
+                    {{(vm.audio.paused) ? 'Play' : 'Pause'}}
+                  </button>
+                  <button type="button" class="btn btn-white btn-xs" ng-click="vm.stopAudio()">
+                    <i class="fa fa-stop"></i>
+                    Stop
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">New Upload Record File</label>
+        <div class="col-lg-10">
+          <span class="btn btn-primary btn-sm btn-file m-r-5">
+            <i class="fa fa-plus"></i>
+            <span>Add File</span>
+            <input type="file" ngf-select ng-model="vm.recordfile" ngf-pattern=".mp3,.wmv" accept=".mp3,.wmv">
+          </span>
+
+          <!-- begin table -->
+          <table class="table table-striped table-condensed m-t-10">
+            <tbody class="files">
+              <tr ng-if="!vm.recordfile">
+                <td colspan="5" class="text-center text-muted p-t-30 p-b-30">
+                  <i class="fa fa-file fa-3x"></i>
+                  <div>No file selected</div>
+                </td>
+              </tr>
+              <tr class="template-upload fade show in" ng-if="vm.recordfile">
+                <td>
+                  {{vm.recordfile.name}}
+                </td>
+                <td>
+                  {{vm.recordfile.size | filesize}}
+                </td>
+                <td nowrap="" width="1%">
+                  <button type="button" class="btn btn-primary btn-xs" ng-click="vm.uploadFile()">
+                    <i class="fa fa-upload"></i>
+                    Upload
+                  </button>
+                  <button type="button" class="btn btn-default btn-xs cancel" ng-click="vm.cancelFile()">
+                    <i class="fa fa-times"></i>
+                    Cancel
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- end table -->
+        </div>
+      </div>
+
+      <div class="alert alert-secondary show m-t-20">
+        Tutor's feedback
+      </div>
+
+      <div class="form-group row" show-errors>
+        <label class="col-form-label col-lg-2 bg-silver-lighter" for="tutorFeedback">Tutor Feedback</label>
+        <div class="col-lg-10">
+          <textarea class="form-control no-rounded-corner" name="tutorFeedback" rows="15" placeholder="Please, write contents here!" ng-model="vm.feedback.tutorFeedback" required></textarea>
+          <div ng-messages="vm.form.feedbackForm.tutorFeedback.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Tutor Feedback is required.</p>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- begin panel-footer -->
+  <div class="panel-footer text-right">
+    <!-- <button ui-sref="schedule.lesson.list" class="btn btn-white btn-sm">Cancel</button> -->
+    <button ng-click="vm.evaluate(vm.form.feedbackForm.$valid)" class="btn btn-primary btn-sm"><i class="fas fa-check"></i> Submit</button>
+  </div>
+  <!-- end panel-footer -->
+</div>
+
+
+<div class="panel panel-inverse">
+  <div class="panel-heading">
+    <div class="panel-heading-btn">
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+    </div>
+    <h4 class="panel-title height-20">Comment</h4>
+  </div>
+  <div class="panel-body">
+    <div slim-scroll box-height="200">
+      <ul class="media-list media-list-with-divider media-messaging">
+        <li class="media media-xs" ng-repeat="comment in vm.lesson.comments">
+          <a href="javascript:;" class="pull-left">
+            <img ng-src="{{comment.user.profileImage}}" alt="" class="media-object rounded-corner" />
+          </a>
+          <div class="media-body">
+            <h5 class="media-heading">{{comment.user.nickName}} <small><i class="fa fa-clock fa-fw"></i> {{comment.created | date: 'yyyy-MM-dd HH:mm'}}</small></h5>
+            <p ng-bind-html="comment.contents"></p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="panel-footer">
+    <form name="vm.form.commentForm" novalidate autocomplete="off">
+      <div class="input-group" show-errors>
+        <input type="text" class="form-control bg-silver" name="commentContents" placeholder="Enter message" ng-model="vm.comment.contents" required />
+        <div ng-messages="vm.form.commentForm.commentContents.$error" role="alert">
+          <p class="help-block error-text" ng-message="required">Start time is required.</p>
+        </div>
+        <span class="input-group-append">
+          <button class="btn btn-primary" type="button" ng-click="vm.replyComment(vm.form.commentForm.$valid)"><i class="fa fa-pencil-alt"></i></button>
+        </span>
+      </div>
+    </form>
+  </div>
+</div>

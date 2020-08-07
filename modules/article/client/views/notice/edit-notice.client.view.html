@@ -1,0 +1,212 @@
+<!-- begin breadcrumb -->
+<ol class="breadcrumb pull-right">
+  <li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
+  <li class="breadcrumb-item">CS Center</li>
+  <li class="breadcrumb-item"><a ui-sref="cs-center.notice.list">Notice Board</a></li>
+  <li class="breadcrumb-item"><a ui-sref="cs-center.notice.read({noticeId: vm.notice._id})">Notice Contents</a></li>
+  <li class="breadcrumb-item active">Edit Notice</li>
+</ol>
+<!-- end breadcrumb -->
+<!-- begin page-header -->
+<h1 class="page-header">Edit Notice</h1>
+<!-- end page-header -->
+
+<hr class="bg-grey-lighter" />
+
+<div class="row">
+  <!-- begin col-12 -->
+  <div class="col-lg-12">
+    <!-- begin panel -->
+    <div class="panel panel-inverse">
+
+      <!-- begin panel-heading -->
+      <div class="panel-heading">
+        <div class="panel-heading-btn">
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+        </div>
+        <h4 class="panel-title height-20">Form</h4>
+      </div>
+      <!-- end panel-heading -->
+      <form class="form-horizontal form-bordered" name="vm.form.noticeForm" novalidate autocomplete="off">
+        <!-- begin panel-body -->
+        <div class="panel-body">
+
+          <div class="alert fade show" ng-class="{
+            'normal': 'alert-secondary',
+            'top': 'alert-danger'
+          }[vm.notice.noticeType]">
+            <span class="text-danger f-s-15">*</span> Basic information for <strong ng-if="vm.notice.noticeType === 'top'">Top</strong> notice.
+          </div>
+
+          <div class="form-group row">
+            <label class="col-form-label col-lg-2 bg-silver-lighter" for="providers"><span class="text-danger">*</span>Providers</label>
+            <div class="col-lg-4">
+              <span provider>{{vm.notice.providers[0]}}</span>
+            </div>
+          </div>
+
+
+          <div class="form-group row" show-errors>
+            <label class="col-form-label col-lg-2 bg-silver-lighter"><span class="text-danger">*</span>Notice Type</label>
+            <div class="col-lg-4">
+              <div class="radio radio-css radio-inline">
+                <input type="radio" name="noticeType" id="top" value="top" ng-model="vm.notice.noticeType" required />
+                <label for="top">Top</label>
+              </div>
+
+              <div class="radio radio-css radio-inline">
+                <input type="radio" name="noticeType" id="normal" value="normal" ng-model="vm.notice.noticeType" required />
+                <label for="normal">Normal</label>
+              </div>
+
+              <div ng-messages="vm.form.noticeForm.type.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Type is required.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="alert alert-secondary fade show m-t-20">
+            <span class="text-danger f-s-15">*</span> Notice title and contents.
+          </div>
+
+
+          <div class="form-group row" show-errors>
+            <label class="col-form-label col-lg-2 bg-silver-lighter" for="title"><span class="text-danger">*</span>Title</label>
+            <div class="col-lg-10">
+              <input type="text" class="form-control form-control-sm" ng-model="vm.notice.title" name="title" placeholder="Title..." required />
+              <div ng-messages="vm.form.noticeForm.title.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Title is required.</p>
+              </div>
+            </div>
+
+          </div>
+          <div class="form-group row" show-errors>
+            <label class="col-form-label col-lg-2 bg-silver-lighter" for="contents"><span class="text-danger">*</span>Contents</label>
+            <div class="col-lg-10">
+              <summernote class="summernote" config="vm.summernoteOptions" name="contents" ng-model="vm.notice.contents" required></summernote>
+              <div ng-messages="vm.form.noticeForm.contents.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Contents is required.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="alert alert-secondary fade show m-t-20" ng-if="vm.notice.attachmentFiles.length > 0">
+            Attached File List. To remove the file, click the <strong>right button</strong>.
+          </div>
+
+          <div class="form-group row" ng-if="vm.notice.attachmentFiles.length > 0">
+            <label class="col-form-label col-lg-2 bg-silver-lighter">Uploaded File List({{vm.notice.attachmentFiles.length}})</label>
+            <div class="col-lg-10">
+              <table class="table table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Preview</th>
+                    <th>File Name</th>
+                    <th>File Size</th>
+                    <!-- <th>Upload Progress</th> -->
+                    <th width="1%">Actions</th>
+                  </tr>
+                </thead>
+                <tbody class="files">
+                  <tr class="template-upload fade show in" ng-repeat="fileItem in vm.notice.attachmentFiles">
+                    <td>
+                      <span>
+                        <img src="{{fileItem.path}}" width="20" height="20">
+                      </span>
+                    </td>
+                    <td>
+                      {{fileItem.originalname}}
+                    </td>
+                    <td>
+                      {{fileItem.size | filesize}}
+                    </td>
+                    <!-- <td>
+                      <dl>
+                        <dd class="m-t-5">
+                          <div class="progress progress-sm progress-striped active rounded-corner">
+                            <div class="progress-bar progress-bar-primary" style="width:{{vm.progress}}%; min-width: 40px;" aria-valuenow="{{vm.progress}}" aria-valuemin="0" aria-valuemax="100">{{vm.progress || '0'}}%</div>
+                          </div>
+                        </dd>
+                      </dl>
+                    </td> -->
+                    <td nowrap="">
+                      <button class="btn btn-default btn-xs cancel" ng-click="vm.removeFile($index)">
+                        <i class="fa fa-times"></i>
+                        <span>Cancel</span>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+
+          <div class="form-group row">
+            <label class="col-form-label col-lg-2 bg-silver-lighter">New Upload Attachment Files</label>
+            <div class="col-lg-10">
+              <span class="btn btn-primary btn-sm btn-file m-r-5">
+                <i class="fa fa-plus"></i>
+                <span>Add File</span>
+                <input type="file" name="attachmentFiles" ngf-select ng-model="vm.attachmentFiles" ngf-multiple="true" ngf-keep="'distinct'">
+              </span>
+
+              <!-- begin table -->
+              <table class="table table-striped table-condensed m-t-10">
+                <tbody class="files">
+                  <tr ng-if="!vm.attachmentFiles">
+                    <td colspan="5" class="text-center text-muted p-t-30 p-b-30">
+                      <div class="m-b-10"><i class="fa fa-file fa-3x"></i></div>
+                      <div>No file selected</div>
+                    </td>
+                  </tr>
+                  <tr class="template-upload fade show in" ng-if="vm.attachmentFiles.length > 0" ng-repeat="fileItem in vm.attachmentFiles">
+                    <td>
+                      <span class="preview">
+                        <img ngf-src="fileItem" ngf-resize="{width: 20, height: 20, quality: 0.9}">
+                      </span>
+                    </td>
+                    <td>
+                      {{fileItem.name}}
+                    </td>
+                    <td>
+                      {{fileItem.size | filesize}}
+                    </td>
+                    <td>
+                      <dl>
+                        <dd class="m-t-5">
+                          <div class="progress progress-sm progress-striped active rounded-corner">
+                            <div class="progress-bar progress-bar-primary" style="width:{{vm.progress}}%; min-width: 40px;" aria-valuenow="{{vm.progress}}" aria-valuemin="0" aria-valuemax="100">{{vm.progress || '0'}}%</div>
+                          </div>
+                        </dd>
+                      </dl>
+                    </td>
+                    <td nowrap="" width="1%">
+                      <button class="btn btn-default btn-xs cancel" ng-click="vm.cancelFile($index)">
+                        <i class="fa fa-times"></i>
+                        <span>Cancel</span>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <!-- end table -->
+            </div>
+          </div>
+        </div>
+      </form>
+      <!-- end panel-body -->
+      <!-- begin panel-footer -->
+      <div class="panel-footer text-right">
+        <button ui-sref="cs-center.notice.read({noticeId: vm.notice._id})" class="btn btn-white btn-sm">Cancel</button>
+        <button ng-click="vm.edit(vm.form.noticeForm.$valid)" class="btn btn-primary btn-sm"><i class="fas fa-check"></i> Submit</button>
+      </div>
+      <!-- end panel-footer -->
+    </div>
+    <!-- end panel -->
+  </div>
+  <!-- end col-12 -->
+</div>

@@ -1,0 +1,148 @@
+<!-- begin profile -->
+<div class="profile">
+  <div class="profile-header">
+    <!-- BEGIN profile-header-cover -->
+    <div class="profile-header-cover" style="background-image:url('{{vm.backgroundImageName}}')"></div>
+    <!-- END profile-header-cover -->
+    <!-- BEGIN profile-header-content -->
+    <div class="profile-header-content">
+      <!-- BEGIN profile-header-img -->
+      <div class="profile-header-img">
+        <img ng-src="{{vm.auth.user.profileImage}}" alt="">
+      </div>
+      <!-- END profile-header-img -->
+      <!-- BEGIN profile-header-info -->
+      <div class="profile-header-info">
+        <h4 class="m-t-10 m-b-5">{{vm.auth.user.nickName}}</h4>
+        <p class="m-b-10">{{vm.auth.user.roles[0] | uppercase}}</p>
+        <a href="#" class="btn btn-sm btn-white rounded-corner">{{vm.auth.user.email}}</a>
+      </div>
+      <!-- END profile-header-info -->
+    </div>
+    <!-- END profile-header-content -->
+
+    <!-- BEGIN profile-header-tab -->
+    <ul class="profile-header-tab nav nav-tabs">
+      <li class="nav-item"><a href="javascript:;" data-target="#profile-about" class="nav-link active" data-toggle="tab">ABOUT</a></li>
+      <li class="nav-item"><a href="javascript:;" data-target="#profile-password" class="nav-link" data-toggle="tab">PASSWORD</a></li>
+      <li class="nav-item"><a href="javascript:;" data-target="#profile-image" class="nav-link" data-toggle="tab">IMAGE</a></li>
+    </ul>
+    <!-- END profile-header-tab -->
+
+  </div>
+</div>
+<!-- end profile -->
+<!-- begin profile-content -->
+<div class="profile-content">
+
+
+  <!-- begin tab-content -->
+  <div class="tab-content p-0">
+
+    <div class="tab-pane fade show active" id="profile-about">
+
+      <!-- begin table -->
+      <div class="table-responsive">
+        <table class="table table-profile">
+          <thead>
+            <tr>
+              <th></th>
+              <th>
+                <h4>{{vm.auth.user.nickName}} <small>{{vm.auth.user.roles[0] | capitalize}}</small></h4>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="highlight">
+              <td class="field">Username</td>
+              <td>{{vm.auth.user.username}}</td>
+            </tr>
+            <tr class="divider">
+              <td colspan="2"></td>
+            </tr>
+            <tr>
+              <td class="field">Mobile</td>
+              <td><i class="fa fa-mobile fa-lg m-r-5"></i> {{vm.auth.user.mobile | mobile}}</td>
+            </tr>
+            <tr>
+              <td class="field">E-Mail</td>
+              <td><i class="fa fa-envelope fa-lg m-r-5"></i> {{vm.auth.user.email}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- end table -->
+
+
+    </div>
+
+    <div class="tab-pane fade in" id="profile-password">
+
+      <form class="form-horizontal form-bordered" name="vm.form.passwordForm" ng-submit="vm.changeUserPassword(vm.form.passwordForm.$valid)" novalidate autocomplete="off">
+        <div class="form-group row" show-errors>
+          <label class="col-form-label col-lg-2" for="currentPassword">Current Password</label>
+          <div class="col-lg-2">
+            <input type="password" id="currentPassword" name="currentPassword" class="form-control form-control-sm" ng-model="vm.passwordDetails.currentPassword" required>
+            <div ng-messages="vm.form.passwordForm.currentPassword.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Your current password is required.</p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row" show-errors>
+          <label class="col-form-label col-lg-2" for="newPassword">New Password</label>
+          <div class="col-lg-2">
+            <input type="password" id="newPassword" name="newPassword" class="form-control form-control-sm" ng-model="vm.passwordDetails.newPassword" required>
+            <div ng-messages="vm.form.passwordForm.newPassword.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Enter a new password.</p>
+              <div ng-repeat="passwordError in passwordErrors">
+                <p class="help-block error-text" ng-show="vm.form.passwordForm.newPassword.$error.requirements">{{passwordError}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row" show-errors>
+          <label class="col-form-label col-lg-2" for="verifyPassword">Verify Password</label>
+          <div class="col-lg-2">
+            <input type="password" id="verifyPassword" name="verifyPassword" class="form-control form-control-sm" ng-model="vm.passwordDetails.verifyPassword" password-verify="vm.passwordDetails.newPassword" required>
+            <div ng-messages="vm.form.passwordForm.verifyPassword.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Verify your new password.</p>
+              <p class="help-block error-text" ng-show="vm.form.passwordForm.verifyPassword.$error.passwordVerify">Passwords do not match.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-sm-4 offset-sm-2">
+            <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Change</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="tab-pane fade in" id="profile-image">
+
+      <form class="form-horizontal form-bordered">
+        <div class="form-group row">
+          <label class="col-form-label col-lg-2" for="image">Image</label>
+          <div class="col-lg-2">
+            <img ng-src="{{vm.profileImage}}">
+          </div>
+        </div>
+        <div class="form-group row">
+
+          <div class="col-lg-2 offset-sm-2">
+            <span class="btn btn-primary btn-sm btn-file m-r-5">
+              <i class="fa fa-plus"></i>
+              <span>Add File</span>
+              <input type="file" name="profileFile" ngf-select ng-model="vm.profileFile">
+            </span>
+
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- end tab-content -->
+</div>
+<!-- end profile-content -->

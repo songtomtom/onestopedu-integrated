@@ -1,0 +1,189 @@
+<!-- begin breadcrumb -->
+<ol class="breadcrumb pull-right">
+  <li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
+  <li class="breadcrumb-item">Resource Management</li>
+  <li class="breadcrumb-item" ui-sref="resource.coupon.list">Coupon Management</li>
+  <li class="breadcrumb-item active">Generate Coupon</li>
+</ol>
+<!-- end breadcrumb -->
+
+<!-- begin page-header -->
+<h1 class="page-header">Generate Coupon</h1>
+<!-- end page-header -->
+
+<hr class="bg-grey-lighter" />
+
+<div class="row">
+  <!-- begin col-12 -->
+  <div class="col-lg-12">
+    <!-- begin panel -->
+    <div class="panel panel-inverse">
+
+      <!-- begin panel-heading -->
+      <div class="panel-heading">
+        <div class="panel-heading-btn">
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+        </div>
+        <h4 class="panel-title height-20">Form</h4>
+      </div>
+      <!-- end panel-heading -->
+
+      <!-- begin panel-body -->
+      <div class="panel-body">
+
+        <form class="form-horizontal form-bordered" name="vm.form.couponForm" novalidate autocomplete="off">
+
+          <div class="alert alert-secondary fade show">
+            <span class="text-danger f-s-15">*</span> Coupon information
+          </div>
+
+          <div class="form-group row" show-errors>
+            <label class="col-form-label col-lg-2 bg-silver-lighter"><span class="text-danger">*</span>Providers</label>
+            <div class="col-lg-4">
+              <select class="form-control form-control-sm" chosen name="provider" ng-model="vm.coupon.providers" ng-options="provider for provider in vm.auth.user.providers" ng-change="vm.figureOutMember()" required>
+                <option disabled value="">Provider...</option>
+              </select>
+              <div ng-messages="vm.form.couponForm.provider.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Providers is required.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row" show-errors>
+            <label class="col-form-label col-lg-2 bg-silver-lighter" for="generateCount"><span class="text-danger">*</span>Number of Coupon</label>
+            <div class="col-lg-4">
+              <input type="number" class="form-control form-control-sm" ng-model="vm.coupon.generateCount" name="generateCount" placeholder="Number of Coupon..." max="100" required />
+              <div ng-messages="vm.form.couponForm.generateCount.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Number of coupon is required.</p>
+                <p class="help-block error-text" ng-message="max">Number of coupon is max.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row" show-errors>
+            <label class="col-form-label col-lg-2 bg-silver-lighter" for="title"><span class="text-danger">*</span>Coupon Name</label>
+            <div class="col-lg-4">
+              <input type="text" class="form-control form-control-sm" ng-model="vm.coupon.title" name="title" placeholder="Coupon Name..." required />
+              <div ng-messages="vm.form.couponForm.title.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Coupon name is required.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row" show-errors>
+            <label class="col-form-label col-lg-2 bg-silver-lighter"><span class="text-danger">*</span>Discount Type</label>
+            <div class="col-lg-4">
+              <div class="radio radio-css radio-inline">
+                <input type="radio" name="discountType" id="rate" value="rate" ng-model="vm.coupon.discountType" required />
+                <label for="rate">Discount Rate</label>
+              </div>
+
+              <div class="radio radio-css radio-inline">
+                <input type="radio" name="discountType" id="price" value="price" ng-model="vm.coupon.discountType" required />
+                <label for="price">Discount Price</label>
+              </div>
+
+              <div ng-messages="vm.form.contactUsForm.type.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Discount type is required.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row" ng-if="vm.coupon.discountType === 'rate'" show-errors>
+            <label class="col-form-label col-lg-2 bg-silver-lighter" for="discountRate">
+              <span class="text-danger">*</span>Discount Rate
+            </label>
+            <div class="col-lg-4">
+              <input type="number" class="form-control form-control-sm" ng-model="vm.discountRate" name="discountRate" placeholder="Rate..." required />
+              <div ng-messages="vm.form.couponForm.discountRate.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Discount rate is required.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row" ng-if="vm.coupon.discountType === 'price'" show-errors>
+            <label class="col-form-label col-lg-2 bg-silver-lighter" for="discountPrice">
+              <span class="text-danger">*</span>Discount Price
+            </label>
+            <div class="col-lg-4">
+              <input type="number" class="form-control form-control-sm" ng-model="vm.discountPrice" name="discountPrice" placeholder="Price..." required />
+              <div ng-messages="vm.form.couponForm.discountPrice.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Discount price is required.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row" show-errors>
+            <label class="col-form-label col-lg-2 bg-silver-lighter"><span class="text-danger">*</span>Expiry Date</label>
+            <div class="col-lg-4">
+
+              <div class="input-group input-group-sm date" name="expired" datetimepicker ng-model="vm.coupon.expired" options="vm.datetimePickerOptions">
+                <input type="text" class="form-control form-control-sm" required />
+                <div class="input-group-addon">
+                  <i class="fa fa-calendar"></i>
+                </div>
+              </div>
+
+              <div ng-messages="vm.form.couponForm.expired.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Expire date is required.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="alert alert-secondary fade show m-t-20">
+            Member information.
+          </div>
+
+          <div class="form-group row">
+            <label class="col-form-label col-lg-2 bg-silver-lighter"><span class="text-danger">*</span>Member Username</label>
+            <div class="col-lg-4">
+              <select class="form-control form-control-sm" name="username" chosen ng-model="vm.member" ng-options="member.username for member in vm.members">
+                <option value="">Member...</option>
+              </select>
+            </div>
+          </div>
+          <div ng-if="vm.member">
+
+            <div class="form-group row">
+              <label class="col-form-label col-lg-2 bg-silver-lighter">Korean Name</label>
+              <div class="col-lg-4">
+                {{vm.member.koreanName}}
+              </div>
+
+              <label class="col-form-label col-lg-2 bg-silver-lighter">English Name</label>
+              <div class="col-lg-4">
+                {{vm.member.englishName}}
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-form-label col-lg-2 bg-silver-lighter">Mobile</label>
+              <div class="col-lg-4">
+                {{vm.member.mobile | mobile}}
+              </div>
+
+              <label class="col-form-label col-lg-2 bg-silver-lighter">E-mail</label>
+              <div class="col-lg-4">
+                {{vm.member.email}}
+              </div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+      <!-- end panel-body -->
+      <!-- begin panel-footer -->
+      <div class="panel-footer text-right">
+        <button ui-sref="resource.coupon.list" class="btn btn-white btn-sm">Cancel</button>
+        <button ng-click="vm.generateCoupon(vm.form.couponForm.$valid)" class="btn btn-primary btn-sm"><i class="fas fa-check"></i> Submit</button>
+      </div>
+      <!-- end panel-footer -->
+    </div>
+    <!-- end panel -->
+  </div>
+  <!-- end col-12 -->
+
+</div>

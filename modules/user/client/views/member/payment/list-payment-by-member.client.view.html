@@ -1,0 +1,192 @@
+<!-- begin panel -->
+<div class="panel panel-inverse">
+
+  <!-- begin panel-heading -->
+  <div class="panel-heading">
+    <div class="panel-heading-btn">
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+    </div>
+    <h4 class="panel-title height-20">Filter</h4>
+  </div>
+  <!-- end panel-heading -->
+
+  <div class="alert alert-danger fade show" ng-if="vm.payments.length < 1">
+    There is not exist payment information. Click <strong>"Virtual"</strong> button to register a payment for this member.
+  </div>
+
+
+
+  <!-- begin panel-body -->
+  <div class="panel-body">
+    <div class="row row-space-10">
+      <div class="col-md-1">
+        <div class="form-group m-b-10">
+          <select class="form-control form-control-sm" chosen ng-model="vm.itemsPerPage" ng-options="itemsPerPage for itemsPerPage in vm.itemsPerPageNumbers" ng-change="vm.changeItemsPerPage(vm.itemsPerPage)"></select>
+        </div>
+      </div>
+      <div class="col-md-1 m-t-5">
+        <div class="form-group">
+          Total <span class="text-danger">{{vm.payments.length}}</span>
+        </div>
+      </div>
+
+      <div class="col-md-1 offset-md-5">
+        <div class="form-group">
+
+          <select class="form-control form-control-sm" chosen ng-model="vm.search.method" ng-change="vm.figureOut()">
+            <option value="">Mehod...</option>
+            <option value="DWB">DWB(Deposit Without Bankbook)</option>
+            <option value="CC">CC(Credit Card)</option>
+            <option value="AT">AT(Account Transfer)</option>
+            <option value="ARS">ARS</option>
+            <option value="PAYUP">PAYUP(Pay-Up)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-md-1">
+        <div class="form-group">
+
+          <select class="form-control form-control-sm" chosen ng-model="vm.search.state" ng-change="vm.figureOut()">
+            <option value="">State...</option>
+            <option value="pending">Pending</option>
+            <option value="unPaid">Un Paid</option>
+            <option value="canceled">Canceled</option>
+            <option value="scheduled">Scheduled</option>
+            <option value="refunded">Refunded</option>
+          </select>
+
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <div class="form-group m-b-10">
+          <input class="form-control form-control-sm" type="text" placeholder="Search..." ng-model="vm.search.$" ng-change="vm.figureOut()" />
+        </div>
+      </div>
+
+      <div class="col-md-1">
+        <div class="form-group">
+          <a ui-sref="member.view.payment.virtual" class="btn btn-primary btn-block btn-sm"><i class="fas fa-plus"></i> Virtual</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- end panel-body -->
+</div>
+<!-- end panel -->
+
+<!-- begin panel -->
+<div class="panel panel-inverse" ng-if="vm.payments.length > 0">
+
+  <!-- begin panel-heading -->
+  <div class="panel-heading">
+    <div class="panel-heading-btn">
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+    </div>
+    <h4 class="panel-title height-20">List</h4>
+  </div>
+  <!-- end panel-heading -->
+
+  <!-- begin panel-body -->
+  <div class="panel-body">
+    <!-- begin table-responsive -->
+    <div class="table-responsive">
+      <table class="table table-hover table-striped">
+        <thead>
+          <tr>
+            <th class="with-checkbox" width="1%">
+              <div class="checkbox checkbox-css">
+                <input type="checkbox" value="" id="table_checkbox_1" />
+                <label for="table_checkbox_1">&nbsp;</label>
+              </div>
+            </th>
+            <th class="text-center" width="1%">#</th>
+            <th>Order No</th>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Method</th>
+            <th class="text-right">Payment State</th>
+            <th class="text-right">Course State</th>
+            <th class="text-right">Created</th>
+            <th class="text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="payment in vm.pagedItems" ng-class="{'table-success': vm.$state.params.paymentId === payment._id}">
+
+            <td class="with-checkbox">
+              <div class="checkbox checkbox-css">
+                <input type="checkbox" value="" id="table_checkbox_1" />
+                <label for="table_checkbox_1">&nbsp;</label>
+              </div>
+            </td>
+
+            <td>
+              {{payment.counters}}
+            </td>
+
+            <td>
+              <a ui-sref="member.view.payment.list.detail({paymentId: payment._id})">
+                {{payment.order}}
+              </a>
+            </td>
+
+            <td>
+              <a class="text-black" ui-sref="resource.product.modify({productId: payment.product._id})">{{payment.paymentedProduct.title}}</a>
+            </td>
+
+            <td>
+              {{payment.totalPrice | currency : '₩ ' : 0}}
+            </td>
+
+            <td>
+              <span class="label label-default">{{payment.method}}</span>
+            </td>
+
+            <td class="text-right">
+              <span state>{{payment.state}}</span>
+            </td>
+
+            <td class="text-right">
+              <span state>{{(payment.course.state)? payment.course.state : 'unScheduled'}}</span>
+            </td>
+
+            <td class="text-right">
+              <span today>{{payment.created | date: 'yyyy/MM/dd HH:mm'}}</span>
+            </td>
+
+            <td class="text-right with-btn" ng-switch="payment.state" nowrap>
+              <div ng-switch-default>
+                <a ng-if="!payment.course" ui-sref="member.view.course.regist({paymentId: payment._id})" class="btn btn-xs btn-primary"><i class="fa fa-plus"></i> Register</a>
+                <a ng-if="payment.course" ui-sref="member.view.course.list.detail({courseId: payment.course._id})" class="btn btn-xs btn-white"><i class="fas fa-arrow-right"></i> Course</a>
+              </div>
+              <div ng-switch-when="refunded">
+                <span class="label label-danger">Canceled</span>
+              </div>
+            </td>
+
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="pull-right">
+        <ul uib-pagination class="pagination-sm" boundary-links="true" max-size="5" items-per-page="vm.itemsPerPage" total-items="vm.filterLength" ng-model="vm.currentPage" ng-change="vm.pageChanged()" previous-text="&lsaquo;" next-text="&rsaquo;"
+          first-text="&laquo;" last-text="&raquo;">
+        </ul>
+      </div>
+    </div>
+    <!-- end table-responsive -->
+  </div>
+  <!-- end panel-body -->
+</div>
+<!-- end panel -->
+
+<div ui-view></div>

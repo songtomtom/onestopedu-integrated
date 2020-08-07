@@ -1,0 +1,230 @@
+<!-- begin breadcrumb -->
+<ol class="breadcrumb pull-right">
+  <li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
+  <li class="breadcrumb-item">Tutor Management</li>
+  <li class="breadcrumb-item"><a ui-sref="tutor.tutor-board.list">Tutor Board</a></li>
+  <li class="breadcrumb-item"><a ui-sref="tutor.tutor-board.read({tutorBoardId: vm.tutorBoard._id})">Tutor Board Contents</a></li>
+  <li class="breadcrumb-item active">Edit Tutor Board</li>
+
+</ol>
+<!-- end breadcrumb -->
+<!-- begin page-header -->
+<h1 class="page-header">Edit Tutor Board</h1>
+<!-- end page-header -->
+
+<hr class="bg-grey-lighter" />
+
+<div class="row">
+
+  <!-- begin col-12 -->
+  <div class="col-lg-12">
+    <!-- begin panel -->
+    <div class="panel panel-inverse">
+
+      <!-- begin panel-heading -->
+      <div class="panel-heading">
+        <div class="panel-heading-btn">
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+        </div>
+        <h4 class="panel-title height-20">Form</h4>
+      </div>
+      <!-- end panel-heading -->
+
+      <!-- begin panel-body -->
+      <div class="panel-body">
+
+        <form class="form-horizontal form-bordered" name="vm.form.tutorBoardForm" novalidate autocomplete="off">
+
+          <div class="alert alert-secondary fade show">
+            <span class="text-danger f-s-15">*</span> Multiple selection for tutors.
+          </div>
+
+
+          <div class="form-group row">
+            <label class="col-form-label col-lg-2 bg-silver-lighter" for="nations">
+              <span class="text-danger">*</span>Nation
+            </label>
+            <div class="col-lg-10">
+              <div class="btn-group">
+                <button class="btn btn-white btn-sm" ng-class="{'active': vm.nation === 'bulgaria'}" ng-click="vm.renderNation('bulgaria')" uib-tooltip="Bulgaria" tooltip-placement="bottom">
+                  <h5 class="flag-icon flag-icon-bg m-0"></h5>
+                </button>
+                <button class="btn btn-white btn-sm" ng-class="{'active': vm.nation === 'philippines'}" ng-click="vm.renderNation('philippines')" uib-tooltip="Philippines" tooltip-placement="bottom">
+                  <h5 class="flag-icon flag-icon-ph m-0"></h5>
+                </button>
+                <button class="btn btn-white btn-sm" ng-class="{'active': vm.nation === 'northAmerica'}" ng-click="vm.renderNation('northAmerica')" uib-tooltip="North America" tooltip-placement="bottom">
+                  <h5 class="flag-icon flag-icon-us m-0"></h5>
+                </button>
+              </div>
+
+              <div class="btn-group m-l-20">
+                <button class="btn btn-white btn-sm" ng-class="{'active': vm.nation === ''}" ng-click="vm.renderNation('')">
+                  Select All
+                </button>
+                <!-- <button class="btn btn-danger btn-sm" ng-class="{'active': vm.nation === ''}" ng-click="vm.renderNation('')">
+                  Reset
+                </button> -->
+              </div>
+
+
+            </div>
+          </div>
+
+          <div class="form-group row" show-errors>
+            <label class="col-form-label col-lg-2 bg-silver-lighter" for="tutors">
+              <span class="text-danger">*</span>Tutor
+              <strong class="text-danger">
+                ({{vm.tutorBoard.tutors.length}})
+              </strong>
+            </label>
+            <div class="col-lg-10">
+              <select class="form-control form-control-sm" name="tutors" chosen ng-model="vm.tutorBoard.tutors" multiple="multiple" ng-options="tutor._id as tutor.nickName group by tutor.nation for tutor in vm.tutors" required></select>
+              <div ng-messages="vm.form.tutorBoardForm.tutors.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Tutors is required.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="alert alert-secondary fade show m-t-20">
+            <span class="text-danger f-s-15">*</span> Tutor board title and contents.
+          </div>
+
+          <div class="form-group row" show-errors>
+            <label class="col-form-label col-lg-2 bg-silver-lighter" for="title"><span class="text-danger">*</span>Title</label>
+            <div class="col-lg-10">
+              <input type="text" class="form-control form-control-sm" ng-model="vm.tutorBoard.title" name="title" placeholder="Title..." required />
+              <div ng-messages="vm.form.tutorBoardForm.title.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Title is required.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row" show-errors>
+            <label class="col-form-label col-lg-2 bg-silver-lighter" for="contents"><span class="text-danger">*</span>Contents</label>
+            <div class="col-lg-10">
+              <summernote class="summernote" config="vm.summernoteOptions" name="contents" ng-model="vm.tutorBoard.contents" required></summernote>
+              <div ng-messages="vm.form.tutorBoardForm.contents.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Contents is required.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row" ng-if="vm.tutorBoard.attachmentFiles.length > 0">
+            <label class="col-form-label col-lg-2 bg-silver-lighter">Uploaded File List({{vm.tutorBoard.attachmentFiles.length}})</label>
+            <div class="col-lg-10">
+              <table class="table table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Preview</th>
+                    <th>File Name</th>
+                    <th>File Size</th>
+                    <!-- <th>Upload Progress</th> -->
+                    <th width="1%"></th>
+                  </tr>
+                </thead>
+                <tbody class="files">
+                  <tr class="template-upload fade show in" ng-repeat="fileItem in vm.tutorBoard.attachmentFiles">
+                    <td>
+                      <span>
+                        <img src="{{fileItem.path}}" width="20" height="20">
+                      </span>
+                    </td>
+                    <td>
+                      {{fileItem.originalname}}
+                    </td>
+                    <td>
+                      {{fileItem.size | filesize}}
+                    </td>
+                    <!-- <td>
+                      <dl>
+                        <dd class="m-t-5">
+                          <div class="progress progress-sm progress-striped active rounded-corner">
+                            <div class="progress-bar progress-bar-primary" style="width:{{vm.progress}}%; min-width: 40px;" aria-valuenow="{{vm.progress}}" aria-valuemin="0" aria-valuemax="100">{{vm.progress || '0'}}%</div>
+                          </div>
+                        </dd>
+                      </dl>
+                    </td> -->
+                    <td nowrap="">
+                      <button class="btn btn-default btn-xs cancel" ng-click="vm.removeFile($index)">
+                        <i class="fa fa-times"></i>
+                        <span>Cancel</span>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+
+          <div class="form-group row">
+            <label class="col-form-label col-lg-2 bg-silver-lighter">New Upload Attachment Files</label>
+            <div class="col-lg-10">
+              <span class="btn btn-primary btn-sm btn-file m-r-5">
+                <i class="fa fa-plus"></i>
+                <span>Add File</span>
+                <input type="file" name="attachmentFiles" ngf-select ng-model="vm.attachmentFiles" ngf-multiple="true" ngf-keep="'distinct'">
+              </span>
+
+              <!-- begin table -->
+              <table class="table table-striped table-condensed m-t-10">
+                <tbody class="files">
+                  <tr ng-if="!vm.attachmentFiles">
+                    <td colspan="5" class="text-center text-muted p-t-30 p-b-30">
+                      <div class="m-b-10"><i class="fa fa-file fa-3x"></i></div>
+                      <div>No file selected</div>
+                    </td>
+                  </tr>
+                  <tr class="template-upload fade show in" ng-if="vm.attachmentFiles.length > 0" ng-repeat="fileItem in vm.attachmentFiles">
+                    <td>
+                      <span class="preview">
+                        <img ngf-src="fileItem" ngf-resize="{width: 20, height: 20, quality: 0.9}">
+                      </span>
+                    </td>
+                    <td>
+                      {{fileItem.name}}
+                    </td>
+                    <td>
+                      {{fileItem.size | filesize}}
+                    </td>
+                    <td>
+                      <dl>
+                        <dd class="m-t-5">
+                          <div class="progress progress-sm progress-striped active rounded-corner">
+                            <div class="progress-bar progress-bar-primary" style="width:{{vm.progress}}%; min-width: 40px;" aria-valuenow="{{vm.progress}}" aria-valuemin="0" aria-valuemax="100">{{vm.progress || '0'}}%</div>
+                          </div>
+                        </dd>
+                      </dl>
+                    </td>
+                    <td nowrap="" width="1%">
+                      <button class="btn btn-default btn-xs cancel" ng-click="vm.cancelFile($index)">
+                        <i class="fa fa-times"></i>
+                        <span>Cancel</span>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <!-- end table -->
+            </div>
+          </div>
+
+
+        </form>
+
+      </div>
+      <!-- end panel-body -->
+      <!-- begin panel-footer -->
+      <div class="panel-footer text-right">
+        <button ui-sref="tutor.tutor-board.read({tutorBoardId: vm.tutorBoard._id})" class="btn btn-white btn-sm">Cancel</button>
+        <button ng-click="vm.edit(vm.form.tutorBoardForm.$valid)" class="btn btn-primary btn-sm"><i class="fas fa-check"></i> Submit</button>
+      </div>
+    </div>
+    <!-- end panel-footer -->
+    <!-- end panel -->
+  </div>
+  <!-- end col-12 -->
+</div>

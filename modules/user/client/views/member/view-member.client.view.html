@@ -1,0 +1,62 @@
+<!-- begin profile -->
+<div class="profile">
+	<div class="profile-header">
+		<!-- BEGIN profile-header-cover -->
+		<div class="profile-header-cover" style="background-image:url('{{vm.backgroundImageName}}')"></div>
+		<!-- END profile-header-cover -->
+		<!-- BEGIN profile-header-content -->
+		<div class="profile-header-content">
+			<!-- BEGIN profile-header-img -->
+			<div class="profile-header-img">
+				<img ng-src="{{vm.member.profileImage}}" alt="">
+			</div>
+			<!-- END profile-header-img -->
+			<!-- BEGIN profile-header-info -->
+			<div class="profile-header-info">
+				<h4 class="m-t-10 m-b-5">
+					{{vm.member.koreanName}} | {{vm.member.username}}
+				</h4>
+				<p class="m-b-10">
+					<span provider>{{vm.member.providers[0]}}</span> <span class="label label-primary">{{vm.member.roles[0] | capitalize}}</span>
+				</p>
+				<span menual-mobile="vm.member._id">
+					{{vm.member.mobile | mobile}}
+				</span>
+				<span class="btn btn-xs btn-white">
+					<i class="fa fa-envelope"></i> {{vm.member.email}}
+				</span>
+				<a ui-sref="member.view.coupon.list" class="btn btn-xs btn-primary">
+					<i class="fas fa-ticket-alt"></i> {{vm.member.coupons.length}}
+				</a>
+				<a ui-sref="member.view.point.list" class="btn btn-xs btn-pink">
+					<i class="fas fa-gift"></i> {{vm.member.point | currency : '' : 0}}
+				</a>
+			</div>
+			<!-- END profile-header-info -->
+
+		</div>
+		<!-- END profile-header-content -->
+
+		<!-- BEGIN profile-header-tab -->
+		<ul class="profile-header-tab nav nav-tabs">
+			<li class="nav-item"><a ui-sref="member.view.modify" ui-sref-active="active" class="nav-link">INFORMATION</a></li>
+			<li class="nav-item"><a ui-sref="member.view.calendar" ui-sref-active="active" class="nav-link">CALENDAR</a></li>
+			<li class="nav-item"><a ui-sref="member.view.course.list" ui-sref-active="active" class="nav-link">COURSE</a></li>
+			<li class="nav-item"><a ui-sref="member.view.lesson.detail({lessonId: vm.lesson._id})" ui-sref-active="active" class="nav-link" ng-if="vm.lesson._id">DAILY FEEDBACK</a></li>
+			<li class="nav-item"><a ui-sref="member.view.leveltest.list" ui-sref-active="active" class="nav-link">LEVELTEST</a></li>
+			<li class="nav-item"><a ui-sref="member.view.monthly.list" ui-sref-active="active" class="nav-link">MONTHLY EVALUATION</a></li>
+			<li class="nav-item"><a ui-sref="member.view.payment.list" ui-sref-active="active" class="nav-link">PAYMENT</a></li>
+			<li class="nav-item"><a ui-sref="member.view.coupon.list" ui-sref-active="active" class="nav-link">COUPON</a></li>
+			<li class="nav-item"><a ui-sref="member.view.point.list" ui-sref-active="active" class="nav-link">POINT</a></li>
+			<li class="nav-item"><a ui-sref="member.view.contact-1x1.list" ui-sref-active="active" class="nav-link"><span class="label label-success">NEW</span> 1:1 CONTACT</a></li>
+		</ul>
+		<!-- END profile-header-tab -->
+
+	</div>
+</div>
+<!-- end profile -->
+<!-- begin profile-content -->
+<div class="profile-content">
+	<div ui-view></div>
+</div>
+<!-- end profile-content -->

@@ -1,0 +1,131 @@
+<!-- begin breadcrumb -->
+<ol class="breadcrumb pull-right">
+  <li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
+  <li class="breadcrumb-item">Schedule Status</li>
+  <li class="breadcrumb-item">Weekly/Daily Calendar</li>
+</ol>
+<!-- end breadcrumb -->
+
+<!-- begin page-header -->
+<h1 class="page-header">Weekly/Daily Calendar</h1>
+<!-- end page-header -->
+
+<hr class="bg-grey-lighter" />
+
+<div class="row">
+
+  <div class="col-lg-12">
+    <!-- begin panel -->
+    <div class="panel panel-inverse">
+
+      <!-- begin panel-heading -->
+      <div class="panel-heading">
+        <div class="panel-heading-btn">
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+        </div>
+        <h4 class="panel-title height-20">Calendar</h4>
+      </div>
+      <!-- end panel-heading -->
+
+      <!-- begin panel-body -->
+      <div class="panel-body">
+
+        <!-- <div class="note note-secondary m-b-15">
+          <div class="note-icon f-s-20">
+            <i class="fa fa-calendar fa-2x"></i>
+          </div>
+          <div class="note-content">
+            <h4 class="m-t-5 m-b-5 p-b-2">Calendar Description</h4>
+            <ul class="m-b-5 p-l-25">
+              <li>Click the <strong>Nation Button</strong> you want to search for to see the calendar of <strong>All Tutor</strong> in then nation.</li>
+              <li>You can check the <strong>Weekly/Daily</strong> schedule of the selected tutors by clicking the <strong>Switch Button</strong>.</li>
+              <li>You can freely compare schedules by <strong>Selecting and Removing</strong> tutors from the <strong>Multiple Select Box</strong>.</li>
+              <li><strong>Change</strong> the schedule by <strong>Dragging</strong> a schedule on the calendar.</li>
+            </ul>
+          </div>
+        </div> -->
+
+
+        <div class="row row-space-10">
+          <div class="col-md-1">
+            <div class="form-group">
+              <div class="btn-group">
+                <button class="btn btn-white btn-sm" ng-class="{'active': vm.nation === 'bulgaria'}" ng-click="vm.renderNation('bulgaria')" uib-tooltip="Bulgaria" tooltip-placement="bottom">
+                  <h5 class="flag-icon flag-icon-bg m-0"></h5>
+                </button>
+                <button class="btn btn-white btn-sm" ng-class="{'active': vm.nation === 'philippines'}" ng-click="vm.renderNation('philippines')" uib-tooltip="Philippines" tooltip-placement="bottom">
+                  <h5 class="flag-icon flag-icon-ph m-0"></h5>
+                </button>
+                <button class="btn btn-white btn-sm" ng-class="{'active': vm.nation === 'northAmerica'}" ng-click="vm.renderNation('northAmerica')" uib-tooltip="North America" tooltip-placement="bottom">
+                  <h5 class="flag-icon flag-icon-us m-0"></h5>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-9">
+            <div class="form-group">
+              <select class="form-control form-control-sm" name="tutors" chosen ng-model="vm.selectTutors" multiple="multiple" ng-options="tutor._id as tutor.nickName group by tutor.nation for tutor in vm.tutors"></select>
+            </div>
+          </div>
+
+
+          <div class="col-md-1">
+            <div class="form-group">
+              <select class="form-control form-control-sm" chosen ng-model="vm.startHour" convert-to-number>
+                <option disabled>Start Hours...</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-md-1">
+            <div class="form-group">
+              <select class="form-control form-control-sm" chosen ng-model="vm.endHour" convert-to-number>
+                <option disabled>End Hours...</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <!-- end panel-body -->
+    </div>
+    <!-- end panel -->
+    <div ng-if="vm.selectTutors.length > 0" ui-calendar="vm.uiConfig.calendar" id="calendar" class="calendar" ng-model="vm.eventSources" calendar="calendar" style="background: transparent;"></div>
+  </div>
+
+
+</div>

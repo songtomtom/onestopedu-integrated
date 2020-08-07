@@ -1,0 +1,242 @@
+<!-- begin breadcrumb -->
+<ol class="breadcrumb pull-right">
+  <li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
+  <li class="breadcrumb-item">Member Management</li>
+  <li class="breadcrumb-item active">Consecutive Absences</li>
+</ol>
+<!-- end breadcrumb -->
+<!-- begin page-header -->
+<h1 class="page-header">Consecutive Absences</h1>
+<!-- end page-header -->
+
+<hr class="bg-grey-lighter" />
+
+<div class="row">
+  <!-- begin col-12 -->
+  <div class="col-lg-12">
+    <div class="row">
+      <!-- begin col-3 -->
+      <div class="col-lg-3">
+        <div class="widget widget-stats bg-primary">
+          <div class="stats-icon"><i class="far fa-calendar-alt"></i></div>
+          <div class="stats-info">
+            <h4>Members with Schedule Today</h4>
+            <p>32</p>
+          </div>
+          <div class="stats-link">
+            <a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+          </div>
+        </div>
+      </div>
+      <!-- end col-3 -->
+      <!-- begin col-3 -->
+      <div class="col-lg-3">
+        <div class="widget widget-stats bg-red">
+          <div class="stats-icon"><i class="fa fa-ban"></i></div>
+          <div class="stats-info">
+            <h4>Consecutive Absences</h4>
+            <p>4</p>
+          </div>
+          <div class="stats-link">
+            <a ui-sref="member.list-absence">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+          </div>
+        </div>
+      </div>
+      <!-- end col-3 -->
+      <!-- begin col-3 -->
+      <div class="col-lg-3">
+        <div class="widget widget-stats bg-grey-darker">
+          <div class="stats-icon"><i class="fa fa-exclamation-circle"></i></div>
+          <div class="stats-info">
+            <h4>Lessons Due for Completion</h4>
+            <p>8</p>
+          </div>
+          <div class="stats-link">
+            <a ui-sref="member.list-finishing">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+          </div>
+        </div>
+      </div>
+      <!-- end col-3 -->
+      <!-- begin col-3 -->
+      <div class="col-lg-3">
+        <div class="widget widget-stats bg-warning">
+          <div class="stats-icon"><i class="fa fa-lock"></i></div>
+          <div class="stats-info">
+            <h4>Hold List</h4>
+            <p>23</p>
+          </div>
+          <div class="stats-link">
+            <a ui-sref="member.list-hold">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+          </div>
+        </div>
+      </div>
+      <!-- end col-3 -->
+    </div>
+  </div>
+  <!-- end col-11 -->
+</div>
+
+<!-- begin row -->
+<div class="row">
+  <!-- begin col-12 -->
+  <div class="col-lg-12">
+    <!-- begin panel -->
+    <div class="panel panel-inverse">
+
+      <!-- begin panel-heading -->
+      <div class="panel-heading">
+        <div class="panel-heading-btn">
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+        </div>
+        <h4 class="panel-title height-20">List</h4>
+      </div>
+      <!-- end panel-heading -->
+
+      <div class="alert alert-danger fade show">
+        <span class="close" data-dismiss="alert">×</span>
+        <i class="fa fa-check fa-2x pull-left m-r-10"></i>
+        <p class="m-b-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ac posuere lacus, quis suscipit sem. Nulla sagittis aliquam erat non convallis.</p>
+      </div>
+
+      <!-- begin panel-body -->
+      <div class="panel-body">
+
+        <div class="row row-space-10">
+          <div class="col-md-1">
+            <div class="form-group">
+              <select class="form-control form-control-sm" chosen ng-model="vm.itemsPerPage" ng-options="itemsPerPage for itemsPerPage in vm.itemsPerPageNumbers" ng-change="vm.changeItemsPerPage(vm.itemsPerPage)"></select>
+            </div>
+          </div>
+          <div class="col-md-1 m-t-5">
+            <div class="form-group">
+              Total <span class="text-danger">{{vm.absences.length}}</span>
+            </div>
+          </div>
+
+          <div class="col-md-2 offset-md-8">
+            <div class="form-group">
+              <input class="form-control form-control-sm" type="text" placeholder="Search..." ng-model="vm.search.$" ng-change="vm.figureOut()" />
+            </div>
+          </div>
+
+
+        </div>
+
+        <hr class="m-t-0 m-b-0" ng-if="vm.pagedItems.length > 0" />
+        <!-- begin table-responsive -->
+        <div class="table-responsive" ng-if="vm.pagedItems.length > 0">
+          <table class="table table-hover table-striped">
+            <thead>
+              <tr>
+                <th class="with-checkbox" width="1%">
+                  <div class="checkbox checkbox-css">
+                    <input type="checkbox" value="" id="table_checkbox_1" />
+                    <label for="table_checkbox_1">&nbsp;</label>
+                  </div>
+                </th>
+                <th>Username</th>
+                <th>Korean Name</th>
+                <th>Mobile</th>
+                <th>Provider</th>
+
+                <th>Lesson Days</th>
+                <th class="text-center">Current/Total Absence</th>
+                <th class="text-center">Absence Rate</th>
+                <th class="text-center">Attendance Rate</th>
+                <th>Complete Rate</th>
+                <!-- <th width="7%">Completion</th> -->
+
+                <th class="text-right">Created</th>
+                <th class="text-right">State</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="absence in vm.pagedItems | orderBy:'-counters'">
+
+                <td class="with-checkbox">
+                  <div class="checkbox checkbox-css">
+                    <input type="checkbox" value="" id="table_checkbox_1" />
+                    <label for="table_checkbox_1">&nbsp;</label>
+                  </div>
+                </td>
+
+                <td>
+                  <a href="javascript:;" theme-open="absence.user">{{absence.user.username}}</a>
+                </td>
+
+                <td>
+                  {{absence.user.koreanName}}
+                </td>
+
+                <td>
+                  {{absence.user.mobile | mobile}}
+                </td>
+
+                <td>
+                  {{absence.providers[0]}}
+                </td>
+
+                <td>
+                  <a href="javascript:;" theme-open="absence">
+                    {{absence.startDate | date: 'yyyy/MM/dd'}} ~ {{absence.endDate | date: 'yyyy/MM/dd'}}
+                  </a>
+                </td>
+
+                <td class="text-center">
+                  <strong class="text-danger">{{absence.currentAbsenceCount}}</strong>/{{absence.canceledCount}}
+                </td>
+
+                <td class="text-center">
+                  {{absence.canceledCount}}/{{absence.lessons.length}}
+                  <strong class="text-danger">({{vm.getCanceled(absence)}}%)</strong>
+                </td>
+
+                <td class="text-center">
+                  {{absence.attendanceCount}}/{{absence.lessons.length}}
+                  <strong class="text-primary">({{vm.getFinished(absence)}}%)</strong>
+                </td>
+
+                <td>
+                  {{absence.completedCount}}/{{absence.lessons.length}} ({{vm.getCompleted(absence)}}%)
+                </td>
+
+                <!-- <td class="with-progress">
+                  <div class="progress rounded-corner">
+                    <span class="progress-text"></span>
+                    <div class="progress-bar" style="width:{{vm.getFinished(absence)}}%"></div>
+                    <div class="progress-bar bg-danger" style="width:{{vm.getCanceled(absence)}}%"></div>
+                  </div>
+                </td> -->
+
+
+
+                <td class="text-right">
+                  <span today>{{absence.created | date: 'yyyy/MM/dd HH:mm'}}</span>
+                </td>
+
+                <td class="text-right">
+                  <span state>{{absence.state}}</span>
+                </td>
+
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="pull-right">
+            <ul uib-pagination class="pagination-sm" boundary-links="true"  max-size="5" items-per-page="vm.itemsPerPage" total-items="vm.filterLength" ng-model="vm.currentPage" ng-change="vm.pageChanged()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;"
+              last-text="&raquo;">
+            </ul>
+          </div>
+        </div>
+        <!-- end table-responsive -->
+      </div>
+      <!-- end panel-body -->
+    </div>
+    <!-- end panel -->
+  </div>
+  <!-- end col-12 -->
+</div>
+<!-- end row -->

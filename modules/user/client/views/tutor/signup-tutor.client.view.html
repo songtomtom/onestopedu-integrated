@@ -1,0 +1,197 @@
+<!-- begin breadcrumb -->
+<ol class="breadcrumb pull-right">
+  <li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
+  <li class="breadcrumb-item">Tutor Management</li>
+  <li class="breadcrumb-item"><a ui-sref="tutor.list">Tutor List</a></li>
+  <li class="breadcrumb-item active">Sign Up Tutor</li>
+</ol>
+<!-- end breadcrumb -->
+<!-- begin page-header -->
+<h1 class="page-header">Sign Up Tutor</h1>
+<!-- end page-header -->
+
+<hr class="bg-grey-lighter" />
+
+<div class="row">
+
+  <!-- begin col-12 -->
+  <div class="col-lg-12">
+    <!-- begin panel -->
+    <div class="panel panel-inverse">
+
+      <!-- begin panel-heading -->
+      <div class="panel-heading">
+        <div class="panel-heading-btn">
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+        </div>
+        <h4 class="panel-title height-20">Tutor Form</h4>
+      </div>
+      <!-- end panel-heading -->
+
+      <!-- begin panel-body -->
+      <div class="panel-body">
+
+        <form class="form-horizontal form-bordered" name="vm.form.tutorForm" novalidate autocomplete="off">
+
+          <div class="alert alert-secondary fade show">
+            <span class="text-danger f-s-15">*</span> Required information
+          </div>
+
+
+          <div class="form-group row" show-errors>
+            <label class="col-form-label col-lg-2 bg-silver-lighter" for="languages"><span class="text-danger">*</span>Languages</label>
+            <div class="col-lg-4">
+              <select class="form-control form-control-sm" chosen name="languages" ng-model="vm.tutor.languages" required>
+                <option value="">Language...</option>
+                <option value="english">English</option>
+                <option value="chinese">Chinese</option>
+              </select>
+              <div ng-messages="vm.form.tutorForm.languages.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Language is required.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row" show-errors>
+            <label class="col-form-label col-lg-2 bg-silver-lighter" for="username"><span class="text-danger">*</span>Username</label>
+            <div class="col-lg-4">
+              <input type="text" class="form-control form-control-sm" ng-model="vm.tutor.username" name="username" placeholder="Username..." lowercase required />
+              <div ng-messages="vm.form.tutorForm.username.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Username is required.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row" show-errors>
+            <label class="col-form-label col-lg-2 bg-silver-lighter" for="email"><span class="text-danger">*</span>Email</label>
+            <div class="col-lg-4">
+              <input type="email" class="form-control form-control-sm" ng-model="vm.tutor.email" name="email" placeholder="Email..." lowercase required />
+              <div ng-messages="vm.form.tutorForm.email.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Email is required.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row" show-errors>
+            <label class="col-form-label col-lg-2 bg-silver-lighter" for="nickName"><span class="text-danger">*</span>Nick Name</label>
+            <div class="col-lg-4">
+              <input type="text" class="form-control form-control-sm" ng-model="vm.tutor.nickName" name="nickName" placeholder="Nick Name..." required />
+              <div ng-messages="vm.form.tutorForm.nickName.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Nick Name is required.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row" show-errors>
+            <label class="col-form-label col-lg-2 bg-silver-lighter" for="englishName"><span class="text-danger">*</span>English Name</label>
+            <div class="col-lg-4">
+              <input type="text" class="form-control form-control-sm" ng-model="vm.tutor.englishName" name="englishName" placeholder="English Name..." required />
+              <div ng-messages="vm.form.tutorForm.englishName.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">English Name is required.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row" show-errors>
+            <label class="col-form-label col-lg-2 bg-silver-lighter" for="nation"><span class="text-danger">*</span>Nation</label>
+            <div class="col-lg-4">
+              <select class="form-control form-control-sm" chosen name="nation" ng-model="vm.tutor.nation" required>
+                <option value="">Nation...</option>
+                <option value="bulgaria">Bulgaria</option>
+                <option value="philippines">Philippines</option>
+                <option value="northAmerica">North America</option>
+              </select>
+              <div ng-messages="vm.form.tutorForm.nation.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Nation is required.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row" show-errors>
+            <label class="col-form-label col-lg-2 bg-silver-lighter" for="timezone"><span class="text-danger">*</span>Timezone</label>
+            <div class="col-lg-4">
+              <select class="form-control form-control-sm" chosen name="timezone" ng-model="vm.tutor.timezone" required>
+                <option value="">Timezone...</option>
+                <option value="Asia/Manila">Asia/Manila ({{vm.convertTimezone('Asia/Manila')}})</option>
+                <option value="Europe/Sofia">Europe/Sofia ({{vm.convertTimezone('Europe/Sofia')}})</option>
+                <option value="America/New_York">America/New York ({{vm.convertTimezone('America/New_York')}})</option>
+                <option value="America/Chicago">America/Chicago ({{vm.convertTimezone('America/Chicago')}})</option>
+                <option value="America/Phoenix">America/Phoenix ({{vm.convertTimezone('America/Phoenix')}})</option>
+                <option value="America/Los_Angeles">America/Los Angeles ({{vm.convertTimezone('America/Los_Angeles')}})</option>
+              </select>
+              <div ng-messages="vm.form.tutorForm.timezone.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Timezone is required.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="alert alert-secondary fade show m-t-20">
+            Additional Information
+          </div>
+
+
+          <div class="form-group row">
+            <label class="col-form-label col-lg-2 bg-silver-lighter">Group</label>
+            <div class="col-lg-4" ng-init="vm.tutor.group = 'general'">
+              <div class="radio radio-css radio-inline">
+                <input type="radio" name="group" id="groupGeneral" value="general" ng-model="vm.tutor.group" />
+                <label for="groupGeneral">General</label>
+              </div>
+              <div class="radio radio-css radio-inline">
+                <input type="radio" name="group" id="groupSpecial" value="special" ng-model="vm.tutor.group" />
+                <label for="groupSpecial">Special</label>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-group row">
+            <label class="col-form-label col-lg-2 bg-silver-lighter">Position</label>
+            <div class="col-lg-4" ng-init="vm.tutor.position = 'normal'">
+              <div class="radio radio-css radio-inline">
+                <input type="radio" name="position" id="postionsNormal" value="normal" ng-model="vm.tutor.position" />
+                <label for="postionsNormal">Normal</label>
+              </div>
+              <div class="radio radio-css radio-inline">
+                <input type="radio" name="position" id="postionsHead" value="head" ng-model="vm.tutor.position" />
+                <label for="postionsHead">Head</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-form-label col-lg-2 bg-silver-lighter" for="gender">Gender</label>
+            <div class="col-lg-4" ng-init="vm.tutor.gender = 'female'">
+
+              <div class="radio radio-css radio-inline">
+                <input type="radio" name="gender" id="genderMale" value="male" ng-model="vm.tutor.gender" />
+                <label for="genderMale">Male</label>
+              </div>
+              <div class="radio radio-css radio-inline">
+                <input type="radio" name="gender" id="genderFemale" value="female" ng-model="vm.tutor.gender" />
+                <label for="genderFemale">Female</label>
+              </div>
+
+            </div>
+          </div>
+
+
+
+        </form>
+
+      </div>
+      <!-- end panel-body -->
+      <!-- begin panel-footer -->
+      <div class="panel-footer text-right">
+        <button ui-sref="tutor.list" class="btn btn-white btn-sm">Cancel</button>
+        <button ng-click="vm.signup(vm.form.tutorForm.$valid)" class="btn btn-primary btn-sm"><i class="fas fa-check"></i> Submit</button>
+      </div>
+    </div>
+    <!-- end panel-footer -->
+    <!-- end panel -->
+  </div>
+  <!-- end col-12 -->
+</div>

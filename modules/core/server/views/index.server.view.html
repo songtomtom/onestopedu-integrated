@@ -1,0 +1,24 @@
+{% extends 'layout.server.view.html' %}
+{% block content %}
+<!-- begin #header -->
+<div ng-include="'/modules/core/client/views/header.client.view.html'"></div>
+<!-- end #header -->
+
+<!-- begin #sidebar -->
+<div ng-include="'/modules/core/client/views/sidebar.client.view.html'"></div>
+<!-- end #sidebar -->
+
+<!-- begin #content -->
+<div id="content" view-content class="content" ng-class="{
+	'content-full-width': vm.$state.current.data.pageContentFullWidth,
+	'height-full': vm.$state.current.data.pageContentFullHeight
+}">
+	<div ui-view class="height-full"></div>
+</div>
+<!-- end #content -->
+
+<!-- begin #sidebar -->
+<div ng-include="'/modules/core/client/views/footer.client.view.html'"></div>
+<!-- end #sidebar -->
+
+{% endblock %}

@@ -1,0 +1,214 @@
+<!-- begin panel -->
+<div class="panel panel-inverse">
+
+  <!-- begin panel-heading -->
+  <div class="panel-heading">
+    <div class="panel-heading-btn">
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+    </div>
+    <h4 class="panel-title height-20">Form</h4>
+  </div>
+  <!-- end panel-heading -->
+
+  <!-- begin panel-body -->
+  <div class="panel-body">
+
+    <form class="form-horizontal form-bordered" name="vm.form.courseForm" novalidate autocomplete="off">
+
+      <div class="alert alert-secondary fade show">
+        Member information.
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Providers</label>
+        <div class="col-lg-4">
+          <span provider>{{vm.payment.user.providers[0]}}</span>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Username</label>
+        <div class="col-lg-4">
+          <a ui-sref="member.view.modify({memberId: vm.payment.user._id})">{{vm.payment.user.username}}</a>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Korean Name</label>
+        <div class="col-lg-4">
+          {{vm.payment.user.koreanName}}
+        </div>
+
+        <label class="col-form-label col-lg-2 bg-silver-lighter">English Name</label>
+        <div class="col-lg-4">
+          {{vm.payment.user.englishName}}
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Mobile</label>
+        <div class="col-lg-4">
+          {{vm.payment.user.mobile | mobile}}
+        </div>
+
+        <label class="col-form-label col-lg-2 bg-silver-lighter">E-mail</label>
+        <div class="col-lg-4">
+          {{vm.payment.user.email}}
+        </div>
+      </div>
+
+      <div class="alert alert-secondary fade show m-t-20">
+        Product and Payment infomation.
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Order No</label>
+        <div class="col-lg-4">
+          <a ui-sref="member.view.payment.list.detail({memberId: vm.payment.user._id, paymentId: vm.payment._id})">{{vm.payment.order}}</a>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Product Title</label>
+        <div class="col-lg-4">
+          {{vm.payment.paymentedProduct.title}}
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Lesson Count</label>
+        <div class="col-lg-4">
+          {{vm.payment.paymentedProduct.lessonCount}}
+        </div>
+
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Postpone Count</label>
+        <div class="col-lg-4">
+          {{vm.payment.paymentedProduct.postponeCount}}
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Total Price</label>
+        <div class="col-lg-4">
+          <strong>{{vm.payment.totalPrice | currency : '₩ ' : 0}}</strong>
+        </div>
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Desired Start Date of Lesson</label>
+        <div class="col-lg-4">
+          {{vm.payment.desired | date: 'yyyy/MM/dd HH:mm'}}
+        </div>
+      </div>
+
+      <div class="alert alert-secondary fade show m-t-20">
+        Please fill out the courses in order to register..
+      </div>
+
+      <div class="form-group row" show-errors>
+        <label class="col-form-label col-lg-2 bg-silver-lighter">
+          <span class="text-danger">*</span>Days of Week
+          <strong class="text-danger">({{vm.payment.paymentedProduct.times - vm.checkings.length}})</strong>
+        </label>
+        <div class="col-lg-4">
+          <div class="btn-group m-r-5">
+            <button ng-click="vm.autoCheckings()" class="btn btn-white btn-xs width-50"><i class="fas fa-redo"></i></button>
+          </div>
+          <div class="checkbox checkbox-css checkbox-inline" ng-repeat="day in vm.daysOfWeek">
+            <input type="checkbox" name="daysOfWeek" id="{{day.name}}" checklist-value="day.index" checklist-model="vm.checkings" />
+            <label for="{{day.name}}">{{day.name | capitalize}}</label>
+          </div>
+          <div ng-messages="vm.form.courseForm.daysOfWeek.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Days of week checkbox is required.</p>
+            <p class="help-block error-text" ng-message="equal">You must check {{vm.payment.paymentedProduct.times}} days of the week.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row" show-errors>
+        <label class="col-form-label col-lg-2 bg-silver-lighter"><span class="text-danger">*</span>Lesson Count
+          <span ng-class="{
+            'text-success': vm.maxTotalLessonCount > vm.payment.subLessonCount,
+            'text-danger': vm.maxTotalLessonCount < vm.payment.subLessonCount
+          }">({{vm.maxTotalLessonCount - vm.payment.subLessonCount}})
+          </span>
+        </label>
+        <div class="col-lg-4">
+          <input type="number" class="form-control form-control-sm" name="lessonCount" ng-model="vm.maxTotalLessonCount" min="{{vm.payment.subLessonCount}}" />
+          <div ng-messages="vm.form.courseForm.lessonCount.$error" role="alert">
+            <p class="help-block error-text" ng-message="min">Lessons count is lesser minimum value({{vm.payment.subLessonCount}}).</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row" show-errors>
+        <label class="col-form-label col-lg-2 bg-silver-lighter"><span class="text-danger">*</span>Postpone Count
+          <span ng-class="{
+            'text-success': vm.maxTotalPostponeCount > vm.payment.subPostponeCount,
+            'text-danger': vm.maxTotalPostponeCount < vm.payment.subPostponeCount
+          }">({{vm.maxTotalPostponeCount - vm.payment.subPostponeCount}})
+          </span>
+        </label>
+        <div class="col-lg-4">
+          <input type="number" class="form-control form-control-sm" name="postponeCount" ng-model="vm.maxTotalPostponeCount" min="{{vm.payment.subPostponeCount}}" />
+          <div ng-messages="vm.form.courseForm.postponeCount.$error" role="alert">
+            <p class="help-block error-text" ng-message="min">Postpone count is lesser minimum value({{vm.payment.subPostponeCount}}).</p>
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class="form-group row" show-errors>
+        <label class="col-form-label col-lg-2 bg-silver-lighter"><span class="text-danger">*</span>Start Date ({{vm.started.toDate() | date: 'EEEE'}})</label>
+        <div class="col-lg-4">
+          <div class="input-group input-group-sm date" name="started" datetimepicker ng-model="vm.started" options="vm.datetimePickerOptions">
+            <!-- <div class="input-group input-group-sm date" name="started" datetimepicker ng-model="vm.started" options="vm.datetimePickerOptions"> -->
+            <input type="text" class="form-control form-control-sm" required />
+            <div class="input-group-addon">
+              <i class="fa fa-calendar"></i>
+            </div>
+          </div>
+          <div ng-messages="vm.form.courseForm.started.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Start Date is required.</p>
+            <p class="help-block error-text" ng-message="includes">The checked start date and day do not match.</p>
+          </div>
+        </div>
+
+
+        <label class="col-form-label col-lg-2 bg-silver-lighter"><span class="text-danger">*</span>End Date ({{vm.ended.toDate() | date: 'EEEE'}})</label>
+        <div class="col-lg-4">
+          <div class="input-group input-group-sm date" name="ended" datetimepicker ng-model="vm.ended" options="vm.datetimePickerOptions">
+            <input type="text" class="form-control form-control-sm" disabled required />
+            <div class="input-group-addon">
+              <i class="fa fa-calendar"></i>
+            </div>
+          </div>
+          <div ng-messages="vm.form.courseForm.ended.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">End Date is required.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row" show-errors>
+        <label class="col-form-label col-lg-2 bg-silver-lighter" for="tutor"><span class="text-danger">*</span>Tutor</label>
+        <div class="col-lg-4 form-chosen-up">
+          <select class="form-control form-control-sm" chosen name="tutor" ng-model="vm.tutor" ng-options="tutor.nickName for tutor in vm.tutors" required>
+            <option value="">Tutors...</option>
+          </select>
+          <div ng-messages="vm.form.courseForm.tutor.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Tutor is required.</p>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <!-- end panel-body -->
+
+  <!-- begin panel-footer -->
+  <div class="panel-footer text-right">
+    <button ng-click="vm.goBack()" class="btn btn-white btn-sm"><i class="fas fa-long-arrow-alt-left"></i> Back</button>
+    <button ng-click="vm.regist(vm.form.courseForm.$valid)" class="btn btn-primary btn-sm"><i class="fas fa-check"></i> Submit</button>
+  </div>
+</div>
+<!-- end panel-footer -->

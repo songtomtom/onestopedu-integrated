@@ -1,0 +1,165 @@
+<!-- begin breadcrumb -->
+<ol class="breadcrumb pull-right">
+  <li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
+  <li class="breadcrumb-item">CS Center</li>
+  <li class="breadcrumb-item active">Contact Us Board</li>
+</ol>
+<!-- end breadcrumb -->
+<!-- begin page-header -->
+<h1 class="page-header">Contact Us Board</h1>
+<!-- end page-header -->
+
+<hr class="bg-grey-lighter" />
+
+<!-- begin row -->
+<div class="row">
+
+  <!-- begin col-12 -->
+  <div class="col-lg-12">
+    <!-- begin panel -->
+    <div class="panel panel-inverse">
+
+      <!-- begin panel-heading -->
+      <div class="panel-heading">
+        <div class="panel-heading-btn">
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+        </div>
+        <h4 class="panel-title height-20">Filter</h4>
+      </div>
+      <!-- end panel-heading -->
+
+      <!-- begin panel-body -->
+      <div class="panel-body">
+
+        <div class="row row-space-10">
+          <div class="col-md-1">
+            <div class="form-group">
+              <select class="form-control form-control-sm" chosen ng-model="vm.itemsPerPage" ng-options="itemsPerPage for itemsPerPage in vm.itemsPerPageNumbers" ng-change="vm.changeItemsPerPage(vm.itemsPerPage)"></select>
+            </div>
+          </div>
+          <div class="col-md-1 m-t-5">
+            <div class="form-group">
+              Total <span class="text-danger">{{vm.contactUss.length}}</span>
+            </div>
+          </div>
+
+          <div class="col-md-2 offset-md-8">
+            <div class="form-group">
+              <input class="form-control form-control-sm" type="text" placeholder="Search..." ng-model="vm.search.$" ng-change="vm.figureOut()" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end panel-body -->
+    </div>
+    <!-- end panel -->
+  </div>
+  <!-- end col-12 -->
+
+  <!-- begin col-12 -->
+  <div class="col-lg-12">
+    <!-- begin panel -->
+    <div class="panel panel-inverse">
+
+      <!-- begin panel-heading -->
+      <div class="panel-heading">
+        <div class="panel-heading-btn">
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+        </div>
+        <h4 class="panel-title height-20">List</h4>
+      </div>
+      <!-- end panel-heading -->
+
+
+      <div class="alert alert-success fade show">
+        <span class="close" data-dismiss="alert">×</span>
+        <i class="fa fa-check fa-2x pull-left m-r-10"></i>
+        <p class="m-b-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ac posuere lacus, quis suscipit sem. Nulla sagittis aliquam erat non convallis.</p>
+      </div>
+
+      <!-- begin panel-body -->
+      <div class="panel-body">
+        <!-- begin table-responsive -->
+        <div class="table-responsive">
+          <table class="table table-hover table-striped">
+            <thead>
+              <tr>
+                <th class="with-checkbox" width="1%">
+                  <div class="checkbox checkbox-css">
+                    <input type="checkbox" value="" id="table_checkbox_1" />
+                    <label for="table_checkbox_1">&nbsp;</label>
+                  </div>
+                </th>
+                <th class="text-center" width="1%">#</th>
+                <th>Provider</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th class="text-right">Views</th>
+                <th class="text-right">Created</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="contactUs in vm.pagedItems">
+
+                <td class="with-checkbox">
+                  <div class="checkbox checkbox-css">
+                    <input type="checkbox" value="" id="table_checkbox_1" />
+                    <label for="table_checkbox_1">&nbsp;</label>
+                  </div>
+                </td>
+
+                <td>
+                  {{contactUs.counters}}
+                </td>
+
+                <td>
+                  <span provider>{{contactUs.providers[0]}}</span>
+                </td>
+
+                <td>
+                  <a class="text-black" ui-sref="cs-center.contact-us.read({contactUsId:contactUs._id})">
+                    <i ng-if="contactUs.contactUsType === 'private'" class="fas fa-lock f-s-14 m-r-3 m-r-xs-0 t-plus-1 text-danger"></i>{{contactUs.title}}
+                  </a>
+                  <strong class="text-danger">
+                    ({{contactUs.comments.length}})
+                  </strong>
+                </td>
+
+                <td class="with-img">
+                  <img ng-src="{{contactUs.user.profileImage}}" class="img-rounded height-30" />
+                  <a ui-sref="member.view.modify({memberId: contactUs.user._id})">{{contactUs.user.username}}</a>
+                </td>
+
+                <td class="text-right">
+                  {{contactUs.views}}
+                </td>
+
+                <td class="text-right">
+                  {{contactUs.created | date: 'yyyy/MM/dd HH:mm'}}
+                </td>
+
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="pull-right">
+            <ul uib-pagination class="pagination-sm" boundary-links="true"  max-size="5" items-per-page="vm.itemsPerPage" total-items="vm.filterLength" ng-model="vm.currentPage" ng-change="vm.pageChanged()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;"
+              last-text="&raquo;">
+            </ul>
+          </div>
+        </div>
+        <!-- end table-responsive -->
+      </div>
+      <!-- end panel-body -->
+    </div>
+    <!-- end panel -->
+  </div>
+  <!-- end col-12 -->
+</div>
+<!-- end row -->

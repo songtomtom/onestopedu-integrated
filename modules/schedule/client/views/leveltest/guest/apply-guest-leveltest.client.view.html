@@ -1,0 +1,172 @@
+<!-- begin breadcrumb -->
+<ol class="breadcrumb pull-right">
+  <li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
+  <li class="breadcrumb-item">Schedule Status</li>
+  <li class="breadcrumb-item"><a ui-sref="schedule.leveltest.list">Leveltest/Application Status</a></li>
+  <li class="breadcrumb-item active">Apply to Leveltest(Guest)</li>
+</ol>
+<!-- end breadcrumb -->
+<!-- begin page-header -->
+<h1 class="page-header">Apply to Leveltest(Guest)</h1>
+<!-- end page-header -->
+
+<hr class="bg-grey-lighter" />
+
+<div class="row">
+
+  <div class="col-lg-12">
+
+    <!-- begin panel -->
+    <div class="panel panel-inverse">
+
+      <!-- begin panel-heading -->
+      <div class="panel-heading">
+        <div class="panel-heading-btn">
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+        </div>
+        <h4 class="panel-title height-20">Form</h4>
+      </div>
+      <!-- end panel-heading -->
+
+      <!-- begin panel-body -->
+      <div class="panel-body">
+
+        <form class="form-horizontal form-bordered" name="vm.form.leveltestForm" novalidate autocomplete="off">
+
+          <div class="alert alert-secondary fade show">
+            <span class="text-danger f-s-15">*</span>
+            If you enter <strong>guest</strong> information and apply for a leveltest, guest is <strong>automatically created</strong>
+          </div>
+
+          <div class="form-group row" show-errors>
+            <label class="col-form-label col-lg-2 bg-silver-lighter"><span class="text-danger">*</span>Providers</label>
+            <div class="col-lg-4">
+              <select class="form-control form-control-sm" chosen name="provider" ng-model="vm.leveltest.providers" ng-options="provider for provider in vm.auth.user.providers" required>
+                <option disabled value="">Provider...</option>
+              </select>
+              <div ng-messages="vm.form.leveltestForm.provider.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Providers is required.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row" show-errors>
+            <label class="col-form-label col-lg-2 bg-silver-lighter" for="koreanName"><span class="text-danger">*</span>Korean Name</label>
+            <div class="col-lg-4">
+              <input type="text" class="form-control form-control-sm" ng-model="vm.guest.koreanName" name="koreanName" placeholder="Korean Name..." required />
+              <div ng-messages="vm.form.leveltestForm.koreanName.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Korean Name is required.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row" show-errors>
+            <label class="col-form-label col-lg-2 bg-silver-lighter" for="englishName"><span class="text-danger">*</span>English Name</label>
+            <div class="col-lg-4">
+              <input type="text" class="form-control form-control-sm" ng-model="vm.guest.englishName" name="englishName" placeholder="English Name..." required />
+              <div ng-messages="vm.form.leveltestForm.englishName.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">English Name is required.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row" show-errors>
+            <label class="col-form-label col-lg-2 bg-silver-lighter" for="mobile"><span class="text-danger">*</span>Mobile</label>
+            <div class="col-lg-4">
+              <input type="text" class="form-control form-control-sm" ng-model="vm.guest.mobile" name="mobile" placeholder="Mobile..." mask="999-9999-9999" clean="true" required />
+              <div ng-messages="vm.form.leveltestForm.mobile.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Mobile is required.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row" show-errors>
+            <label class="col-form-label col-lg-2 bg-silver-lighter" for="email"><span class="text-danger">*</span>Email</label>
+            <div class="col-lg-4">
+              <input type="email" class="form-control form-control-sm" ng-model="vm.guest.email" name="email" placeholder="Email..." lowercase required />
+              <div ng-messages="vm.form.leveltestForm.email.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Email is required.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="alert alert-secondary fade show m-t-20">
+            <span class="text-danger f-s-15">*</span>Leveltest application information
+          </div>
+
+
+          <div class="form-group row">
+            <label class="col-form-label col-lg-2 bg-silver-lighter"><span class="text-danger">*</span>Leveltest Hope Type</label>
+            <div class="col-lg-4">
+              <div class="radio radio-css radio-inline">
+                <input type="radio" name="productType" id="telephone" value="telephone" ng-model="vm.application.productType" />
+                <label for="telephone">Telephone</label>
+              </div>
+              <div class="radio radio-css radio-inline">
+                <input type="radio" name="productType" id="skype" value="skype" ng-model="vm.application.productType" />
+                <label for="skype">Skype</label>
+              </div>
+              <div class="radio radio-css radio-inline">
+                <input type="radio" name="productType" id="screenBoard" value="screenBoard" ng-model="vm.application.productType" />
+                <label for="screenBoard">Screen Board</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-form-label col-lg-2 bg-silver-lighter"><span class="text-danger">*</span>Conversation Skill</label>
+            <div class="col-lg-4">
+              <select class="form-control form-control-sm" chosen name="skill" ng-model="vm.application.skill">
+                <option value="">Skill...</option>
+                <option value="novice">왕초보 수준</option>
+                <option value="conversation">기본대화 가능</option>
+                <option value="communication">의사소통 원활</option>
+                <option value="debate">주제토론 가능</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group row" show-errors>
+            <label class="col-form-label col-lg-2 bg-silver-lighter"><span class="text-danger">*</span>Desire Date</label>
+            <div class="col-lg-4">
+
+              <div class="input-group input-group-sm date" name="desired" datetimepicker ng-model="vm.application.desired" options="vm.datetimePickerOptions">
+                <input type="text" class="form-control form-control-sm" required />
+                <div class="input-group-addon">
+                  <i class="fa fa-calendar"></i>
+                </div>
+              </div>
+              <div ng-messages="vm.form.leveltestForm.desired.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Desire date is required.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="alert alert-secondary fade show m-t-20">
+            Additional information required by each providers
+          </div>
+
+          <div class="form-group row">
+            <label class="col-form-label col-lg-2 bg-silver-lighter" for="memo">Contents</label>
+            <div class="col-lg-10">
+              <textarea class="form-control no-rounded-corner" rows="10" placeholder="Please, write memo here!" ng-model="vm.application.memo"></textarea>
+            </div>
+          </div>
+
+        </form>
+      </div>
+      <!-- end panel-body -->
+
+      <!-- begin panel-footer -->
+      <div class="panel-footer text-right">
+        <button ui-sref="schedule.leveltest.list" class="btn btn-white btn-sm">Cancel</button>
+        <button ng-click="vm.apply(vm.form.leveltestForm.$valid)" class="btn btn-primary btn-sm"><i class="fas fa-check"></i> Submit</button>
+      </div>
+    </div>
+    <!-- end panel-footer -->
+  </div>
+  <!-- end panel -->
+</div>

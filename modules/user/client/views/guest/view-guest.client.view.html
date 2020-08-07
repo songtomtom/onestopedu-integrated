@@ -1,0 +1,44 @@
+<!-- begin profile -->
+<div class="profile">
+	<div class="profile-header">
+		<!-- BEGIN profile-header-cover -->
+		<div class="profile-header-cover" style="background-image:url('{{vm.backgroundImageName}}')"></div>
+		<!-- END profile-header-cover -->
+		<!-- BEGIN profile-header-content -->
+		<div class="profile-header-content">
+			<!-- BEGIN profile-header-img -->
+			<div class="profile-header-img">
+				<img ng-src="{{vm.guest.profileImage}}" alt="">
+			</div>
+			<!-- END profile-header-img -->
+			<!-- BEGIN profile-header-info -->
+			<div class="profile-header-info">
+				<h4 class="m-t-10 m-b-5">{{vm.guest.koreanName}} | {{vm.guest.username}}</h4>
+				<p class="m-b-10"><span provider>{{vm.guest.providers[0]}}</span> <span class="label label-secondary">{{vm.guest.roles[0] | capitalize}}</span></p>
+				<a href="#" class="btn btn-sm btn-white rounded-corner">{{vm.guest.email}}</a>
+			</div>
+			<!-- END profile-header-info -->
+		</div>
+		<!-- END profile-header-content -->
+
+		<!-- BEGIN profile-header-tab -->
+		<ul class="profile-header-tab nav nav-tabs">
+			<li class="nav-item">
+				<a ui-sref="guest.view.modify({guestId: vm.guest._id})" ui-sref-active="active" class="nav-link">INFORMATION</a>
+			</li>
+			<li class="nav-item">
+				<a ui-sref="guest.view.leveltest.list({guestId: vm.guest._id})" ui-sref-active="active" class="nav-link">LEVELTEST</a>
+			</li>
+		</ul>
+		<!-- END profile-header-tab -->
+
+	</div>
+</div>
+<!-- end profile -->
+<!-- begin profile-content -->
+<div class="profile-content">
+
+	<div ui-view></div>
+
+</div>
+<!-- end profile-content -->

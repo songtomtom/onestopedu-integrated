@@ -1,0 +1,273 @@
+<!-- begin panel -->
+<div class="panel panel-inverse">
+
+  <!-- begin panel-heading -->
+  <div class="panel-heading">
+    <div class="panel-heading-btn">
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+    </div>
+    <h4 class="panel-title height-20">Form</h4>
+  </div>
+  <!-- end panel-heading -->
+
+  <!-- begin panel-body -->
+  <div class="panel-body">
+
+    <form class="form-horizontal form-bordered" name="vm.form.holdForm" novalidate autocomplete="off">
+
+      <div class="alert alert-secondary fade show">
+        Course detail information.
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Providers</label>
+        <div class="col-lg-4">
+          <span provider>{{vm.course.user.providers[0]}}</span>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Course Title</label>
+        <div class="col-lg-4">
+          {{vm.course.virtualProduct.title}}
+        </div>
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Course Period</label>
+        <div class="col-lg-4">
+          {{vm.course.startLesson.started | date: 'yyyy/MM/dd'}} ~ {{vm.course.endLesson.started | date: 'yyyy/MM/dd'}}
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Complete Status</label>
+        <div class="col-lg-4">
+          {{vm.course.currentCounting.lesson.completed}} / <strong>{{vm.course.maxCounting.lesson}}</strong>
+        </div>
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Completed Progress</label>
+        <div class="col-lg-4 form-progress">
+          <div class="progress">
+            <span class="progress-text">{{vm.course.currentCounting.lesson.completed}} / {{vm.course.maxCounting.lesson}} <strong> ({{vm.course.rating.lesson.completed}}%)</strong></span>
+            <div class="progress-bar" style="width: {{vm.course.rating.lesson.completed}}%"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Hold Status</label>
+        <div class="col-lg-4">
+          {{vm.course.currentCounting.lesson.hold}} / <strong>{{vm.course.maxCounting.lesson}}</strong>
+        </div>
+
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Hold Progress</label>
+        <div class="col-lg-4 form-progress">
+          <div class="progress">
+            <span class="progress-text">{{vm.course.currentCounting.lesson.hold}} / {{vm.course.maxCounting.lesson}} <strong>({{vm.course.rating.lesson.hold}}%)</strong></span>
+            <div class="progress-bar bg-warning" style="width: {{vm.course.rating.lesson.hold}}%"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Current Hold Count</label>
+        <div class="col-lg-4">
+          {{vm.course.useCounting.hold}} / <strong>{{vm.course.maxCounting.hold}}</strong>
+        </div>
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Hold Period</label>
+        <div class="col-lg-4">
+          {{vm.hold.started | date: 'yyyy/MM/dd'}} ~ {{vm.hold.ended | date: 'yyyy/MM/dd'}}
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Re Regist Date ({{vm.hold.reRegisted | date: 'EEEE'}})</label>
+        <div class="col-lg-4">
+          {{vm.hold.reRegisted | date: 'yyyy/MM/dd'}}
+        </div>
+      </div>
+
+
+      <div class="alert alert-secondary fade show m-t-20">
+        Please fill out the courses in order to register..
+      </div>
+
+      <div class="form-group row" show-errors>
+        <label class="col-form-label col-lg-2 bg-silver-lighter">
+          <span class="text-danger">*</span>Days of Week
+          <strong class="text-danger">({{vm.course.payment.paymentedProduct.times - vm.checkings.length}})</strong>
+        </label>
+        <div class="col-lg-10">
+          <div class="btn-group m-r-5">
+            <button ng-click="vm.autoCheckings()" class="btn btn-white btn-xs width-50"><i class="fas fa-redo"></i></button>
+          </div>
+          <div class="checkbox checkbox-css checkbox-inline" ng-repeat="day in vm.course.daysOfWeek">
+            <input type="checkbox" name="daysOfWeek" id="{{day.name}}" checklist-value="day.index" checklist-model="vm.checkings" />
+            <label for="{{day.name}}">{{day.name | capitalize}}</label>
+          </div>
+          <div ng-messages="vm.form.holdForm.daysOfWeek.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Days of week checkbox is required.</p>
+            <!-- <p class="help-block error-text" ng-message="equal">You must check {{vm.course.payment.paymentedProduct.times}} days of the week.</p> -->
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Re Regist Lesson Count</label>
+        <div class="col-lg-4">
+          {{vm.course.currentCounting.lesson.hold}}
+        </div>
+      </div>
+
+
+      <div class="form-group row" show-errors>
+        <label class="col-form-label col-lg-2 bg-silver-lighter"><span class="text-danger">*</span>Start Date ({{vm.started.toDate() | date: 'EEEE'}})</label>
+        <div class="col-lg-4">
+          <div class="input-group input-group-sm date" name="started" datetimepicker ng-model="vm.started" options="vm.datetimePickerOptions">
+            <!-- <div class="input-group input-group-sm date" name="started" datetimepicker ng-model="vm.started" options="vm.datetimePickerOptions"> -->
+            <input type="text" class="form-control form-control-sm" required />
+            <div class="input-group-addon">
+              <i class="fa fa-calendar"></i>
+            </div>
+          </div>
+          <div ng-messages="vm.form.holdForm.started.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Start Date is required.</p>
+          </div>
+        </div>
+
+
+        <label class="col-form-label col-lg-2 bg-silver-lighter"><span class="text-danger">*</span>End Date ({{vm.ended.toDate() | date: 'EEEE'}})</label>
+        <div class="col-lg-4">
+          <div class="input-group input-group-sm date" name="ended" datetimepicker ng-model="vm.ended" options="vm.datetimePickerOptions">
+            <input type="text" class="form-control form-control-sm" disabled required />
+            <div class="input-group-addon">
+              <i class="fa fa-calendar"></i>
+            </div>
+          </div>
+          <div ng-messages="vm.form.holdForm.ended.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">End Date is required.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row" show-errors>
+        <label class="col-form-label col-lg-2 bg-silver-lighter"><span class="text-danger">*</span>Main Tutor</label>
+        <div class="col-lg-4 form-chosen-up">
+          <select class="form-control form-control-sm" chosen name="mainTutor" ng-model="vm.mainTutor" ng-options="tutor._id as tutor.nickName for tutor in vm.tutors" required>
+            <option disabled value="">Tutors...</option>
+          </select>
+          <div ng-messages="vm.form.holdForm.mainTutor.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Tutor is required.</p>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <!-- end panel-body -->
+
+  <!-- begin panel-footer -->
+  <div class="panel-footer text-right">
+    <button ng-click="vm.goBack()" class="btn btn-white btn-sm"><i class="fas fa-long-arrow-alt-left"></i> Back</button>
+    <button ng-click="vm.reRegist(vm.form.holdForm.$valid)" class="btn btn-primary btn-sm"><i class="fas fa-check"></i> Submit</button>
+  </div>
+</div>
+<!-- end panel-footer -->
+
+<!-- begin panel -->
+<div class="panel panel-inverse">
+
+  <!-- begin panel-heading -->
+  <div class="panel-heading">
+    <div class="panel-heading-btn">
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+    </div>
+    <h4 class="panel-title height-20">List</h4>
+  </div>
+  <!-- end panel-heading -->
+
+  <!-- begin panel-body -->
+  <div class="panel-body">
+    <!-- begin table-responsive -->
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th class="text-center" width="1%">#</th>
+            <th>Lesson type</th>
+            <th>Tutor</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Days</th>
+            <th>Minutes</th>
+            <th class="text-right">Created</th>
+            <th class="text-right">State</th>
+            <th class="text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="lesson in vm.lessons" ng-class="{
+          'bg-grey-transparent-3': lesson.state !== 'onStandby',
+          'bg-yellow-transparent-2': lesson.state === 'onStandby' && vm.selectedIndex <= $index
+        }">
+
+            <td>
+              {{$index + 1}}
+            </td>
+
+            <td>
+              <span product-type>{{lesson.productType}}</span>
+            </td>
+
+            <td class="with-img">
+              <img ng-src="{{lesson.tutor.profileImage}}" class="img-rounded height-30" />
+              {{lesson.tutor.username}}
+            </td>
+
+            <td>
+              {{lesson.started | date: 'yyyy/MM/dd'}}
+            </td>
+
+            <td>
+              {{lesson.started | date: 'HH:mm'}}
+            </td>
+
+            <td>
+              <span class="label label-default">{{lesson.started | date: 'EEEE'}}</span>
+            </td>
+
+            <td>
+              {{lesson.minutes}} Min
+            </td>
+
+            <td class="text-right">
+              <span today>{{lesson.created | date: 'yyyy/MM/dd HH:mm'}}</span>
+            </td>
+
+            <td class="text-right">
+              <span state>{{lesson.state}}</span>
+            </td>
+
+            <td class="text-right">
+              <button ui-sref="member.view.lesson.detail({lessonId: lesson._id})" class="btn btn-xs btn-primary"><i class="fa fa-flag"></i>
+                Feedback
+              </button>
+            </td>
+
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="pull-right">
+        <ul uib-pagination class="pagination-sm" boundary-links="true" max-size="5" items-per-page="vm.itemsPerPage" total-items="vm.filterLength" ng-model="vm.currentPage" ng-change="vm.pageChanged()" previous-text="&lsaquo;" next-text="&rsaquo;"
+          first-text="&laquo;" last-text="&raquo;">
+        </ul>
+      </div>
+    </div>
+    <!-- end table-responsive -->
+  </div>
+  <!-- end panel-body -->
+</div>
+<!-- end panel -->

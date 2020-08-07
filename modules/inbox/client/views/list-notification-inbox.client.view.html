@@ -1,0 +1,27 @@
+<!-- begin list-email -->
+<ul class="list-group list-group-lg no-radius list-email">
+  <li class="list-group-item unread" ng-repeat="notification in vm.notifications">
+    <div class="email-checkbox">
+      <label>
+        <i class="far fa-square"></i>
+        <input type="checkbox" data-checked="email-checkbox" />
+      </label>
+    </div>
+    <a ui-sref="app.email.detail" class="email-user">
+      <img ng-src="{{notification.from.profileImage}}" alt="" />
+    </a>
+    <div class="email-info">
+      <a ui-sref="app.email.detail">
+        <span class="email-time">{{vm.from(notification.created)}}</span>
+        <span class="email-sender">{{notification.from.nickName}}</span>
+        <span class="email-title">
+          <span ng-class="{
+            'success': 'label label-success'
+          }[notification.notificationType]">{{notification.notificationType}}</span>
+        </span>
+        <span class="email-desc" ng-bind-html="notification.message"></span>
+      </a>
+    </div>
+  </li>
+</ul>
+<!-- end list-email -->

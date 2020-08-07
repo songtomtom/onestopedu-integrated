@@ -1,0 +1,158 @@
+<!-- begin panel -->
+<div class="panel panel-inverse">
+
+  <!-- begin panel-heading -->
+  <div class="panel-heading">
+    <div class="panel-heading-btn">
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+    </div>
+    <h4 class="panel-title height-20">Form</h4>
+  </div>
+  <!-- end panel-heading -->
+
+  <!-- begin panel-body -->
+  <div class="panel-body">
+
+    <form class="form-horizontal form-bordered" name="vm.form.postponeForm" novalidate autocomplete="off">
+
+      <div class="alert alert-secondary fade show">
+        Course detail information.
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Course Title</label>
+        <div class="col-lg-4">
+          <a ui-sref="member.view.course.list.detail({courseId: vm.postpone.course._id})">{{vm.postpone.course.virtualProduct.title}}</a>
+        </div>
+
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Course Period</label>
+        <div class="col-lg-4">
+          {{vm.postpone.course.startLesson.started | date: 'yyyy/MM/dd'}} ~ {{vm.postpone.course.endLesson.started | date: 'yyyy/MM/dd'}}
+        </div>
+      </div>
+
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Complete Status</label>
+        <div class="col-lg-4">
+          {{vm.postpone.course.currentCounting.lesson.completed}} / <strong>{{vm.postpone.course.maxCounting.lesson}}</strong>
+        </div>
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Completed Progress</label>
+        <div class="col-lg-4 form-progress">
+          <div class="progress">
+            <span class="progress-text">{{vm.postpone.course.currentCounting.lesson.completed}}<span ng-if="vm.postpone.course.state === 'hold'">+{{vm.postpone.course.currentCounting.lesson.hold}}</span>/{{vm.postpone.course.maxCounting.lesson}}
+              <strong>({{vm.postpone.course.rating.lesson.completed}}%)</strong></span>
+            <div class="progress-bar" style="width: {{vm.postpone.course.rating.lesson.completed}}%"></div>
+            <div class="progress-bar bg-warning" style="width: {{vm.postpone.course.rating.lesson.hold}}%"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Current Postpone Count</label>
+        <div class="col-lg-4">
+          {{vm.postpone.course.useCounting.postpone}} / <strong>{{vm.postpone.course.maxCounting.postpone}}</strong>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Days of Week</label>
+        <div class="col-lg-10">
+          <div class="checkbox checkbox-css checkbox-inline" ng-repeat="day in vm.postpone.course.daysOfWeek">
+            <input type="checkbox" name="daysOfWeek" id="{{day.name}}" checklist-value="day.index" checklist-model="vm.checkings" disabled/>
+            <label for="{{day.name}}">{{day.name | capitalize}}</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert alert-secondary fade show m-t-20">
+        Lesson detail information.
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Providers</label>
+        <div class="col-lg-4">
+          <span provider>{{vm.postpone.providers[0]}}</span>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Lesson Type</label>
+        <div class="col-lg-4">
+          <span product-type>{{vm.postpone.productType}}</span>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Tutor</label>
+        <div class="col-lg-4">
+          {{vm.postpone.tutor.nickName}}
+        </div>
+      </div>
+
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Lesson Date</label>
+        <div class="col-lg-4">
+          {{vm.postpone.started | date: 'yyyy-MM-dd HH:mm'}}
+        </div>
+      </div>
+
+      <div class="form-group row" show-errors>
+        <label class="col-form-label col-lg-2 bg-silver-lighter"><span class="text-danger">*</span>Postpone Date</label>
+        <div class="col-lg-4">
+          <div class="input-group input-group-sm date" name="started" datetimepicker ng-model="vm.started" options="vm.datetimePickerOptions" on-change="vm.changeStarted(vm.started)">
+            <input type="text" class="form-control form-control-sm" required />
+            <div class="input-group-addon">
+              <i class="fa fa-calendar"></i>
+            </div>
+          </div>
+          <div ng-messages="vm.form.postponeForm.started.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Start date is required.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row" show-errors>
+        <label class="col-form-label col-lg-2 bg-silver-lighter"><span class="text-danger">*</span>Minutes</label>
+        <div class="col-lg-4">
+          <select class="form-control form-control-sm" chosen name="minutes" ng-model="vm.postpone.minutes" convert-to-number>
+            <option disabled value="">Minutes...</option>
+            <option value="10">10 Minutes</option>
+            <option value="20">20 Minutes</option>
+            <option value="30">30 Minutes</option>
+          </select>
+          <div ng-messages="vm.form.postponeForm.minutes.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Lesson minutes is required.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group form-chosen-up row" show-errors>
+        <label class="col-form-label col-lg-2 bg-silver-lighter"><span class="text-danger">*</span>Tutor</label>
+        <div class="col-lg-4">
+          <select class="form-control form-control-sm" chosen name="tutor" ng-model="vm.postpone.tutor._id" ng-options="tutor._id as tutor.nickName for tutor in vm.tutors" required>
+            <option disabled value="">Tutor...</option>
+          </select>
+          <div ng-messages="vm.form.postponeForm.tutor.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Tutor is required.</p>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <!-- end panel-body -->
+
+  <!-- begin panel-footer -->
+  <div class="panel-footer text-right">
+    <button ui-sref="member.view.lesson.detail({lessonId: vm.postpone._id})" class="btn btn-white btn-sm"><i class="fas fa-long-arrow-alt-left"></i> Back</button>
+    <button ng-click="vm.postponeLesson(vm.form.postponeForm.$valid)" class="btn btn-primary btn-sm"><i class="fas fa-check"></i> Submit</button>
+  </div>
+</div>
+<!-- end panel-footer -->
+<!-- <div slim-scroll box-height="600">
+  <div ui-calendar="vm.calendarOptions.calendar" class="calendar" ng-model="vm.eventSources" calendar="calendar" style="background: transparent;"></div>
+</div> -->

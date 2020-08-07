@@ -1,0 +1,133 @@
+<!-- begin panel -->
+<div class="panel panel-inverse">
+
+  <!-- begin panel-heading -->
+  <div class="panel-heading">
+    <div class="panel-heading-btn">
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+    </div>
+    <h4 class="panel-title height-20">Form</h4>
+  </div>
+  <!-- end panel-heading -->
+
+  <!-- begin panel-body -->
+  <div class="panel-body">
+
+    <form class="form-horizontal form-bordered" name="vm.form.couponForm" novalidate autocomplete="off">
+
+      <div class="alert alert-secondary fade show">
+        <span class="text-danger f-s-15">*</span> Member information
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Providers</label>
+        <div class="col-lg-4">
+          <span provider>{{vm.member.providers[0]}}</span>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Username</label>
+        <div class="col-lg-4">
+          {{vm.member.username}}
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Korean Name</label>
+        <div class="col-lg-4">
+          {{vm.member.koreanName}}
+        </div>
+
+        <label class="col-form-label col-lg-2 bg-silver-lighter">English Name</label>
+        <div class="col-lg-4">
+          {{vm.member.englishName}}
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Mobile</label>
+        <div class="col-lg-4">
+          {{vm.member.mobile | mobile}}
+        </div>
+
+        <label class="col-form-label col-lg-2 bg-silver-lighter">E-mail</label>
+        <div class="col-lg-4">
+          {{vm.member.email}}
+        </div>
+      </div>
+
+      <div class="alert alert-secondary fade show m-t-20">
+        <span class="text-danger f-s-15">*</span> Coupon information
+      </div>
+
+      <div class="form-group row" show-errors>
+        <label class="col-form-label col-lg-2 bg-silver-lighter" for="couponCode"><span class="text-danger">*</span>Coupon Code</label>
+        <div class="col-lg-4">
+          <input type="text" class="form-control form-control-sm" ng-model="vm.couponCode" name="couponCode" placeholder="Coupon Code..." ng-change="vm.findCoupon(vm.couponCode)" mask="wwww-wwww-wwww-wwww" uppercase required />
+          <div ng-messages="vm.form.couponForm.couponCode.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Coupon code is required.</p>
+          </div>
+        </div>
+      </div>
+
+      <div ng-if="vm.coupon">
+        <div class="form-group row">
+          <label class="col-form-label col-lg-2 bg-silver-lighter">Providers</label>
+          <div class="col-lg-4">
+            <span provider>{{vm.coupon.providers[0]}}</span>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-form-label col-lg-2 bg-silver-lighter">State</label>
+          <div class="col-lg-4">
+            <span state>{{vm.coupon.state}}</span>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-form-label col-lg-2 bg-silver-lighter" for="generateCount">Number of Coupon</label>
+          <div class="col-lg-4">
+            {{vm.coupon.generateCount}}
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-form-label col-lg-2 bg-silver-lighter" for="title">Coupon Name</label>
+          <div class="col-lg-4">
+            {{vm.coupon.title}}
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-form-label col-lg-2 bg-silver-lighter" for="amount">
+            Discount {{vm.coupon.discountType === 'price' ? 'Price' : 'Rate'}}
+          </label>
+          <div class="col-lg-4">
+            {{vm.coupon.amount}}
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-form-label col-lg-2 bg-silver-lighter">Expiry Date</label>
+          <div class="col-lg-3">
+            {{vm.coupon.expired | date: 'yyyy/MM/dd'}}
+          </div>
+        </div>
+      </div>
+
+    </form>
+  </div>
+  <!-- end panel-body -->
+  <!-- begin panel-footer -->
+  <div class="panel-footer text-right">
+    <button ui-sref="member.view.coupon.list" class="btn btn-white btn-sm"><i class="fas fa-long-arrow-alt-left"></i> Back</button>
+    <button ng-click="vm.addCoupon(vm.form.couponForm.$valid)" class="btn btn-primary btn-sm" ng-disabled="vm.coupon.state === 'vaild'"><i class="fas fa-check"></i> Submit</button>
+  </div>
+  <!-- end panel-footer -->
+</div>
+<!-- end panel -->

@@ -1,0 +1,163 @@
+<!-- begin panel -->
+<div class="panel panel-inverse">
+
+  <!-- begin panel-heading -->
+  <div class="panel-heading">
+    <div class="panel-heading-btn">
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+    </div>
+    <h4 class="panel-title height-20">Filter</h4>
+  </div>
+  <!-- end panel-heading -->
+
+  <div class="alert alert-danger fade show" ng-if="vm.monthlies.length < 1">
+    There is not exist monthly evaluation information.
+  </div>
+
+  <!-- begin panel-body -->
+  <div class="panel-body">
+    <div class="row row-space-10">
+      <div class="col-md-1">
+        <div class="form-group m-b-10">
+          <select class="form-control form-control-sm" ng-model="vm.itemsPerPage" ng-options="itemsPerPage for itemsPerPage in vm.itemsPerPageNumbers" ng-change="vm.changeItemsPerPage(vm.itemsPerPage)"></select>
+        </div>
+      </div>
+      <div class="col-md-1 m-t-5">
+        <div class="form-group">
+          Total <span class="text-danger">{{vm.monthlies.length}}</span>
+        </div>
+      </div>
+
+      <div class="col-md-1 offset-md-7">
+        <div class="form-group">
+          <select class="form-control form-control-sm" chosen ng-model="vm.search.state" ng-change="vm.figureOut()">
+            <option value="">State...</option>
+            <option value="notApplicable">Not Applicable</option>
+            <option value="onStandby">On Standby</option>
+            <option value="completed">Completed</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <div class="form-group m-b-10">
+          <input class="form-control form-control-sm" type="text" placeholder="Search..." ng-model="vm.search.$" ng-change="vm.figureOut()" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end panel-body -->
+</div>
+<!-- end panel -->
+
+<!-- begin panel -->
+<div class="panel panel-inverse" ng-if="vm.monthlies.length > 0">
+
+  <!-- begin panel-heading -->
+  <div class="panel-heading">
+    <div class="panel-heading-btn">
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+    </div>
+    <h4 class="panel-title height-20">List</h4>
+  </div>
+  <!-- end panel-heading -->
+
+  <!-- begin panel-body -->
+  <div class="panel-body">
+    <!-- begin table-responsive -->
+    <div class="table-responsive">
+      <table class="table table-hover table-striped">
+        <thead>
+          <tr>
+            <th class="with-checkbox" width="1%">
+              <div class="checkbox checkbox-css">
+                <input type="checkbox" value="" id="table_checkbox_1" />
+                <label for="table_checkbox_1">&nbsp;</label>
+              </div>
+            </th>
+            <th class="text-center" width="1%">#</th>
+            <th>D-day</th>
+            <th>Month</th>
+            <th>Course Title</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Tutor</th>
+            <th class="text-right">State</th>
+            <th class="text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="monthly in vm.pagedItems" ng-class="{'table-success': vm.$state.params.monthlyId === monthly._id}">
+
+            <td class="with-checkbox">
+              <div class="checkbox checkbox-css">
+                <input type="checkbox" value="" id="table_checkbox_1" />
+                <label for="table_checkbox_1">&nbsp;</label>
+              </div>
+            </td>
+
+            <td>
+              {{monthly.counters}}
+            </td>
+
+            <td>
+              -{{monthly.ended | dday}} Days
+            </td>
+
+            <td>
+              {{monthly.started | date: 'yyyy/MM'}}
+              <strong class="text-danger">({{monthly.comments.length}})</strong>
+            </td>
+
+            <td>
+              {{monthly.course.payment.paymentedProduct.title}}
+            </td>
+
+            <td>
+              {{monthly.started | date: 'yyyy/MM/dd'}}
+            </td>
+
+            <td>
+              {{monthly.ended | date: 'yyyy/MM/dd'}}
+            </td>
+
+            <td>
+              <!-- <a href="javascript:;">{{monthly.tutors[0].nickName}}</a> -->
+              <span uib-tooltip="{{vm.attachNames(monthly.tutors)}}" tooltip-placement="left">
+                {{monthly.tutors[0].nickName}}<strong ng-if="monthly.tutors.length > 1">. {{monthly.tutors.length - 1}}</strong>
+              </span>
+            </td>
+
+            <td class="text-right">
+              <span state>{{monthly.state}}</span>
+            </td>
+
+            <td class="text-right with-btn" nowrap>
+              <button ui-sref="member.view.monthly.list.detail({monthlyId: monthly._id})" class="btn btn-xs btn-primary"><i class="fa fa-flag"></i>
+                Evaluation
+              </button>
+            </td>
+
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="pull-right">
+        <ul uib-pagination class="pagination-sm" boundary-links="true" max-size="5" items-per-page="vm.itemsPerPage" total-items="vm.filterLength" ng-model="vm.currentPage" ng-change="vm.pageChanged()" previous-text="&lsaquo;" next-text="&rsaquo;"
+          first-text="&laquo;" last-text="&raquo;">
+        </ul>
+      </div>
+    </div>
+    <!-- end table-responsive -->
+  </div>
+  <!-- end panel-body -->
+</div>
+<!-- end panel -->
+
+<div ui-view></div>

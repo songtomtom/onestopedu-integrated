@@ -1,0 +1,202 @@
+<!-- begin panel -->
+<div class="panel panel-inverse">
+
+  <!-- begin panel-heading -->
+  <div class="panel-heading">
+    <div class="panel-heading-btn">
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+    </div>
+    <h4 class="panel-title height-20">Filter</h4>
+  </div>
+  <!-- end panel-heading -->
+
+  <div class="alert alert-danger fade show" ng-if="vm.leveltests.length < 1">
+    There is not exist leveltest information. Click <strong>"Regist"</strong> button to register a leveltest for this member.
+  </div>
+
+  <div class="panel-body">
+
+    <div class="row row-space-10">
+      <div class="col-md-1">
+        <div class="form-group m-b-10">
+          <select class="form-control form-control-sm" chosen ng-model="vm.itemsPerPage" ng-options="number for number in vm.itemsPerPageNumbers"></select>
+        </div>
+      </div>
+      <div class="col-md-1 m-t-5">
+        <div class="form-group">
+          Total <span class="text-danger">{{vm.leveltests.length}}</span>
+        </div>
+      </div>
+
+      <div class="col-md-1 offset-md-5">
+        <div class="form-group">
+          <select class="form-control form-control-sm" chosen ng-model="vm.search.productType" ng-change="vm.figureOut()">
+            <option value="">Type...</option>
+            <option value="telephone">Telephone</option>
+            <option value="skype">Skype</option>
+            <option value="screenBoard">Screen Board</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-md-1">
+        <div class="form-group">
+          <select class="form-control form-control-sm" chosen ng-model="vm.search.state" ng-change="vm.figureOut()">
+            <option value="">State...</option>
+            <option value="applied">Applied</option>
+            <option value="onStandby">On Standby</option>
+            <option value="attendance">Attendance</option>
+            <option value="absence">Absence</option>
+            <option value="canceled">Canceled</option>
+            <option value="tutorCanceled">TC (Tutor Canceled)</option>
+            <option value="technicalProblem">TP (Technical Problem)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <div class="form-group m-b-10">
+          <input class="form-control form-control-sm" type="text" placeholder="Search..." ng-model="vm.search.$" ng-change="vm.figureOut()" />
+        </div>
+      </div>
+
+      <div class="col-md-1">
+        <div class="form-group">
+          <a ui-sref="member.view.leveltest.regist" class="btn btn-primary btn-block btn-sm"><i class="fas fa-plus"></i> Register</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- end panel -->
+
+
+<!-- begin panel -->
+<div class="panel panel-inverse" ng-if="vm.leveltests.length > 0">
+
+  <!-- begin panel-heading -->
+  <div class="panel-heading">
+    <div class="panel-heading-btn">
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+    </div>
+    <h4 class="panel-title height-20">List</h4>
+  </div>
+  <!-- end panel-heading -->
+
+  <div class="panel-body">
+
+    <!-- begin table-responsive -->
+    <div class="table-responsive">
+      <table class="table table-hover table-striped">
+        <thead>
+          <tr>
+            <th class="with-checkbox" width="1%">
+              <div class="checkbox checkbox-css">
+                <input type="checkbox" value="" id="table_checkbox_1" />
+                <label for="table_checkbox_1">&nbsp;</label>
+              </div>
+            </th>
+            <th class="text-center" width="1%">#</th>
+            <!-- <th class="text-center" width="1%"><i class="fa fa-envelope"></i></th> -->
+            <th>Leveltest Type</th>
+            <th>Leveltest Day</th>
+            <!-- <th>Time</th> -->
+            <th>Minutes</th>
+            <th>Tutor</th>
+            <!-- <th class="text-center" width="1%">#</th> -->
+            <th class="text-right">Notification</th>
+            <th class="text-right">Attendance State</th>
+            <th class="text-right">Created</th>
+            <th class="text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="leveltest in vm.pagedItems" ng-class="{'table-success': vm.$state.params.leveltestId === leveltest._id}">
+
+            <td class="with-checkbox">
+              <div class="checkbox checkbox-css">
+                <input type="checkbox" value="" id="table_checkbox_1" />
+                <label for="table_checkbox_1">&nbsp;</label>
+              </div>
+            </td>
+
+            <!-- <td>
+              <i ng-if="leveltest.mailed" class="fa fa-check text-success"></i>
+            </td> -->
+            <td>
+              {{leveltest.counters}}
+            </td>
+
+            <td>
+              <span product-type>{{(leveltest.productType || leveltest.application.productType)}}</span>
+            </td>
+
+            <td>
+              {{(leveltest.started || leveltest.application.desired) | date: 'yyyy/MM/dd HH:mm'}}
+              <strong class="text-danger">({{leveltest.comments.length}})</strong>
+            </td>
+
+            <td>
+              {{leveltest.application.minutes}} Min
+            </td>
+
+            <td class="with-img">
+              <img ng-src="{{leveltest.tutor.profileImage}}" class="img-rounded height-30" />
+              <a href="javascript:;">{{leveltest.tutor.nickName}}</a>
+            </td>
+
+            <td class="text-right">
+              <span ng-class="{
+                'label label-default': !leveltest.mailed,
+                'label label-secondary': leveltest.mailed
+              }">{{(leveltest.mailed)? 'Completed' : 'Unfinished'}}</span>
+            </td>
+
+            <td class="text-right">
+              <span state>{{leveltest.state}}</span>
+            </td>
+
+            <td class="text-right">
+              <span today>
+                {{leveltest.created | date: 'yyyy/MM/dd HH:mm'}}
+              </span>
+            </td>
+
+
+            <td class="text-right with-btn" nowrap>
+              <button ui-sref="{{leveltest.user.roles[0]}}.view.leveltest.list.detail({
+                  {{leveltest.user.roles[0]}}Id: leveltest.user._id,
+                  leveltestId: leveltest._id})" class="btn btn-xs btn-primary">
+                <i ng-class="{
+                  'fas fa-plus': leveltest.state === 'applied',
+                  'fas fa-flag': leveltest.state !== 'applied'
+                }"></i>
+                {{(leveltest.state === 'applied') ? 'Register' : 'Assessment'}}
+              </button>
+            </td>
+
+
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="pull-right">
+        <ul uib-pagination class="pagination-sm" boundary-links="true" max-size="5" items-per-page="vm.itemsPerPage" total-items="vm.filterLength" ng-model="vm.currentPage" ng-change="vm.pageChanged()" previous-text="&lsaquo;" next-text="&rsaquo;"
+          first-text="&laquo;" last-text="&raquo;">
+        </ul>
+      </div>
+    </div>
+    <!-- end table-responsive -->
+  </div>
+
+</div>
+<!-- end panel -->
+
+<div ui-view></div>

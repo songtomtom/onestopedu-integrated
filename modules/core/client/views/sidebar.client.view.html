@@ -1,0 +1,61 @@
+<!-- begin #sidebar -->
+<div id="sidebar" class="sidebar" ng-controller="SidebarController as vm">
+  <!-- begin sidebar scrollbar -->
+  <div data-scrollbar="true" data-height="100%" minimalize-sidebar>
+    <!-- begin sidebar user -->
+    <ul class="nav">
+      <li class="nav-profile">
+        <a href="" sidebar-profile>
+          <div class="cover with-shadow"></div>
+          <div class="image image-icon bg-black">
+            <img ng-src="{{vm.auth.user.profileImage}}" />
+          </div>
+
+          <div class="info">
+            <b class="caret pull-right"></b>
+            {{vm.auth.user.nickName}}
+            <small>{{vm.auth.user.displayRole || vm.auth.user.roles[0]}}</small>
+          </div>
+        </a>
+      </li>
+      <li>
+        <ul class="nav nav-profile">
+          <li><a ui-sref="user.profile"><i class="fa fa-cog"></i> Profile</a></li>
+          <li><a ui-sref="inbox.list-notification"><i class="fa fa-inbox"></i> Inbox</a></li>
+          <li><a ui-sref="schedule.my-calendar"><i class="fa fa-calendar"></i> Calendar</a></li>
+        </ul>
+      </li>
+    </ul>
+    <!-- end sidebar user -->
+    <!-- begin sidebar nav -->
+    <ul class="nav" sidebar-navigation>
+      <li class="nav-header">Navigation</li>
+
+      <li ng-class="{active: vm.$state.includes(item.state)}" class="has-sub" ng-repeat="item in vm.menu.items | orderBy: 'position'" ng-switch="item.type" ng-if="item.shouldRender(vm.auth.user)">
+        <a href="javascript:;" ng-switch-when="dropdown">
+          <b class="caret" ng-show="item.items"></b>
+          <i class="fa {{item.iconClass}}"></i>
+          <span>{{item.title | translate}}</span>
+        </a>
+        <ul class="sub-menu" ng-if="item.items.length > 0">
+          <li ng-class="{active: vm.$state.includes(subitem.state)}" ng-repeat="subitem in item.items | orderBy:'position'" ng-if="subitem.shouldRender(vm.auth.user)">
+             <!-- <span class="badge pull-right">10</span> -->
+            <a ui-sref="{{subitem.state}}">{{subitem.title | translate}}</a>
+          </li>
+        </ul>
+
+        <a ng-switch-default ui-sref="{{item.state}}">
+          <i class="fa {{item.iconClass}}"></i>
+          <span>{{item.title | translate}}</span>
+        </a>
+      </li>
+
+      <!-- <li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li> -->
+      <!-- end sidebar minify button -->
+    </ul>
+    <!-- end sidebar nav -->
+  </div>
+  <!-- end sidebar scrollbar -->
+</div>
+<div class="sidebar-bg"></div>
+<!-- end #sidebar -->

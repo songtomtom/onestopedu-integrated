@@ -1,0 +1,158 @@
+<!-- begin panel -->
+<div class="panel panel-inverse">
+
+  <!-- begin panel-heading -->
+  <div class="panel-heading">
+    <div class="panel-heading-btn">
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-expand><i class="fa fa-expand"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-reload><i class="fa fa-redo"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" panel-collapse><i class="fa fa-minus"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" panel-remove><i class="fa fa-times"></i></a>
+    </div>
+    <h4 class="panel-title height-20">Form</h4>
+  </div>
+  <!-- end panel-heading -->
+
+  <!-- begin panel-body -->
+  <div class="panel-body">
+
+    <form class="panel-form form-horizontal form-bordered" name="vm.form.monthlyForm" novalidate autocomplete="off">
+
+      <div class="alert alert-secondary fade show">
+        Select a provider and then select a <strong>member</strong>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter"><span class="text-danger">*</span>Providers</label>
+        <div class="col-lg-3">
+          <span provider>{{vm.member.providers[0]}}</span>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter"><span class="text-danger">*</span>Member Username</label>
+        <div class="col-lg-3">
+          {{vm.member.username}}
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Korean Name</label>
+        <div class="col-lg-3">
+          {{vm.member.koreanName}}
+        </div>
+
+        <label class="col-form-label col-lg-2 bg-silver-lighter">English Name</label>
+        <div class="col-lg-3">
+          {{vm.member.englishName}}
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Mobile</label>
+        <div class="col-lg-3">
+          {{vm.member.mobile | mobile}}
+        </div>
+
+        <label class="col-form-label col-lg-2 bg-silver-lighter">E-mail</label>
+        <div class="col-lg-3">
+          {{vm.member.email}}
+        </div>
+      </div>
+
+      <div class="alert alert-secondary fade show m-t-20">
+        Course detail information.
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2 bg-silver-lighter">
+          <span class="text-danger">*</span>Course Title
+        </label>
+        <div class="col-lg-3">
+          {{vm.course.title}}
+        </div>
+      </div>
+
+      <div ng-if="vm.course">
+        <div class="form-group row">
+          <label class="col-form-label col-lg-2 bg-silver-lighter">Course Period</label>
+          <div class="col-lg-3">
+            {{vm.course.startLesson.started | date: 'yyyy/MM/dd'}} ~ {{vm.course.endLesson.started | date: 'yyyy/MM/dd'}}
+          </div>
+          <label class="col-form-label col-lg-2 bg-silver-lighter">Total Monthly Evaluation</label>
+          <div class="col-lg-4">
+            {{vm.course.currentCounting.monthly.total}}
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-form-label col-lg-2 bg-silver-lighter">Completed Progress</label>
+          <div class="col-lg-10 m-t-7">
+            <div class="progress">
+              <div class="progress-bar m-r-1" ng-repeat="monthly in vm.monthlies" style="width: {{100 / vm.monthlies.length}}%;" ng-class="{
+                'notApplicable': 'bg-grey',
+                'onStandby': 'bg-warning',
+                'completed': 'bg-secondary'
+              }[monthly.state]"
+                uib-tooltip="{{monthly.started | date: 'yyyy/MM/dd'}} ~ {{monthly.ended | date: 'yyyy/MM/dd'}}" tooltip-placement="bottom">
+                <a class="text-black" style="text-decoration:none;" ui-sref="member.view.monthly.list.detail({monthlyId: monthly._id})">
+                  #{{$index + 1}}. {{monthly.started | date: 'yyyy/MM'}}
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="alert alert-secondary fade show m-t-20">
+        <span class="text-danger f-s-15">*</span>New monthly evaluation information
+      </div>
+
+      <div class="form-group row" show-errors>
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Tutor</label>
+        <div class="col-lg-4">
+          <select class="form-control form-control-sm" name="tutors" chosen multiple ng-model="vm.monthly.tutors" multiple="multiple" ng-options="tutor._id as tutor.nickName group by tutor.nation for tutor in vm.tutors" required></select>
+          <div ng-messages="vm.form.monthlyForm.tutors.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Tutors is required.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row" show-errors>
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Evaluation Start Date</label>
+        <div class="col-lg-4">
+          <div class="input-group input-group-sm date" name="started" datetimepicker ng-model="vm.started" options="vm.startedDatetimePickerOptions" on-change="vm.changeStarted(vm.started)">
+            <input type="text" class="form-control form-control-sm" required />
+            <div class="input-group-addon">
+              <i class="fa fa-calendar"></i>
+            </div>
+          </div>
+          <div ng-messages="vm.form.monthlyForm.started.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Start Date is required.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row" show-errors>
+        <label class="col-form-label col-lg-2 bg-silver-lighter">Evaluation End Date</label>
+        <div class="col-lg-4">
+          <div class="input-group input-group-sm date" name="ended" datetimepicker ng-model="vm.ended" options="vm.endedDatetimePickerOptions" on-change="vm.changeEnded(vm.ended)">
+            <input type="text" class="form-control form-control-sm" required />
+            <div class="input-group-addon">
+              <i class="fa fa-calendar"></i>
+            </div>
+          </div>
+          <div ng-messages="vm.form.monthlyForm.started.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">End Date is required.</p>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <!-- end panel-body -->
+
+  <!-- begin panel-footer -->
+  <div class="panel-footer text-right">
+    <button ui-sref="member.view.course.list.detail({courseId: vm.course._id})" class="btn btn-white btn-sm"><i class="fas fa-long-arrow-alt-left"></i> Back</button>
+    <button ng-click="vm.add(vm.form.monthlyForm.$valid)" class="btn btn-primary btn-sm"><i class="fas fa-check"></i> Submit</button>
+  </div>
+</div>
+<!-- end panel-footer -->
